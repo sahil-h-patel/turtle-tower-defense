@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleTowerDefense", "TurtleTowerDefense\TurtleTowerDefense.csproj", "{1ED33C59-21DE-4488-8895-6626AB508AA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1ED33C59-21DE-4488-8895-6626AB508AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED33C59-21DE-4488-8895-6626AB508AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED33C59-21DE-4488-8895-6626AB508AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED33C59-21DE-4488-8895-6626AB508AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63444CCB-4FF9-45FB-BD98-CA20E86D874A}
+	EndGlobalSection
+EndGlobal
