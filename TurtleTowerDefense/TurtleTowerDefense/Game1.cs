@@ -30,7 +30,7 @@ namespace TurtleTowerDefense
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            placeholder = this.Content.Load <Texture2D>("placeholder");
+            placeholder = this.Content.Load<Texture2D>("placeholder");
         }
 
         protected override void Update(GameTime gameTime)
