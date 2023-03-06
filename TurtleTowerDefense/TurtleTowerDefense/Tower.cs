@@ -6,7 +6,22 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-    internal class Tower
+
+    enum Type
+    { 
+        BasicUnit,
+        DebuffUnit,
+
+    }
+
+    internal class Tower : GameObject
     {
+
+        // Fields
+        private UpgradeTree upgradeTree;
+        private double detectionRadius;
+        private int spaceRadius;
+        private int cost;
+
     }
 }
