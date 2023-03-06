@@ -13,6 +13,8 @@ namespace TurtleTowerDefense
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1400;
+            _graphics.PreferredBackBufferHeight = 800;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -46,6 +48,13 @@ namespace TurtleTowerDefense
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(placeholder, new Rectangle(100, 100, 50, 50), Color.White);
+
+            _spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
