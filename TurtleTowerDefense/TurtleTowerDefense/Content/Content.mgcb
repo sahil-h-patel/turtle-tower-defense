@@ -25,6 +25,25 @@
 /processorParam:TextureFormat=Color
 /build:bg.PNG
 
+#begin comicSans20.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:comicSans20.spritefont
+
+#begin crabProto.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:crabProto.PNG
+
 #begin eric-bailey-profile.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -36,4 +55,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:eric-bailey-profile.jpg;placeholder.jpg
+
+#begin towerProto.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:towerProto.PNG
 
