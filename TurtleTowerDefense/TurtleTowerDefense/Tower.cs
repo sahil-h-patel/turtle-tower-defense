@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Zay Arriaga
+// Exists to be overriden by other tower classes. Comes with all the basic shared information of a tower
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,28 +11,38 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-
-    enum Type
-    {
-        BasicUnit,
-        DebuffUnit,
-
-    }
-
     internal class Tower : GameObject
     {
 
         // Fields
-        private UpgradeTree upgradeTree;
-        private double detectionRadius;
-        private int spaceRadius;
-        private int cost;
+        protected UpgradeTree upgradeTree;
+        protected double detectionRadius;
+        protected int[] spaceTaken;
+        protected int cost;
 
-        public Tower(Texture2D image, Rectangle hitbox) 
-            : base(image, hitbox)
+        /// <summary>
+        /// Creates a new tower object with all the specified attributes
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="hitbox"></param>
+        /// <param name="upgradeTree"></param>
+        /// <param name="detectionRadius"></param>
+        /// <param name="spaceRadius"></param>
+        /// <param name="cost"></param>
+        /// <param name="towerClass"></param>
+        public Tower(Texture2D image, Rectangle hitbox) : base (image, hitbox)
         {
-            
         }
-
     }
+
+    //internal class Tower : GameObject
+    //{
+
+    //    // Fields
+    //    private UpgradeTree upgradeTree;
+    //    private double detectionRadius;
+    //    private int spaceRadius;
+    //    private int cost;
+
+    //}
 }

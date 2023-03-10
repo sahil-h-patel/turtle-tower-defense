@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Zay Arriaga
+// This is the Game Object class. It's main purpose is to act as a parent class to the Crab and Tower classes.
+// Most of what is in this class is made to be overriden.
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
