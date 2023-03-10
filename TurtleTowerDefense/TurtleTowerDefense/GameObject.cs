@@ -21,6 +21,10 @@ namespace TurtleTowerDefense
             this.hitbox = hitbox;
         }
 
+        public int X { get { return hitbox.X; } set { hitbox.X = value; } }
+        public int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+
+
         /// <summary>
         /// Exists only to be overriden
         /// </summary>
