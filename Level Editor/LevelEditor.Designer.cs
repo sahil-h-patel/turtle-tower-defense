@@ -173,11 +173,11 @@
             // 
             // groupBoxMap
             // 
-            this.groupBoxMap.Location = new System.Drawing.Point(116, 9);
+            this.groupBoxMap.Location = new System.Drawing.Point(125, 9);
             this.groupBoxMap.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBoxMap.Name = "groupBoxMap";
             this.groupBoxMap.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBoxMap.Size = new System.Drawing.Size(500, 500);
+            this.groupBoxMap.Size = new System.Drawing.Size(1024, 576);
             this.groupBoxMap.TabIndex = 4;
             this.groupBoxMap.TabStop = false;
             this.groupBoxMap.Text = "Map";
@@ -186,7 +186,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 518);
+            this.ClientSize = new System.Drawing.Size(1161, 604);
             this.Controls.Add(this.groupBoxMap);
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.buttonSave);
