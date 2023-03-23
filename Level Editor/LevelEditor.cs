@@ -20,6 +20,8 @@ namespace LevelEditor
         PictureBox[,] map;
         string title;
         bool saved = true;
+        int mapHeight = 576;
+        int mapWidth = 1024;
 
         /// <summary>
         /// This initializes the Level Editor class
@@ -35,14 +37,9 @@ namespace LevelEditor
 
             InitializeComponent();
 
-            if (loaded)
-            {
-                LoadMap();
-            }
-            else
-            {
+     
                 CreateMap();
-            }
+            
         }
 
         /// <summary>
@@ -59,21 +56,20 @@ namespace LevelEditor
 
             // Initializes the pixel height, pixel width, group box width,
             // group box height, the form width, and the form height
-            int boxHeight = (groupBoxMap.Height - heightPadding) / menu.MapHeight;
+            int boxHeight = 32;
             int boxWidth = boxHeight;
-            groupBoxMap.Height = (boxHeight * menu.MapHeight) + heightOffset;
-            groupBoxMap.Width = (boxWidth * menu.MapWidth) + widthOffset;
-            this.Size = new Size(140 + groupBoxMap.Width, 550);
+            groupBoxMap.Height = (boxHeight * mapHeight) + heightOffset;
+            groupBoxMap.Width = (boxWidth * mapWidth) + widthOffset;
 
             // Initializes the map with the height and width inputted by the user
-            map = new PictureBox[menu.MapHeight, menu.MapWidth];
+            map = new PictureBox[mapHeight, mapWidth];
 
             // Iterates through the array and initailizes each pixel with a Picture Box
             // which has the appropiate size and location, and then adds it to the group box
             // and subscribes the Click event to the Change Color method
-            for (int i = 0; i < menu.MapHeight; i++)
+            for (int i = 0; i < mapHeight; i++)
             {
-                for (int j = 0; j < menu.MapWidth; j++)
+                for (int j = 0; j < mapWidth; j++)
                 {
                     map[i, j] = new PictureBox();
                     map[i, j].Size = new Size(boxWidth, boxHeight);
@@ -91,45 +87,7 @@ namespace LevelEditor
         /// </summary>
         private void LoadMap()
         {
-            // Intializing variables which will offset and
-            // pad the pixels so they are not cut off
-            int heightOffset = 20;
-            int widthOffset = 10;
-            int heightPadding = 15;
-            int widthPadding = 5;
-
-            // Initializes the pixel height, pixel width, group box width,
-            // group box height, the form width, and the form height
-            int boxHeight = (groupBoxMap.Height - heightPadding) / menu.MapHeight;
-            int boxWidth = boxHeight;
-            groupBoxMap.Height = (boxHeight * menu.MapHeight) + heightOffset;
-            groupBoxMap.Width = (boxWidth * menu.MapWidth) + widthOffset;
-            this.Size = new Size(140 + groupBoxMap.Width, 550);
-
-            // Initializes the map with the height and width inputted by the user
-            map = new PictureBox[menu.MapHeight, menu.MapWidth];
-
-            // Iterates through the array and initailizes each pixel with a Picture Box
-            // which has the appropiate size and location, and then adds it to the group box
-            // and subscribes the Click event to the Change Color method
-            for (int i = 0; i < menu.MapHeight; i++)
-            {
-                for (int j = 0; j < menu.MapWidth; j++)
-                {
-                    map[i, j] = new PictureBox();
-                    map[i, j].Size = new Size(boxWidth, boxHeight);
-                    map[i, j].Location = new Point(widthPadding + (j * boxWidth), (i * boxHeight) + heightPadding);
-
-                    // This assigns the color of the pixel appropiately from the double array
-                    // from the Form1 class which has the ARGB values of each pixel in the map
-                    map[i, j].BackColor = Color.FromArgb(menu.Pixels[i, j]);
-
-                    groupBoxMap.Controls.Add(map[i, j]);
-                    map[i, j].Click += ChangeColor;
-                }
-
-            }
-            this.Text = title;
+           
         }
 
         /// <summary>
@@ -138,9 +96,9 @@ namespace LevelEditor
         private void ClearMap()
         {
             // Iterates through the map of pixels and removes them from the groupBox
-            for (int i = 0; i < menu.MapHeight; i++)
+            for (int i = 0; i < mapHeight; i++)
             {
-                for (int j = 0; j < menu.MapWidth; j++)
+                for (int j = 0; j < mapWidth; j++)
                 {
                     groupBoxMap.Controls.Remove(map[i, j]);      
                 }
@@ -203,41 +161,9 @@ namespace LevelEditor
                 FileStream stream = File.OpenRead(openFile.FileName);
                 StreamReader input = new StreamReader(stream);
 
-                // Declares the line variable which will contain the string of the line that was currently read
-                // as well as a counter needed to iterate through the double array accordingly to get the correct
-                // ARGB value for the correct pixel
-                string line = null!;
-                int counterHeight = 0;
+                //file reading code goes here
 
-                while ((line = input.ReadLine()!) != null)
-                {
-                    if (line.StartsWith("Height: "))
-                    {
-                        // Extracts the height from the file and initializes the height
-                        menu.MapHeight = Convert.ToInt32(line.Substring(8));
-                    }
-                    if (line.StartsWith("Width: "))
-                    {
-                        // Extracts the width from the file and initializes the width
-                        menu.MapWidth = Convert.ToInt32(line.Substring(7));
-                        menu.Pixels = new int[menu.MapHeight, menu.MapWidth];
-                    }
-                    // All the possible ARGB values are negative so if the line
-                    // starts with a negative then we know its an integer
-                    else if (line.StartsWith("-"))
-                    {
-                        // Gets the current line, which contains the row of pixels and splits them into individual pixels
-                        string[] pixelArr = line.Split(',');
 
-                        // Stores the ARGB value in the pixels double array
-                        for (int counterWidth = 0; counterWidth < menu.Pixels.GetLength(1); counterWidth++)
-                        {
-                            menu.Pixels[counterHeight, counterWidth] = Convert.ToInt32(pixelArr[counterWidth]);
-                        }
-                        counterHeight++;
-
-                    }
-                }
                 // Once done it will close the stream so that the process will close so
                 // it can either load another file or save another file in the future
                 input.Close();
@@ -270,26 +196,8 @@ namespace LevelEditor
                 FileStream stream = File.OpenWrite(saveFile.FileName);
                 StreamWriter output = new StreamWriter(stream);
                 
-                // Writes the height and width of the map at the top of the file
-                output.WriteLine("Height: " + menu.MapHeight);
-                output.WriteLine("Width: " + menu.MapWidth);
+              // file writing code goes here
 
-                // Iterates thruogh the whole map and converts each of pixels color into a 32 bit integer
-                for (int i = 0; i < menu.MapHeight; i++)
-                {
-                    for (int j = 0; j < menu.MapWidth; j++)
-                    {   
-                        // The last pixel of each row will exclude a comma so that when reading the array containing
-                        // all the values for the row will have 10 elements instead of 11 elements
-                        if(j == menu.MapWidth-1)
-                        {
-                            output.Write(map[i, j].BackColor.ToArgb());
-                            continue;
-                        }
-                        output.Write(map[i, j].BackColor.ToArgb() + ",");
-                    }
-                    output.WriteLine();
-                }
                 // Once done it will close the stream so that the process will close so
                 // it can either load another file or save another file in the future
                 output.Close();

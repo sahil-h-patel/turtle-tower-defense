@@ -4,24 +4,18 @@ namespace LevelEditor
 {
     public partial class Form1 : Form
     {
-        private int height;
-        private int width;
-        private int[,] pixels;
+        private int wavesNum;
+        private bool isEndless;
 
         /// <summary>
-        /// Gets and sets the height of the map in pixels
+        /// Gets and sets the number of waves in a game
         /// </summary>
-        public int MapHeight { get { return height; } set { height = value; } }
+        public int WavesNum { get { return wavesNum; } set { wavesNum = value; } }
 
         /// <summary>
-        /// Gets and sets the width of the map in pixels
+        /// Gets and sets whether current game is in endless mode
         /// </summary>
-        public int MapWidth { get { return width; } set { width = value; } }
-
-        /// <summary>
-        /// Get and sets the double array of the ARGB values of the pixels
-        /// </summary>
-        public int[,] Pixels { get { return pixels; } set { pixels = value; } }
+        public bool IsEndless { get { return isEndless; } set { isEndless = value; } }
 
 
         /// <summary>
@@ -31,17 +25,39 @@ namespace LevelEditor
         {
             InitializeComponent();
         }
-        
-        
+
+
 
         /// <summary>
         /// This method occurs when the Create button is clicked
         /// </summary>
         private void buttonCreate_Click(object sender, EventArgs e)
         {
-            // If the values of height and width are valid then it will initialize the LevelEditor
+            //ensures that user either has input wave numbers or enabled endless mode
+            if (isEndlessCheckBox.Checked == false && textBoxWaves == null)
+            {
+                MessageBox.Show("Please either input the number of waves or enable endless mode.",
+                   "Error creating map",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                   );
+            }
+            //checks if the user-input number of waves is valid
+            else if (wavesNum <= 0)
+            {
+                MessageBox.Show("The number of waves need to be greater than 0.",
+                   "Error creating map",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                   );
+            }
+
+            // If everything is valid then it will initialize the LevelEditor
+            else
+            {
                 LevelEditor editor = new LevelEditor(this, false, "Level Editor");
                 editor.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -71,7 +87,7 @@ namespace LevelEditor
                 while ((line = input.ReadLine()!) != null)
                 {
 
-                   //file reader code goes here
+                    //file reader code goes here
                 }
 
                 // Once done it will close the stream so that the process will close so
@@ -85,9 +101,27 @@ namespace LevelEditor
 
                 // The values of the height and width are checked which will
                 // then verify that we can initialize the Level Editor
-                    LevelEditor editor = new LevelEditor(this, true, title);
-                    editor.ShowDialog();
-            }   
+                LevelEditor editor = new LevelEditor(this, true, title);
+                editor.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// disables waves text box once endless mode is turned on
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void isEndlessCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (isEndlessCheckBox.Checked)
+            {
+                textBoxWaves.Enabled = false;
+            }
+            else
+            {
+                textBoxWaves.Enabled = true;
+            }
+
         }
     }
 }
