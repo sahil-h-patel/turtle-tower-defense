@@ -16,19 +16,16 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public CannonTower(Texture2D image, Rectangle hitbox) : base (image, hitbox)
+        public CannonTower(Texture2D image, int x, int y) : base (image)
         {
             //upgradeTree = 
             detectionRadius = 20.0; // sets detection radius of cannon tower
-            spaceTaken = new int[2] { 2, 2 }; // Sets space taken by tower. 2x2
+            spaceTaken = 2; // Sets space taken by tower. 2x2
             cost = 50; // sets cost of the tower
-            this.hitbox = new Rectangle(hitbox.X, hitbox.Y, hitbox.Width * spaceTaken[0], hitbox.Height * spaceTaken[1]);
+            damage = 5; // base damage of tower
+            attacksPerSec = 1; // how many attacks occur per second
+            this.hitbox = new Rectangle(x, y, hitbox.Width * spaceTaken, hitbox.Height * spaceTaken);
 
-        }
-
-        public override void Draw(SpriteBatch sb)
-        {
-            sb.Draw(image, hitbox, Color.White);
         }
 
 

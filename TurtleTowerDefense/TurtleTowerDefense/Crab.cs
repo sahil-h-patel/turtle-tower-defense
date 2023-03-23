@@ -10,8 +10,8 @@ namespace TurtleTowerDefense
 {
     internal class Crab : GameObject
     {
-        public Crab(Texture2D image, Rectangle hitbox) 
-            : base(image, hitbox)
+        public Crab(Texture2D image) 
+            : base(image)
         {
 
         }

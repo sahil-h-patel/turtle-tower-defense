@@ -19,10 +19,10 @@ namespace TurtleTowerDefense
         protected Rectangle hitbox;
 
         // Constructor
-        public GameObject(Texture2D image, Rectangle hitbox)
+        public GameObject(Texture2D image)
         {
             this.image = image;
-            this.hitbox = hitbox;
+            //this.hitbox = hitbox;
         }
 
         public int X { get { return hitbox.X; } set { hitbox.X = value; } }
