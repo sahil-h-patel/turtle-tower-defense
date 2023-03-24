@@ -73,6 +73,7 @@
             this.isEndlessCheckBox.Text = "Is Endless?";
             this.isEndlessCheckBox.UseVisualStyleBackColor = true;
             this.isEndlessCheckBox.CheckedChanged += new System.EventHandler(this.isEndlessCheckBox_CheckedChanged);
+            this.isEndlessCheckBox.CheckStateChanged += new System.EventHandler(this.isEndlessCheckBox_CheckedChanged);
             // 
             // textBoxWaves
             // 
