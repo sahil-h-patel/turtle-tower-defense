@@ -11,16 +11,23 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-    internal class Tower : GameObject
+    internal class Tower
     {
 
         // Fields
         //protected UpgradeTree upgradeTree;
+        protected Texture2D image;
         protected double detectionRadius;
         protected int spaceTaken;
         protected int cost;
         protected double damage;
         protected double attacksPerSec;
+        protected Rectangle hitbox;
+
+        /// <summary>
+        /// Gets the cost of a tower, or sets it to a new value
+        /// </summary>
+        public int Cost { get { return cost; } set { cost = value; } }
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes
@@ -32,13 +39,14 @@ namespace TurtleTowerDefense
         /// <param name="spaceRadius"></param>
         /// <param name="cost"></param>
         /// <param name="towerClass"></param>
-        public Tower(Texture2D image) : base (image)
+        public Tower(Texture2D image)
         {
+            this.image = image;
         }
 
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
-            sb.Draw(image, new Rectangle(this.X, this.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
+            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 20*spaceTaken, 20*spaceTaken), Color.White);
         }
 
     }

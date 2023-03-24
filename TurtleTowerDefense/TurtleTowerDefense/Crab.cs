@@ -8,26 +8,31 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-    internal class Crab : GameObject
+    internal class Crab
     {
-        public Crab(Texture2D image) 
-            : base(image)
-        {
 
+        protected Texture2D image;
+        protected int spaceTaken;
+        protected int health;
+        protected double speed;
+        protected bool alive;
+
+        public Crab(Texture2D image)
+        {
+            this.image = image;
+            alive = true;
         }
 
         // A method to detect its current position which will be used in Update to adjust appropiate values
 
-        public override void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, int x, int y)
         {
-            base.Draw(sb);
+            sb.Draw(image, new Rectangle(x, y, 20*spaceTaken, 20*spaceTaken), Color.White);
         }
 
-        public override void Update(GameTime gT, GraphicsDeviceManager g)
-        {
-            // Update health
-            // Update position
-            base.Update(gT, g);
-        }
+        //public void Update(GameTime gT, GraphicsDeviceManager g)
+        //{
+            
+        //}
     }
 }
