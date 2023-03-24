@@ -14,11 +14,8 @@ namespace TurtleTowerDefense
         private Upgrade previousUpgrade;
         private int cost;
 
-        public Upgrade()
-        {
-
-        }
-
+        public Upgrade() {}
+         
         public Upgrade NextUpgrade { get { return nextUpgrade; } set { nextUpgrade = value; } }
         public Upgrade PreviousUpgrade { get { return previousUpgrade; } set { previousUpgrade = value; } }
     }
