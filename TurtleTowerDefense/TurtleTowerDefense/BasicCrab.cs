@@ -14,7 +14,7 @@ namespace TurtleTowerDefense
         /// Creates a basic, unmodified crab. Bottom of the barrel.
         /// </summary>
         /// <param name="image"></param>
-        public BasicCrab(Texture2D image) : base(image)
+        public BasicCrab(Texture2D image, int x, int y) : base(image, x, y)
         {
             health = 100;
             speed = 5;
