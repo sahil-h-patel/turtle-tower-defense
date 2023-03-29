@@ -46,7 +46,7 @@ namespace TurtleTowerDefense
 
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
-            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 20*spaceTaken, 20*spaceTaken), Color.White);
+            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
         }
 
     }
