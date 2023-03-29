@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShapeUtils;
 
 namespace TurtleTowerDefense
 {
@@ -27,6 +28,7 @@ namespace TurtleTowerDefense
         private GameState currentState;
         private InGameState inGameState;
         private KeyboardState prevKbState;
+        private MouseState currentMouseState;
         private MouseState prevMouseState;
         private double cutsceneTimer;
         private double battleTimer;
@@ -104,7 +106,7 @@ namespace TurtleTowerDefense
                 Exit();
 
             KeyboardState kb = Keyboard.GetState();
-            MouseState mState = Mouse.GetState();
+            currentMouseState = Mouse.GetState();
 
             //managing game states FSM
             switch (currentState)
@@ -164,12 +166,26 @@ namespace TurtleTowerDefense
                             // Places a tower, if the player has enough cash
                             if (seashells >= defaultCannonTower.Cost)
                             {
-                                if (mState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                                if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                                 {
-                                    turtleTowers.Add(new CannonTower(towerProtoTexture, mState.X, mState.Y));
+                                    turtleTowers.Add(new CannonTower(towerProtoTexture, currentMouseState.X, currentMouseState.Y));
                                     seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
                                 }
                             }
+
+                            //toggle grid
+                            //if (SingleKeyPress(Keys.G))
+                            //{
+                            //    if(grid.IsVisible == true)
+                            //    {
+                            //        grid.IsVisible = false;
+                            //    }
+                            //    else
+                            //    {
+                            //        grid.IsVisible = true;
+                            //    }
+                            //}
+
                             break;
 
                         // Begins the crab assault on the turtle base
@@ -235,7 +251,7 @@ namespace TurtleTowerDefense
             }
 
             prevKbState = kb;
-            prevMouseState = mState;
+            prevMouseState = currentMouseState;
 
             base.Update(gameTime);
         }
