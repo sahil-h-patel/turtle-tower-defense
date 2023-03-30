@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
@@ -20,7 +25,10 @@ namespace TurtleTowerDefense
 
         private GameState currentState;
         private KeyboardState prevKbState;
+        private MouseState prevMouseState;
         private double timer;
+
+        private List<Tower> turtleTowers;
 
         public Game1()
         {
@@ -42,6 +50,8 @@ namespace TurtleTowerDefense
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            turtleTowers = new List<Tower>();
 
             placeholder = this.Content.Load<Texture2D>("placeholder");
             bgTexture = Content.Load<Texture2D>("bg");
@@ -79,6 +89,7 @@ namespace TurtleTowerDefense
                 Exit();
 
             KeyboardState kb = Keyboard.GetState();
+            MouseState mState = Mouse.GetState();
 
             //managing game states FSM
             switch (currentState)
@@ -125,6 +136,12 @@ namespace TurtleTowerDefense
 
                 case GameState.Game:
 
+                    if (mState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                    {
+                        turtleTowers.Add(new CannonTower(towerProtoTexture, mState.X, mState.Y));
+
+                    }
+
                     //hitting tab goes to in-game settings
                     if (SingleKeyPress(Keys.Tab))
                     {
@@ -140,6 +157,8 @@ namespace TurtleTowerDefense
                     break;
 
                 case GameState.Settings_Game:
+
+
 
                     //hitting tab goes back to game
                     if (SingleKeyPress(Keys.Tab))
@@ -179,6 +198,7 @@ namespace TurtleTowerDefense
             }
 
             prevKbState = kb;
+            prevMouseState = mState;
 
             base.Update(gameTime);
         }
@@ -190,7 +210,6 @@ namespace TurtleTowerDefense
             // TODO: Add your drawing code here
 
             _spriteBatch.Begin();
-
             switch (currentState)
             {
                 case GameState.MainMenu:
@@ -229,6 +248,12 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(towerProtoTexture, new Rectangle(100, 200, 80, 80), Color.White);
 
                     _spriteBatch.Draw(crabProtoTexture, new Rectangle(1000, 200, 80, 80), Color.White);
+
+                    foreach (Tower turtle in turtleTowers)
+                    {
+                        turtle.PlaceTower(_spriteBatch, prevMouseState.X, prevMouseState.Y);
+                    }
+
 
                     _spriteBatch.DrawString(comicSans20, "Tab -> Game Settings", new Vector2(600, 600), Color.SteelBlue);
                     _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(600, 650), Color.SteelBlue);

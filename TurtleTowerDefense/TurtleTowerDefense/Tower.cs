@@ -15,10 +15,12 @@ namespace TurtleTowerDefense
     {
 
         // Fields
-        protected UpgradeTree upgradeTree;
+        //protected UpgradeTree upgradeTree;
         protected double detectionRadius;
-        protected int[] spaceTaken;
+        protected int spaceTaken;
         protected int cost;
+        protected double damage;
+        protected double attacksPerSec;
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes
@@ -30,9 +32,15 @@ namespace TurtleTowerDefense
         /// <param name="spaceRadius"></param>
         /// <param name="cost"></param>
         /// <param name="towerClass"></param>
-        public Tower(Texture2D image, Rectangle hitbox) : base (image, hitbox)
+        public Tower(Texture2D image) : base (image)
         {
         }
+
+        public void PlaceTower(SpriteBatch sb, int x, int y)
+        {
+            sb.Draw(image, new Rectangle(this.X, this.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
+        }
+
     }
 
     //internal class Tower : GameObject
