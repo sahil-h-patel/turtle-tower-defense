@@ -24,7 +24,7 @@ namespace TurtleTowerDefense
             cost = 50; // sets cost of the tower
             damage = 5; // base damage of tower
             attacksPerSec = 1; // how many attacks occur per second
-            this.hitbox = new Rectangle(x, y, hitbox.Width * spaceTaken, hitbox.Height * spaceTaken);
+            hitbox = new Rectangle(x, y, 40 * spaceTaken, 40 * spaceTaken);
 
         }
 

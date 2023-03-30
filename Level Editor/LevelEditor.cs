@@ -20,8 +20,8 @@ namespace LevelEditor
         PictureBox[,] map;
         string title;
         bool saved = true;
-        int mapHeight = 576;
-        int mapWidth = 1024;
+        int mapHeight = 18;
+        int mapWidth = 32;
 
         /// <summary>
         /// This initializes the Level Editor class
@@ -34,12 +34,8 @@ namespace LevelEditor
             // Intializes the form and the title of the file
             this.menu = menu;
             this.title = title;
-
-            InitializeComponent();
-
-     
-                CreateMap();
-            
+            CreateMap();
+            InitializeComponent();  
         }
 
         /// <summary>
@@ -58,6 +54,7 @@ namespace LevelEditor
             // group box height, the form width, and the form height
             int boxHeight = 32;
             int boxWidth = boxHeight;
+            groupBoxMap = new GroupBox();
             groupBoxMap.Height = (boxHeight * mapHeight) + heightOffset;
             groupBoxMap.Width = (boxWidth * mapWidth) + widthOffset;
 
@@ -102,6 +99,20 @@ namespace LevelEditor
                 {
                     groupBoxMap.Controls.Remove(map[i, j]);      
                 }
+            }
+        }
+
+        /// <summary>
+        /// changes the color if mouse enters the box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void EnterBox(object? sender, EventArgs e)
+        {
+            if (sender is PictureBox)
+            {
+                PictureBox pb = (PictureBox)sender!;
+                pb.BackColor = Color.DimGray;
             }
         }
 
