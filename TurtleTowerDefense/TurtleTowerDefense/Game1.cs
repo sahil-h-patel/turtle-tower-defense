@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ShapeUtils;
+using System.Threading;
 
 namespace TurtleTowerDefense
 {
@@ -22,6 +23,7 @@ namespace TurtleTowerDefense
         //prototype sprites
         private Texture2D towerProtoTexture;
         private Texture2D crabProtoTexture;
+        private Texture2D SplashScreen;
         private SpriteFont comicSans20;
 
         private GameState currentState;
@@ -44,6 +46,7 @@ namespace TurtleTowerDefense
         private CannonTower defaultCannonTower;
 
         private int waveCounter;
+        private bool debugMode;
 
         public Game1()
         {
@@ -62,8 +65,10 @@ namespace TurtleTowerDefense
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
-            setupTimer = 15;
+            setupTimer = 2;
             basicCrabTimer = 1;
+
+            debugMode = false;
 
             base.Initialize();
         }
@@ -81,6 +86,7 @@ namespace TurtleTowerDefense
             towerProtoTexture = Content.Load<Texture2D>("towerProto");
             crabProtoTexture = Content.Load<Texture2D>("crabProto");
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
+            SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
 
         }
 
@@ -129,6 +135,11 @@ namespace TurtleTowerDefense
                     {
                         currentState = GameState.Modes;
                     }
+                    // Turns on debug mode
+                    if (SingleKeyPress(Keys.D))
+                    {
+                        debugMode = true;
+                    }
 
                     break;
 
@@ -155,6 +166,10 @@ namespace TurtleTowerDefense
                         currentState = GameState.Game;
                         inGameState = InGameState.Setup;
                         seashells = 100;
+                        if (debugMode == true)
+                        {
+                            seashells = 999999999;
+                        }
 
                     }
 
@@ -163,23 +178,21 @@ namespace TurtleTowerDefense
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
 
+                    // Places a tower, if the player has enough cash
+                    if (seashells >= defaultCannonTower.Cost)
+                    {
+                        if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                        {
+                            turtleTowers.Add(new CannonTower(towerProtoTexture, currentMouseState.X, currentMouseState.Y));
+                            seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
+                        }
+                    }
+
                     switch (inGameState)
                     {
-
                         // Allows the player time to place and upgrade towers
                         case InGameState.Setup:
                             basicCrabs.Clear();
-                            string timerString = String.Format("{0:0.00}", setupTimer);
-                            // Places a tower, if the player has enough cash
-                            if (seashells >= defaultCannonTower.Cost)
-                            {
-                                if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-                                {
-                                    turtleTowers.Add(new CannonTower(towerProtoTexture, currentMouseState.X, currentMouseState.Y));
-                                    seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
-                                }
-                            }
-
                             // If you run out of time setting up, change into assault mode, beginning the crab attack
                             setupTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -223,12 +236,21 @@ namespace TurtleTowerDefense
                                 inGameState = InGameState.Setup;
                             }
                             // Moves crabs, along with a timer spacing them out from being spawned
-                            foreach (Crab crab in basicCrabs)
+                            while (basicCrabs.Count > 0)
                             {
-                                crab.X -= 2;
-                                while (basicCrabTimer > 0)
+                                int basicCrabCount = 0;
+                                for (int i = 0; i < basicCrabCount;)
                                 {
-                                    basicCrabTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                                    if (basicCrabTimer > 0)
+                                    {
+                                        basicCrabTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                                    }
+                                    if (basicCrabTimer <= 0)
+                                    {
+                                        basicCrabCount++;
+                                        basicCrabTimer = 1;
+                                    }
                                 }
                             }
                             break;
@@ -282,6 +304,10 @@ namespace TurtleTowerDefense
                     {
                         currentState = GameState.MainMenu;
                     }
+                    if (SingleKeyPress(Keys.Enter))
+                    {
+                        currentState = GameState.MainMenu;
+                    }
 
                     break;
             }
@@ -303,10 +329,12 @@ namespace TurtleTowerDefense
             {
                 case GameState.MainMenu:
 
-                    _spriteBatch.GraphicsDevice.Clear(Color.CornflowerBlue);
-                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(300, 500), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(300, 550), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(300, 600), Color.White);
+                    _spriteBatch.GraphicsDevice.Clear(Color.White);
+                    _spriteBatch.Draw(SplashScreen, new Rectangle(0, -60
+                        , 1280, 720), Color.White);
+                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(300, 500), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(300, 550), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(300, 600), Color.Black);
 
                     break;
 
@@ -343,7 +371,7 @@ namespace TurtleTowerDefense
                     switch (inGameState)
                     {
                         case InGameState.Setup:
-                            string timerString = String.Format("{0:0.00}", setupTimer);
+                            string timerString = String.Format("{0:0}", setupTimer);
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 50), Color.White);
 
                             break;
