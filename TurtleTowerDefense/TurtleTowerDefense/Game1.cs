@@ -24,6 +24,8 @@ namespace TurtleTowerDefense
         private Texture2D towerProtoTexture;
         private Texture2D crabProtoTexture;
         private Texture2D SplashScreen;
+        private Texture2D titleScreen;
+        private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
 
         private GameState currentState;
@@ -33,6 +35,9 @@ namespace TurtleTowerDefense
         private MouseState prevMouseState;
         private double cutsceneTimer;
         private double setupTimer;
+
+        // Grid for building
+        private Grid grid;
 
         // Cash for player
         private int seashells;
@@ -75,6 +80,9 @@ namespace TurtleTowerDefense
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(-120, 260, 250, 250);
 
+            //set up grid
+            grid = new Grid(32, 18);
+
             debugMode = false;
 
             base.Initialize();
@@ -94,6 +102,8 @@ namespace TurtleTowerDefense
             crabProtoTexture = Content.Load<Texture2D>("crabProto");
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
+            titleScreen = Content.Load<Texture2D>("titlescreen");
+            gameModeScreen = Content.Load<Texture2D>("game mode screen");
 
         }
 
@@ -213,12 +223,10 @@ namespace TurtleTowerDefense
                             }
 
 
-
-
-                            //toggle grid
+                            //// toggle grid on and off
                             //if (SingleKeyPress(Keys.G))
                             //{
-                            //    if(grid.IsVisible == true)
+                            //    if (grid.IsVisible == true)
                             //    {
                             //        grid.IsVisible = false;
                             //    }
@@ -335,11 +343,10 @@ namespace TurtleTowerDefense
                 case GameState.MainMenu:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.White);
-                    _spriteBatch.Draw(SplashScreen, new Rectangle(0, -60
-                        , 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(300, 500), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(300, 550), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(titleScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(50, 500), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(50, 550), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(50, 600), Color.Black);
                     break;
 
                 case GameState.Settings_Menu:
@@ -353,9 +360,9 @@ namespace TurtleTowerDefense
                 case GameState.Modes:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.PeachPuff);
-                    _spriteBatch.DrawString(comicSans20, "This is the Game Mode Screen", new Vector2(300, 500), Color.Plum);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game", new Vector2(300, 550), Color.Plum);
-                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(300, 600), Color.White);
+                    _spriteBatch.Draw(gameModeScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.DrawString(comicSans20, "Enter -> Game", new Vector2(50, 550), Color.Chocolate);
+                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(50, 600), Color.CadetBlue);
 
                     break;
 
@@ -379,10 +386,17 @@ namespace TurtleTowerDefense
                             string timerString = String.Format("{0:0}", setupTimer);
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
+                            //draw grid
+                            ShapeBatch.Begin(GraphicsDevice);
+                            //grid.DrawGrid(prevMouseState);
+                            ShapeBatch.BoxOutline(new Rectangle(0, 0, 40, 40), Color.Black);
+                            ShapeBatch.End();
+
                             break;
 
                         // Starts the crab assault, drawing them and moving them towards the base
                         case InGameState.Assault:
+
                             if (basicCrabs.Count > 0)
                             {
                                 ShapeBatch.Begin(GraphicsDevice);

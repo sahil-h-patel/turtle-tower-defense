@@ -30,9 +30,10 @@ namespace TurtleTowerDefense
             grid = new Rectangle[width, height];
             boxWidth = 40;
             boxHeight = 40;
+            SetUpGrid();
 
             //initially makes the grid invisible
-            isVisible = false;
+            isVisible = true;
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace TurtleTowerDefense
         /// </summary>
         public void DrawGrid(MouseState mouse)
         {
-            for (var c = 0; c < grid.GetLength(0); c++)
+            for (int c = 0; c < grid.GetLength(0); c++)
             {
                 for (int r = 0; r < grid.GetLength(1); r++)
                 {
