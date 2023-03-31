@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "J0pOYe2Ol8GBepinFPipvN0z5GYZxvii3hPrQWiRGdhPb4EjZEVRR+CwKUoWtL0uJijYKBdBcfxjt99dE1bS/g==",
+  "dgSpecHash": "AQIA7+nBOvYjSLyjWWN2Oe+4zj2myiAZwjsaxkYSRIJTvsGsMh9XPMaYpXABfkZNKr57Qbmx58hOQcAertrGUw==",
   "success": true,
-  "projectFilePath": "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+  "projectFilePath": "D:\\Profiles\\zaa8026\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
   "expectedPackageFiles": [
-    "D:\\Profiles\\cem6919\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "D:\\Profiles\\cem6919\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "D:\\Profiles\\zaa8026\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "D:\\Profiles\\zaa8026\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
   ],
   "logs": []
 }

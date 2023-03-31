@@ -22,6 +22,7 @@ namespace TurtleTowerDefense
         protected int bCost;
         protected int bDamage;
         protected double bAttackCooldown;
+        protected double tAttackCooldown;
         protected Rectangle hitbox;
         protected Vector2 center;
         protected Crab target;
@@ -81,7 +82,6 @@ namespace TurtleTowerDefense
             // Otherwise, attack the crab!
             else
             {
-                double tAttackCooldown = bAttackCooldown; // temporary variable so cooldown can be reset
                 tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
 
