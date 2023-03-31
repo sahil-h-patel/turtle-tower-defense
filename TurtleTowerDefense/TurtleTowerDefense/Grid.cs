@@ -13,7 +13,7 @@ namespace TurtleTowerDefense
     /// <summary>
     /// handles grid system for tower placement
     /// </summary>
-    internal class Grid : Game
+    internal class Grid
     {
         private Rectangle[,] grid;
         private int boxWidth;
