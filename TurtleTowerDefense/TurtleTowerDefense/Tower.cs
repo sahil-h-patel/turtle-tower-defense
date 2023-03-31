@@ -17,17 +17,22 @@ namespace TurtleTowerDefense
         // Fields
         //protected UpgradeTree upgradeTree;
         protected Texture2D image;
-        protected double detectionRadius;
-        protected int spaceTaken;
-        protected int cost;
-        protected double damage;
-        protected double attacksPerSec;
+        protected double bDetectionRadius;
+        protected int bSpaceTaken;
+        protected int bCost;
+        protected int bDamage;
+        protected double bAttackCooldown;
+        protected double tAttackCooldown;
         protected Rectangle hitbox;
+        protected Vector2 center;
+        protected Crab target;
 
         /// <summary>
         /// Gets the cost of a tower, or sets it to a new value
         /// </summary>
-        public int Cost { get { return cost; } set { cost = value; } }
+        public int Cost { get { return bCost; } set { bCost = value; } }
+
+        public Vector2 Center { get { return center; } }
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes
@@ -44,21 +49,55 @@ namespace TurtleTowerDefense
             this.image = image;
         }
 
+        /// <summary>
+        /// Draws a tower
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
-            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
+            sb.Draw(image, hitbox, Color.White);
         }
 
+        /// <summary>
+        /// Takes in a list of crabs and checks if any of them are within range for attacking
+        /// </summary>
+        /// <param name="crabList"></param>
+        public void CheckForTargets(List<Crab> crabList, GameTime gt)
+        {
+            // If the current tower's target is null, search for a target.
+            if (target == null)
+            {
+                foreach (Crab crab in crabList)
+                {
+                    double distance = Math.Sqrt(Math.Pow((crab.X - center.X), 2) + Math.Pow((crab.Y - center.Y), 2));
+
+                    if (distance <= this.bDetectionRadius && target == null)
+                    {
+                        target = crab;
+                    }
+                }
+            }
+            // Otherwise, attack the crab!
+            else
+            {
+                tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
+                double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
+
+                // Damage crab if cooldown is 0
+                if (tAttackCooldown <= 0)
+                {
+                    target.Health -= bDamage;
+                    tAttackCooldown = bAttackCooldown;
+                }
+                // Sets to target to null if out of range
+                if (distance <= this.bDetectionRadius)
+                {
+                    target = null;
+                }
+
+            }
+        }
     }
-
-    //internal class Tower : GameObject
-    //{
-
-    //    // Fields
-    //    private UpgradeTree upgradeTree;
-    //    private double detectionRadius;
-    //    private int spaceRadius;
-    //    private int cost;
-
-    //}
 }

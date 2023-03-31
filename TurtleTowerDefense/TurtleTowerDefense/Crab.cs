@@ -28,12 +28,30 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
 
+        /// <summary>
+        /// Returns the image of the crab
+        /// </summary>
+        public Texture2D Image { get { return image; } }
+
+        /// <summary>
+        /// Returns the hitbox of the crab
+        /// </summary>
+        public Rectangle Hitbox { get { return hitbox; } }
+
+        /// <summary>
+        /// Gets or sets the health value
+        /// </summary>
+        public int Health { get { return health; } set { health = value; } }
+
+        /// <summary>
+        /// Gets or sets the alive state
+        /// </summary>
+        public bool Alive { get { return alive; } set { alive = value; } }
 
         public Crab(Texture2D image, int x, int y)
         {
             this.image = image;
             alive = true;
-            hitbox = new Rectangle(x, y, 20 * spaceTaken, 20 * spaceTaken);
         }
 
         // A method to detect its current position which will be used in Update to adjust appropiate values
@@ -45,7 +63,7 @@ namespace TurtleTowerDefense
 
         //public void Update(GameTime gT, GraphicsDeviceManager g)
         //{
-            
+
         //}
     }
 }
