@@ -16,7 +16,7 @@ namespace TurtleTowerDefense
         /// <param name="image"></param>
         public BasicCrab(Texture2D image, int x, int y) : base(image, x, y)
         {
-            health = 100;
+            health = 15;
             speed = 5;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);

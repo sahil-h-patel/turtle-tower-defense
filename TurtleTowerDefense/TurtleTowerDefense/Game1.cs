@@ -45,6 +45,7 @@ namespace TurtleTowerDefense
         // Contains all placed turtle towers
         private List<Tower> turtleTowers;
         // Contains all basicCrabs
+        private bool crabListFilled;
         private List<Crab> basicCrabs;
         // Creates default towers for use of values
         private CannonTower defaultCannonTower;
@@ -75,7 +76,7 @@ namespace TurtleTowerDefense
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
-            setupTimer = 2;
+            setupTimer = 15;
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(-120, 260, 250, 250);
 
@@ -142,6 +143,8 @@ namespace TurtleTowerDefense
                     turtleTowers.Clear();
                     waveCounter = 1;
                     setupTimer = 2;
+                    homeBaseHP = 100;
+
                     //hitting tab goes to main menu settings
                     if (SingleKeyPress(Keys.Tab))
                     {
@@ -209,6 +212,7 @@ namespace TurtleTowerDefense
                     {
                         // Allows the player time to place and upgrade towers
                         case InGameState.Setup:
+                            crabListFilled = false;
                             basicCrabs.Clear();
                             // If you run out of time setting up, change into assault mode, beginning the crab attack
                             setupTimer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -238,17 +242,24 @@ namespace TurtleTowerDefense
 
                         // Begins the crab assault on the turtle base
                         case InGameState.Assault:
-                            if (basicCrabs.Count < 1 + waveCounter)
+                            // This will add the appropriate amount of crabs to the list to be spawned.
+                            if (basicCrabs.Count < 1 + waveCounter && !crabListFilled)
                             {
                                 for (int i = 0; i < 1 + waveCounter; i++)
                                 {
                                     basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
                                 }
+                                crabListFilled = true;
                             }
                             if (basicCrabs.Count == 0)
                             {
                                 waveCounter++;
+                                setupTimer = 15;
                                 inGameState = InGameState.Setup;
+                            }
+                            foreach (Tower tower in turtleTowers)
+                            {
+                                tower.CheckForTargets(basicCrabs, gameTime);
                             }
                             // Moves crabs, along with a timer spacing them out from being spawned
                             foreach (BasicCrab crab in basicCrabs)
