@@ -36,6 +36,9 @@ namespace TurtleTowerDefense
         private double cutsceneTimer;
         private double setupTimer;
 
+        // Grid for building
+        private Grid grid;
+
         // Cash for player
         private int seashells;
 
@@ -75,6 +78,9 @@ namespace TurtleTowerDefense
             setupTimer = 2;
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(-120, 260, 250, 250);
+
+            //set up grid
+            grid = new Grid(32, 18);
 
             debugMode = false;
 
@@ -213,12 +219,10 @@ namespace TurtleTowerDefense
                             }
 
 
-
-
-                            //toggle grid
+                            //// toggle grid on and off
                             //if (SingleKeyPress(Keys.G))
                             //{
-                            //    if(grid.IsVisible == true)
+                            //    if (grid.IsVisible == true)
                             //    {
                             //        grid.IsVisible = false;
                             //    }
@@ -238,7 +242,7 @@ namespace TurtleTowerDefense
                             {
                                 for (int i = 0; i < 1 + waveCounter; i++)
                                 {
-                                    basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 30), _graphics.PreferredBackBufferHeight / 2));
+                                    basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
                                 }
                             }
                             if (basicCrabs.Count == 0)
@@ -249,7 +253,7 @@ namespace TurtleTowerDefense
                             // Moves crabs, along with a timer spacing them out from being spawned
                             foreach (BasicCrab crab in basicCrabs)
                             {
-                                crab.X -= 5;
+                                crab.X -= 2;
                             }
                             break;
 
@@ -371,10 +375,17 @@ namespace TurtleTowerDefense
                             string timerString = String.Format("{0:0}", setupTimer);
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
+                            //draw grid
+                            ShapeBatch.Begin(GraphicsDevice);
+                            //grid.DrawGrid(prevMouseState);
+                            ShapeBatch.BoxOutline(new Rectangle(0, 0, 40, 40), Color.Black);
+                            ShapeBatch.End();
+
                             break;
 
                         // Starts the crab assault, drawing them and moving them towards the base
                         case InGameState.Assault:
+
                             if (basicCrabs.Count > 0)
                             {
                                 ShapeBatch.Begin(GraphicsDevice);
