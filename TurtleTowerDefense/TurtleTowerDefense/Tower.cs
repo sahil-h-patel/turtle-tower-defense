@@ -72,7 +72,7 @@ namespace TurtleTowerDefense
                 {
                     double distance = Math.Sqrt(Math.Pow((crab.X - center.X), 2) + Math.Pow((crab.Y - center.Y), 2));
 
-                    if (distance > this.bDetectionRadius && target == null)
+                    if (distance <= this.bDetectionRadius && target == null)
                     {
                         target = crab;
                     }
@@ -83,12 +83,18 @@ namespace TurtleTowerDefense
             {
                 double tAttackCooldown = bAttackCooldown; // temporary variable so cooldown can be reset
                 tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
+                double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
 
                 // Damage crab if cooldown is 0
-                if (bAttackCooldown <= 0)
+                if (tAttackCooldown <= 0)
                 {
                     target.Health -= bDamage;
                     tAttackCooldown = bAttackCooldown;
+                }
+                // Sets to target to null if out of range
+                if (distance <= this.bDetectionRadius)
+                {
+                    target = null;
                 }
 
             }
