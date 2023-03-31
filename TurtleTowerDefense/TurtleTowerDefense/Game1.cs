@@ -24,6 +24,8 @@ namespace TurtleTowerDefense
         private Texture2D towerProtoTexture;
         private Texture2D crabProtoTexture;
         private Texture2D SplashScreen;
+        private Texture2D titleScreen;
+        private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
 
         private GameState currentState;
@@ -93,6 +95,8 @@ namespace TurtleTowerDefense
             crabProtoTexture = Content.Load<Texture2D>("crabProto");
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
+            titleScreen = Content.Load<Texture2D>("titlescreen");
+            gameModeScreen = Content.Load<Texture2D>("game mode screen");
 
         }
 
@@ -245,7 +249,7 @@ namespace TurtleTowerDefense
                             // Moves crabs, along with a timer spacing them out from being spawned
                             foreach (BasicCrab crab in basicCrabs)
                             {
-                                crab.X -= 2;
+                                crab.X -= 5;
                             }
                             break;
 
@@ -324,11 +328,10 @@ namespace TurtleTowerDefense
                 case GameState.MainMenu:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.White);
-                    _spriteBatch.Draw(SplashScreen, new Rectangle(0, -60
-                        , 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(300, 500), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(300, 550), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(300, 600), Color.Black);
+                    _spriteBatch.Draw(titleScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(50, 500), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(50, 550), Color.Black);
+                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(50, 600), Color.Black);
                     break;
 
                 case GameState.Settings_Menu:
@@ -342,9 +345,9 @@ namespace TurtleTowerDefense
                 case GameState.Modes:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.PeachPuff);
-                    _spriteBatch.DrawString(comicSans20, "This is the Game Mode Screen", new Vector2(300, 500), Color.Plum);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game", new Vector2(300, 550), Color.Plum);
-                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(300, 600), Color.White);
+                    _spriteBatch.Draw(gameModeScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.DrawString(comicSans20, "Enter -> Game", new Vector2(50, 550), Color.Chocolate);
+                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(50, 600), Color.CadetBlue);
 
                     break;
 
