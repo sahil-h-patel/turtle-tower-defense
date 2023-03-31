@@ -28,6 +28,15 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
 
+        /// <summary>
+        /// Returns the image of the crab
+        /// </summary>
+        public Texture2D Image { get { return image; } }
+
+        /// <summary>
+        /// Returns the hitbox of the crab
+        /// </summary>
+        public Rectangle Hitbox { get { return hitbox; } }
 
         public Crab(Texture2D image, int x, int y)
         {

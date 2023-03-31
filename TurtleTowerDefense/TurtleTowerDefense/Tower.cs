@@ -23,6 +23,7 @@ namespace TurtleTowerDefense
         protected double damage;
         protected double attacksPerSec;
         protected Rectangle hitbox;
+        protected Crab target;
 
         /// <summary>
         /// Gets the cost of a tower, or sets it to a new value
@@ -44,11 +45,32 @@ namespace TurtleTowerDefense
             this.image = image;
         }
 
+        /// <summary>
+        /// Draws a tower
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
             sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
         }
 
+        /// <summary>
+        /// Takes in a list of crabs and checks if any of them are within range for attacking
+        /// </summary>
+        /// <param name="crabList"></param>
+        public void CheckForTargets(List<Crab> crabList)
+        {
+            if (target == null)
+            {
+                
+            }
+            else
+            { 
+                
+            }
+        }
     }
 
     //internal class Tower : GameObject

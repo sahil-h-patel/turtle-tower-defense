@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zay10\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
+    "C:\\Users\\zay10\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zay10\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
+    "C:\\Users\\zay10\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zay10\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "projectUniqueName": "C:\\Users\\zay10\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
         "projectName": "TurtleTowerDefense",
-        "projectPath": "C:\\Users\\zay10\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "projectPath": "C:\\Users\\zay10\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
         "packagesPath": "C:\\Users\\zay10\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zay10\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
+        "outputPath": "C:\\Users\\zay10\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\zay10\\AppData\\Roaming\\NuGet\\NuGet.Config",
