@@ -18,18 +18,5 @@
 
 //        }
 
-//        public int SplitDepth { get { } set { } }
-//        public int CurrentDepth { get { } set { } }
-
-
-//        public Upgrade Navigate(UpgradeTree rootNode, UpgradeTree lookingFor)
-//        {
-//            Navigate(rootNode.NextUpgrade, lookingFor);
-
-//            if(rootNode.Upgrade == lookingFor)
-//            {
-//                return 
-//            }
-//        }       
-//    }
-//}
+    }
+}
