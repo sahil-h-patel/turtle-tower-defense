@@ -234,7 +234,7 @@ namespace TurtleTowerDefense
                             {
                                 for (int i = 0; i < 1 + waveCounter; i++)
                                 {
-                                    basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 10), _graphics.PreferredBackBufferHeight / 2));
+                                    basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 30), _graphics.PreferredBackBufferHeight / 2));
                                 }
                             }
                             if (basicCrabs.Count == 0)
@@ -251,12 +251,12 @@ namespace TurtleTowerDefense
 
                     }
 
-                    //hitting tab goes to in-game settings, enter goes to GameOver
+                    //hitting tab goes to in-game settings, enter goes to GameOver, or if home base hp is <= 0
                     if (SingleKeyPress(Keys.Tab))
                     {
                         currentState = GameState.Settings_Game;
                     }
-                    if (SingleKeyPress(Keys.Enter))
+                    if (SingleKeyPress(Keys.Enter) || homeBaseHP <= 0)
                     {
                         currentState = GameState.GameOver;
                     }
@@ -355,7 +355,7 @@ namespace TurtleTowerDefense
                     //tower sprite place holder
                     _spriteBatch.Draw(towerProtoTexture, homeBaseRect, Color.White);
 
-
+                    
                     foreach (Tower turtle in turtleTowers)
                     {
                         turtle.PlaceTower(_spriteBatch, prevMouseState.X, prevMouseState.Y);
@@ -374,7 +374,9 @@ namespace TurtleTowerDefense
                         case InGameState.Assault:
                             if (basicCrabs.Count > 0)
                             {
-                                _spriteBatch.Draw(crabProtoTexture, basicCrabs[0].Hitbox, Color.White);
+                                ShapeBatch.Begin(GraphicsDevice);
+                                ShapeBatch.BoxOutline(basicCrabs[0].Hitbox, Color.White);
+                                ShapeBatch.End();
                             }
                             for (int i = 0; i < basicCrabs.Count; i++)
                             {
