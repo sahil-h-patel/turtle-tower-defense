@@ -386,11 +386,15 @@ namespace TurtleTowerDefense
                             string timerString = String.Format("{0:0}", setupTimer);
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
+                            _spriteBatch.End();
+
                             //draw grid
                             ShapeBatch.Begin(GraphicsDevice);
-                            //grid.DrawGrid(prevMouseState);
-                            ShapeBatch.BoxOutline(new Rectangle(0, 0, 40, 40), Color.Black);
+                            grid.DrawGrid(prevMouseState);
+                            //ShapeBatch.BoxOutline(new Rectangle(0, 0, 40, 40), Color.Black);
                             ShapeBatch.End();
+
+                            _spriteBatch.Begin();
 
                             break;
 
