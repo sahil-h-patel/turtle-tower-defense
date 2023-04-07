@@ -81,7 +81,7 @@ namespace TurtleTowerDefense
             homeBaseRect = new Rectangle(-120, 260, 250, 250);
 
             //set up grid
-            grid = new Grid(32, 18);
+            grid = new Grid(16, 28);
 
             debugMode = false;
 
@@ -142,7 +142,7 @@ namespace TurtleTowerDefense
                     // Resets towers and wave counter if values were modified
                     turtleTowers.Clear();
                     waveCounter = 1;
-                    setupTimer = 2;
+                    setupTimer = 15;
                     homeBaseHP = 100;
 
                     //hitting tab goes to main menu settings
@@ -198,15 +198,7 @@ namespace TurtleTowerDefense
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
 
-                    // Places a tower, if the player has enough cash
-                    if (seashells >= defaultCannonTower.Cost)
-                    {
-                        if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-                        {
-                            turtleTowers.Add(new CannonTower(towerProtoTexture, currentMouseState.X, currentMouseState.Y));
-                            seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
-                        }
-                    }
+
 
                     switch (inGameState)
                     {
@@ -221,20 +213,17 @@ namespace TurtleTowerDefense
                             {
                                 inGameState = InGameState.Assault;
                             }
-
-
-                            //// toggle grid on and off
-                            //if (SingleKeyPress(Keys.G))
-                            //{
-                            //    if (grid.IsVisible == true)
-                            //    {
-                            //        grid.IsVisible = false;
-                            //    }
-                            //    else
-                            //    {
-                            //        grid.IsVisible = true;
-                            //    }
-                            //}
+                            
+                            // Places a tower, if the player has enough cash
+                            if (seashells >= defaultCannonTower.Cost)
+                            {
+                                if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                                {
+                                    Vector2 towerPosition = grid.GetClickedPosition(currentMouseState);
+                                    turtleTowers.Add(new CannonTower(towerProtoTexture, (int)towerPosition.X, (int)towerPosition.Y));
+                                    seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
+                                }
+                            }
 
                             break;
 
@@ -373,7 +362,7 @@ namespace TurtleTowerDefense
                     //tower sprite place holder
                     _spriteBatch.Draw(towerProtoTexture, homeBaseRect, Color.White);
 
-                    
+
                     foreach (Tower turtle in turtleTowers)
                     {
                         turtle.PlaceTower(_spriteBatch, prevMouseState.X, prevMouseState.Y);
