@@ -12,8 +12,11 @@ namespace Editor
 {
     public partial class WaveEditor : Form
     {
-        public WaveEditor()
+        Menu menu = new Menu();
+
+        public WaveEditor(Menu menu)
         {
+            this.menu = menu;
             InitializeComponent();
         }
     }

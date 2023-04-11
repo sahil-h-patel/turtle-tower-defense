@@ -20,7 +20,7 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Windows Form #region Windows Form Designer generated code
 
         /// <summary>
         ///  Required method for Designer support - do not modify
@@ -29,50 +29,52 @@
         private void InitializeComponent()
         {
             this.title = new System.Windows.Forms.Label();
-            this.openLevelEditorButton = new System.Windows.Forms.Button();
             this.openWaveEditorButton = new System.Windows.Forms.Button();
+            this.openPathEditorButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // title
             // 
             this.title.AutoSize = true;
             this.title.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
-            this.title.Location = new System.Drawing.Point(12, 9);
+            this.title.Location = new System.Drawing.Point(22, 9);
             this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(366, 28);
+            this.title.Size = new System.Drawing.Size(291, 21);
             this.title.TabIndex = 0;
             this.title.Text = "Welcome to Turtle Tower Defense Editor!";
             // 
-            // openLevelEditorButton
-            // 
-            this.openLevelEditorButton.Location = new System.Drawing.Point(110, 72);
-            this.openLevelEditorButton.Name = "openLevelEditorButton";
-            this.openLevelEditorButton.Size = new System.Drawing.Size(154, 61);
-            this.openLevelEditorButton.TabIndex = 1;
-            this.openLevelEditorButton.Text = "Open Level Editor";
-            this.openLevelEditorButton.UseVisualStyleBackColor = true;
-            this.openLevelEditorButton.Click += new System.EventHandler(this.openLevelEditorButton_Click);
-            // 
             // openWaveEditorButton
             // 
-            this.openWaveEditorButton.Location = new System.Drawing.Point(110, 139);
+            this.openWaveEditorButton.Location = new System.Drawing.Point(96, 104);
+            this.openWaveEditorButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.openWaveEditorButton.Name = "openWaveEditorButton";
-            this.openWaveEditorButton.Size = new System.Drawing.Size(154, 61);
+            this.openWaveEditorButton.Size = new System.Drawing.Size(135, 46);
             this.openWaveEditorButton.TabIndex = 2;
             this.openWaveEditorButton.Text = "Open Wave Editor";
             this.openWaveEditorButton.UseVisualStyleBackColor = true;
             this.openWaveEditorButton.Click += new System.EventHandler(this.openWaveEditorButton_Click);
             // 
-            // Form1
+            // openPathEditorButton
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.openPathEditorButton.Location = new System.Drawing.Point(96, 44);
+            this.openPathEditorButton.Name = "openPathEditorButton";
+            this.openPathEditorButton.Size = new System.Drawing.Size(135, 46);
+            this.openPathEditorButton.TabIndex = 3;
+            this.openPathEditorButton.Text = "Open Path Editor";
+            this.openPathEditorButton.UseVisualStyleBackColor = true;
+            this.openPathEditorButton.Click += new System.EventHandler(this.openPathEditorButton_Click);
+            // 
+            // Menu
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(385, 228);
+            this.ClientSize = new System.Drawing.Size(337, 171);
+            this.Controls.Add(this.openPathEditorButton);
             this.Controls.Add(this.openWaveEditorButton);
-            this.Controls.Add(this.openLevelEditorButton);
             this.Controls.Add(this.title);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Name = "Menu";
+            this.Text = "Menu";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -81,7 +83,7 @@
         #endregion
 
         private Label title;
-        private Button openLevelEditorButton;
         private Button openWaveEditorButton;
+        private Button openPathEditorButton;
     }
 }
