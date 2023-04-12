@@ -97,16 +97,16 @@ namespace Editor
             return pathCopy;
         }
 
-        public void Show()
-        {
-            for (int x = 0; x < pathGrid.GetLength(0); x++)
-            {
-                for (int y = 0; y < pathGrid.GetLength(1); y++)
-                {
-                    pathCopy.pathGrid[x, y] = new PictureBox();
-                    pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
-                }
-            }
-        }
+        //public void Show()
+        //{
+        //    for (int x = 0; x < pathGrid.GetLength(0); x++)
+        //    {
+        //        for (int y = 0; y < pathGrid.GetLength(1); y++)
+        //        {
+        //            pathCopy.pathGrid[x, y] = new PictureBox();
+        //            //pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
+        //        }
+        //    }
+        //}
     }
 }
