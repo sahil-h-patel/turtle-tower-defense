@@ -28,6 +28,11 @@ namespace TurtleTowerDefense
         private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
 
+        //final sprites
+        private Texture2D homeBaseTexture;
+        private Texture2D cannonTowerTexture;
+        private Texture2D basicCrabTexture;
+
         private GameState currentState;
         private InGameState inGameState;
         private KeyboardState prevKbState;
@@ -72,13 +77,13 @@ namespace TurtleTowerDefense
         {
             currentState = GameState.CutScene;
             inGameState = InGameState.None;
-            defaultCannonTower = new CannonTower(towerProtoTexture, -50, -50);
+            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
             setupTimer = 4;
             homeBaseHP = 100;
-            homeBaseRect = new Rectangle(-120, 260, 250, 250);
+            homeBaseRect = new Rectangle(0, 240, 120, 240);
 
             //set up grid
             grid = new Grid(16, 28);
@@ -104,6 +109,11 @@ namespace TurtleTowerDefense
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
             titleScreen = Content.Load<Texture2D>("titlescreen");
             gameModeScreen = Content.Load<Texture2D>("game mode screen");
+
+            //final sprite textures
+            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
+            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
 
         }
 
@@ -221,7 +231,7 @@ namespace TurtleTowerDefense
                                     //check if tower position is valid, don't draw if not
                                     if (towerPosition != default)
                                     {
-                                        turtleTowers.Add(new CannonTower(towerProtoTexture, (int)towerPosition.X, (int)towerPosition.Y));
+                                        turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPosition.X, (int)towerPosition.Y));
                                         seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
                                     }
                                 }
@@ -238,7 +248,7 @@ namespace TurtleTowerDefense
                             {
                                 for (int i = 0; i < 1 + waveCounter; i++)
                                 {
-                                    basicCrabs.Add(new BasicCrab(crabProtoTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
+                                    basicCrabs.Add(new BasicCrab(basicCrabTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
                                 }
                                 crabListFilled = true;
                             }
@@ -362,7 +372,7 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
 
                     //tower sprite place holder
-                    _spriteBatch.Draw(towerProtoTexture, homeBaseRect, Color.White);
+                    _spriteBatch.Draw(homeBaseTexture, homeBaseRect, Color.White);
 
                     // If in debug mode, draw circle outlines around the turtle towers
                     if (debugMode)
