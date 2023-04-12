@@ -32,7 +32,15 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Cost { get { return bCost; } set { bCost = value; } }
 
+        /// <summary>
+        /// Returns the center of the turtle. Helpful for debugging and equations
+        /// </summary>
         public Vector2 Center { get { return center; } }
+
+        /// <summary>
+        /// Returns the base detection radius of the tower
+        /// </summary>
+        public double BaseDetectionRadius { get { return bDetectionRadius; } }
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes

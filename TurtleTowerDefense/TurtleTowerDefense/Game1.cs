@@ -76,7 +76,7 @@ namespace TurtleTowerDefense
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
-            setupTimer = 15;
+            setupTimer = 4;
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(-120, 260, 250, 250);
 
@@ -142,7 +142,7 @@ namespace TurtleTowerDefense
                     // Resets towers and wave counter if values were modified
                     turtleTowers.Clear();
                     waveCounter = 1;
-                    setupTimer = 15;
+                    setupTimer = 4;
                     homeBaseHP = 100;
 
                     //hitting tab goes to main menu settings
@@ -197,8 +197,6 @@ namespace TurtleTowerDefense
 
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
-
-
 
                     switch (inGameState)
                     {
@@ -366,6 +364,19 @@ namespace TurtleTowerDefense
                     //tower sprite place holder
                     _spriteBatch.Draw(towerProtoTexture, homeBaseRect, Color.White);
 
+                    // If in debug mode, draw circle outlines around the turtle towers
+                    if (debugMode)
+                    {
+                        _spriteBatch.End();
+                        ShapeBatch.Begin(GraphicsDevice);
+                        foreach (Tower turtle in turtleTowers)
+                        {
+                            ShapeBatch.CircleOutline(turtle.Center, (float)turtle.BaseDetectionRadius, Color.Black);
+                        }
+                        ShapeBatch.End();
+                        _spriteBatch.Begin();
+                    }
+
 
                     foreach (Tower turtle in turtleTowers)
                     {
@@ -393,15 +404,14 @@ namespace TurtleTowerDefense
                         // Starts the crab assault, drawing them and moving them towards the base
                         case InGameState.Assault:
 
-                            if (basicCrabs.Count > 0)
-                            {
-                                ShapeBatch.Begin(GraphicsDevice);
-                                ShapeBatch.BoxOutline(basicCrabs[0].Hitbox, Color.White);
-                                ShapeBatch.End();
-                            }
                             for (int i = 0; i < basicCrabs.Count; i++)
                             {
                                 basicCrabs[i].Draw(_spriteBatch);
+                                // If in debug mode, print crab HP
+                                if (debugMode)
+                                {
+                                    _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
+                                }
                                 if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
                                 {
                                     homeBaseHP -= 10;
