@@ -33,16 +33,19 @@ namespace TurtleTowerDefense
         public UpgradeNode NextUpgrade(UpgradeNode current)
         {
             // Should return the Upgrade preceding the one that it is at
+            return null;
         }
 
         public UpgradeNode GetUpgrade(string name)
         {
             // Gets the upgrade based on name
+            return null;
         }
 
         private UpgradeNode Search(string name)
         {
             // Searches the Tree for a specifc upgrade with a name given        
+            return null;
         }
         
 

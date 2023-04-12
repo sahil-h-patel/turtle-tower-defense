@@ -48,6 +48,16 @@ namespace TurtleTowerDefense
         /// </summary>
         public bool Alive { get { return alive; } set { alive = value; } }
 
+        /// <summary>
+        /// Returns the width of the crab
+        /// </summary>
+        public int Width { get { return spaceTaken * 40; } }
+
+        /// <summary>
+        /// Returns the height of the crab
+        /// </summary>
+        public int Height { get { return spaceTaken * 40; } }
+
         public Crab(Texture2D image, int x, int y)
         {
             this.image = image;
