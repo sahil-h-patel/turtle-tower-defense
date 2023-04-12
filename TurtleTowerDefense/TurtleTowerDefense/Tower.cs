@@ -74,6 +74,10 @@ namespace TurtleTowerDefense
         /// <param name="crabList"></param>
         public void CheckForTargets(List<Crab> crabList, GameTime gt)
         {
+
+            // Cooldown is always ticking down
+            tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
+
             // If the current tower's target is null, search for a target.
             if (target == null)
             {
@@ -90,17 +94,21 @@ namespace TurtleTowerDefense
             // Otherwise, attack the crab!
             else
             {
-                tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
 
                 // Damage crab if cooldown is 0
                 if (tAttackCooldown <= 0)
                 {
                     target.Health -= bDamage;
+                    // If the target just died, set target as null
+                    if (target.Health <= 0)
+                    {
+                        target = null;
+                    }
                     tAttackCooldown = bAttackCooldown;
                 }
                 // Sets to target to null if out of range
-                if (distance <= this.bDetectionRadius)
+                if (distance > this.bDetectionRadius)
                 {
                     target = null;
                 }

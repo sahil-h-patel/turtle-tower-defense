@@ -263,9 +263,14 @@ namespace TurtleTowerDefense
                                 tower.CheckForTargets(basicCrabs, gameTime);
                             }
                             // Moves crabs, along with a timer spacing them out from being spawned
-                            foreach (BasicCrab crab in basicCrabs)
+                            for (int i = 0; i < basicCrabs.Count; i++)   
                             {
-                                crab.X -= 2;
+                                basicCrabs[i].X -= 2;
+                                if (basicCrabs[i].Health <= 0)
+                                {
+                                    seashells += 15;
+                                    basicCrabs.Remove(basicCrabs[i]);
+                                }
                             }
                             break;
 
