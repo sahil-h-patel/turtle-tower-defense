@@ -42,7 +42,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 275);
+            this.saveButton.Location = new System.Drawing.Point(10, 276);
             this.saveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(132, 40);
@@ -52,7 +52,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(12, 319);
+            this.loadButton.Location = new System.Drawing.Point(10, 320);
             this.loadButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(132, 40);
@@ -67,23 +67,25 @@
             this.pathListView.GridLines = true;
             this.pathListView.Location = new System.Drawing.Point(12, 12);
             this.pathListView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pathListView.MultiSelect = false;
             this.pathListView.Name = "pathListView";
             this.pathListView.Size = new System.Drawing.Size(133, 256);
             this.pathListView.TabIndex = 2;
             this.pathListView.UseCompatibleStateImageBehavior = false;
             this.pathListView.View = System.Windows.Forms.View.Details;
+            this.pathListView.SelectedIndexChanged += new System.EventHandler(this.pathListView_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Path:";
-            this.columnHeader1.Width = 128;
+            this.columnHeader1.Width = 145;
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(374, 10);
+            this.addButton.Location = new System.Drawing.Point(361, 10);
             this.addButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(94, 26);
+            this.addButton.Size = new System.Drawing.Size(110, 26);
             this.addButton.TabIndex = 0;
             this.addButton.Text = "Add Path";
             this.addButton.UseVisualStyleBackColor = true;
@@ -91,10 +93,10 @@
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(484, 10);
+            this.removeButton.Location = new System.Drawing.Point(477, 9);
             this.removeButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(94, 26);
+            this.removeButton.Size = new System.Drawing.Size(122, 26);
             this.removeButton.TabIndex = 4;
             this.removeButton.Text = "Remove Path";
             this.removeButton.UseVisualStyleBackColor = true;
@@ -119,18 +121,19 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(594, 11);
+            this.clearButton.Location = new System.Drawing.Point(605, 10);
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(94, 25);
+            this.clearButton.Size = new System.Drawing.Size(105, 25);
             this.clearButton.TabIndex = 7;
             this.clearButton.Text = "Clear Path";
             this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
             // path
             // 
             this.path.BackColor = System.Drawing.SystemColors.Control;
             this.path.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.path.Location = new System.Drawing.Point(149, 39);
+            this.path.Location = new System.Drawing.Point(150, 40);
             this.path.Name = "path";
             this.path.Size = new System.Drawing.Size(560, 320);
             this.path.TabIndex = 8;
@@ -139,7 +142,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 371);
+            this.ClientSize = new System.Drawing.Size(722, 367);
             this.Controls.Add(this.path);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.pathName);
@@ -152,7 +155,6 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "PathEditor";
             this.Text = "Path Editor";
-            this.Load += new System.EventHandler(this.PathEditor_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
