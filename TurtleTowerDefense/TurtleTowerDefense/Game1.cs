@@ -213,15 +213,19 @@ namespace TurtleTowerDefense
                             {
                                 inGameState = InGameState.Assault;
                             }
-                            
+
                             // Places a tower, if the player has enough cash
                             if (seashells >= defaultCannonTower.Cost)
                             {
                                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                                 {
                                     Vector2 towerPosition = grid.GetClickedPosition(currentMouseState);
-                                    turtleTowers.Add(new CannonTower(towerProtoTexture, (int)towerPosition.X, (int)towerPosition.Y));
-                                    seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
+                                    //check if tower position is valid, don't draw if not
+                                    if (towerPosition != default)
+                                    {
+                                        turtleTowers.Add(new CannonTower(towerProtoTexture, (int)towerPosition.X, (int)towerPosition.Y));
+                                        seashells = seashells - turtleTowers[turtleTowers.Count - 1].Cost;
+                                    }
                                 }
                             }
 
@@ -380,7 +384,6 @@ namespace TurtleTowerDefense
                             //draw grid
                             ShapeBatch.Begin(GraphicsDevice);
                             grid.DrawGrid(prevMouseState);
-                            //ShapeBatch.BoxOutline(new Rectangle(0, 0, 40, 40), Color.Black);
                             ShapeBatch.End();
 
                             _spriteBatch.Begin();
