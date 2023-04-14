@@ -10,9 +10,10 @@ namespace Editor
     internal class Path
     {
         private Panel path;
-        private PictureBox[,] pathGrid = new PictureBox[16, 28];
-        private const int boxHeight = 20;
-        private const int boxWidth = 20;
+        public PictureBox[,] pathGrid = new PictureBox[16, 28];
+        private List<Image> images = new List<Image>();
+        private const int boxHeight = 40;
+        private const int boxWidth = 40;
         private bool filled;
 
 
@@ -25,7 +26,8 @@ namespace Editor
         }
 
         public bool Filled { get { return filled; } }
-
+        public int X { get { return pathGrid.GetLength(0); } }
+        public int Y { get { return pathGrid.GetLength(1); } }
         public void SetUpGrid()
         {
             for (int x = 0; x < pathGrid.GetLength(0); x++)
@@ -90,13 +92,19 @@ namespace Editor
             {
                 for (int y = 0; y < pathGrid.GetLength(1); y++)
                 {
-                    pathCopy.pathGrid[x, y] = new PictureBox();
-                    pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
+                    if (pathGrid[x,y].BackColor == Color.Gray)
+                    {
+                        pathCopy.pathGrid[x, y].BackColor = Color.Gray;
+                    }
                 }
             }
             return pathCopy;
         }
 
+        public void LoadImages()
+        {
+
+        }
         //public void Show()
         //{
         //    for (int x = 0; x < pathGrid.GetLength(0); x++)
@@ -104,7 +112,7 @@ namespace Editor
         //        for (int y = 0; y < pathGrid.GetLength(1); y++)
         //        {
         //            pathCopy.pathGrid[x, y] = new PictureBox();
-        //            //pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
+        //            pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
         //        }
         //    }
         //}

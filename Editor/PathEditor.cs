@@ -22,6 +22,7 @@ namespace Editor
             this.menu = menu;
             InitializeComponent();
             currentPath = new Path(path);
+            Size.Width = path.Width
         }
         private void addButton_Click(object sender, EventArgs e)
         {
@@ -48,6 +49,7 @@ namespace Editor
                 selectedPath = pathListView.SelectedItems[0].Text;
                 pathName.Text = selectedPath;
                 currentPath = pathList[selectedPath];
+                Draw(selectedPath);
             }
         }
 
@@ -61,5 +63,48 @@ namespace Editor
                 }
             }
         }
+
+        private void Draw(string namePath)
+        {
+            for (int x = 0; x < pathList[namePath].pathGrid.GetLength(0); x++)
+            {
+                for (int y = 0; y < pathList[namePath].pathGrid.GetLength(1); y++)
+                {
+                    if (pathList[namePath].pathGrid[x, y].BackColor == Color.Gray)
+                    {
+                        currentPath.pathGrid[x, y].BackColor = Color.Gray;
+                    }
+                }
+            }
+        }
+
+        private void Save(string path)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            if(saveFile.ShowDialog() == DialogResult.OK)
+            {
+                saveFile.Title = "Saving a path file";
+                saveFile.Filter = "Path Files|*.path";
+                saveFile.DefaultExt = ".path";
+
+                FileStream stream = new FileStream(path, FileMode.OpenOrCreate);
+                StreamWriter output = new StreamWriter(stream);
+                
+                foreach(KeyValuePair<string, Path> kvp in pathList)
+                {
+                    output.WriteLine(kvp.Key);
+                    for(int i = 0; i < kvp.Value.X; i++)
+                    {
+                        for(int j = 0; j < kvp.Value.Y; j++)
+                        {
+
+                        }
+                    }
+                }
+            }
+          
+
+        }
+        
     }
 }
