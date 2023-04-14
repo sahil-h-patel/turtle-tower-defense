@@ -26,6 +26,8 @@ namespace TurtleTowerDefense
         protected Rectangle hitbox;
         protected Vector2 center;
         protected Crab target;
+        protected int widthOfSingleSprite;
+
 
         /// <summary>
         /// Gets the cost of a tower, or sets it to a new value
@@ -41,6 +43,11 @@ namespace TurtleTowerDefense
         /// Returns the base detection radius of the tower
         /// </summary>
         public double BaseDetectionRadius { get { return bDetectionRadius; } }
+
+        /// <summary>
+        /// Returns the width of a single sprite on the sprite sheet
+        /// </summary>
+        public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes
@@ -65,7 +72,7 @@ namespace TurtleTowerDefense
         /// <param name="y"></param>
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
-            sb.Draw(image, hitbox, Color.White);
+            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
         }
 
         /// <summary>

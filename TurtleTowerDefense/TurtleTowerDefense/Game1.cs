@@ -77,7 +77,6 @@ namespace TurtleTowerDefense
         {
             currentState = GameState.CutScene;
             inGameState = InGameState.None;
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
@@ -114,6 +113,9 @@ namespace TurtleTowerDefense
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
+
+            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
+
 
         }
 

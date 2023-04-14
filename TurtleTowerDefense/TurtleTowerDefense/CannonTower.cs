@@ -11,9 +11,6 @@ namespace TurtleTowerDefense
     internal class CannonTower : Tower
     {
 
-        // Field
-        int widthOfSingleSprite;
-
         /// <summary>
         /// Creates a new cannon tower object, and intializes all of it's data
         /// </summary>
@@ -28,7 +25,8 @@ namespace TurtleTowerDefense
             bDamage = 5; // base damage of tower
             bAttackCooldown = 1.5; // seconds between each attack, stored as a double
             tAttackCooldown = bAttackCooldown;
-            hitbox = new Rectangle(x, y, 40 * bSpaceTaken, 40 * bSpaceTaken);
+            widthOfSingleSprite = bSpaceTaken * 40;
+            hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
             center = new Vector2(x - (hitbox.Width/2), y - (hitbox.Height/2));
         }
 
