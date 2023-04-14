@@ -22,7 +22,6 @@ namespace Editor
             this.menu = menu;
             InitializeComponent();
             currentPath = new Path(path);
-            Size.Width = path.Width
         }
         private void addButton_Click(object sender, EventArgs e)
         {
