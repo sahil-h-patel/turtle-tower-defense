@@ -26,11 +26,10 @@ namespace TurtleTowerDefense
             bSpaceTaken = 2; // Sets space taken by tower. 2x2
             bCost = 50; // sets cost of the tower
             bDamage = 5; // base damage of tower
-            bAttackCooldown = 2; // seconds between each attack, stored as a double
+            bAttackCooldown = 1.5; // seconds between each attack, stored as a double
             tAttackCooldown = bAttackCooldown;
             hitbox = new Rectangle(x, y, 40 * bSpaceTaken, 40 * bSpaceTaken);
-            center = new Vector2(x - (hitbox.Width / 2), y - (hitbox.Height / 2));
-            widthOfSingleSprite = bSpaceTaken * 40;
+            center = new Vector2(x - (hitbox.Width/2), y - (hitbox.Height/2));
         }
 
 
