@@ -17,6 +17,7 @@ namespace TurtleTowerDefense
         protected double speed;
         protected bool alive;
         protected Rectangle hitbox;
+        protected int widthOfSingleSprite;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -58,6 +59,8 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Height { get { return spaceTaken * 40; } }
 
+        public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
+
         public Crab(Texture2D image, int x, int y)
         {
             this.image = image;
@@ -68,7 +71,7 @@ namespace TurtleTowerDefense
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, hitbox, Color.White);
+            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(0, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.White);
         }
 
         //public void Update(GameTime gT, GraphicsDeviceManager g)
