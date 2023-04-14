@@ -10,6 +10,10 @@ namespace TurtleTowerDefense
 {
     internal class BasicCrab : Crab
     {
+
+        // Fields
+        int widthOfSingleSprite;
+
         /// <summary>
         /// Creates a basic, unmodified crab. Bottom of the barrel.
         /// </summary>
@@ -20,6 +24,7 @@ namespace TurtleTowerDefense
             speed = 5;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
+            widthOfSingleSprite = spaceTaken * 40;
         }
 
     }
