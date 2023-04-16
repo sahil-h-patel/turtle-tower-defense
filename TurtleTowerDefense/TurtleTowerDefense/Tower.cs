@@ -17,18 +17,37 @@ namespace TurtleTowerDefense
         // Fields
         //protected UpgradeTree upgradeTree;
         protected Texture2D image;
-        protected double detectionRadius;
-        protected int spaceTaken;
-        protected int cost;
-        protected double damage;
-        protected double attacksPerSec;
+        protected double bDetectionRadius;
+        protected int bSpaceTaken;
+        protected int bCost;
+        protected int bDamage;
+        protected double bAttackCooldown;
+        protected double tAttackCooldown;
         protected Rectangle hitbox;
+        protected Vector2 center;
         protected Crab target;
+        protected int widthOfSingleSprite;
+
 
         /// <summary>
         /// Gets the cost of a tower, or sets it to a new value
         /// </summary>
-        public int Cost { get { return cost; } set { cost = value; } }
+        public int Cost { get { return bCost; } set { bCost = value; } }
+
+        /// <summary>
+        /// Returns the center of the turtle. Helpful for debugging and equations
+        /// </summary>
+        public Vector2 Center { get { return center; } }
+
+        /// <summary>
+        /// Returns the base detection radius of the tower
+        /// </summary>
+        public double BaseDetectionRadius { get { return bDetectionRadius; } }
+
+        /// <summary>
+        /// Returns the width of a single sprite on the sprite sheet
+        /// </summary>
+        public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
 
         /// <summary>
         /// Creates a new tower object with all the specified attributes
@@ -53,34 +72,55 @@ namespace TurtleTowerDefense
         /// <param name="y"></param>
         public void PlaceTower(SpriteBatch sb, int x, int y)
         {
-            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40*spaceTaken, 40*spaceTaken), Color.White);
+            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
         }
 
         /// <summary>
         /// Takes in a list of crabs and checks if any of them are within range for attacking
         /// </summary>
         /// <param name="crabList"></param>
-        public void CheckForTargets(List<Crab> crabList)
+        public void CheckForTargets(List<Crab> crabList, GameTime gt)
         {
+
+            // Cooldown is always ticking down
+            tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
+
+            // If the current tower's target is null, search for a target.
             if (target == null)
             {
-                
+                foreach (Crab crab in crabList)
+                {
+                    double distance = Math.Sqrt(Math.Pow((crab.X - center.X), 2) + Math.Pow((crab.Y - center.Y), 2));
+
+                    if (distance <= this.bDetectionRadius && target == null)
+                    {
+                        target = crab;
+                    }
+                }
             }
+            // Otherwise, attack the crab!
             else
-            { 
-                
+            {
+                double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
+
+                // Damage crab if cooldown is 0
+                if (tAttackCooldown <= 0)
+                {
+                    target.Health -= bDamage;
+                    // If the target just died, set target as null
+                    if (target.Health <= 0)
+                    {
+                        target = null;
+                    }
+                    tAttackCooldown = bAttackCooldown;
+                }
+                // Sets to target to null if out of range
+                if (distance > this.bDetectionRadius)
+                {
+                    target = null;
+                }
+
             }
         }
     }
-
-    //internal class Tower : GameObject
-    //{
-
-    //    // Fields
-    //    private UpgradeTree upgradeTree;
-    //    private double detectionRadius;
-    //    private int spaceRadius;
-    //    private int cost;
-
-    //}
 }

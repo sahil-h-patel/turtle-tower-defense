@@ -16,16 +16,18 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public CannonTower(Texture2D image, int x, int y) : base (image)
+        public CannonTower(Texture2D image, int x, int y) : base(image)
         {
             //upgradeTree = 
-            detectionRadius = 20.0; // sets detection radius of cannon tower
-            spaceTaken = 2; // Sets space taken by tower. 2x2
-            cost = 50; // sets cost of the tower
-            damage = 5; // base damage of tower
-            attacksPerSec = 1; // how many attacks occur per second
-            hitbox = new Rectangle(x, y, 40 * spaceTaken, 40 * spaceTaken);
-
+            bDetectionRadius = 300.0; // sets detection radius of cannon tower
+            bSpaceTaken = 2; // Sets space taken by tower. 2x2
+            bCost = 50; // sets cost of the tower
+            bDamage = 5; // base damage of tower
+            bAttackCooldown = 1.5; // seconds between each attack, stored as a double
+            tAttackCooldown = bAttackCooldown;
+            widthOfSingleSprite = bSpaceTaken * 40;
+            hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
+            center = new Vector2(x - (hitbox.Width/2), y - (hitbox.Height/2));
         }
 
 
