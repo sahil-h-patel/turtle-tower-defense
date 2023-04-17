@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:bg.PNG
 
-#begin cannon tower sprite.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:cannon tower sprite.png
-
 #begin canon tower button hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,6 +84,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:canon tower button.png
+
+#begin canon tower sprite.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:canon tower sprite.png
 
 #begin catapult tower button hover.png
 /importer:TextureImporter
@@ -248,6 +248,18 @@
 /processorParam:TextureFormat=Color
 /build:game mode classic.png
 
+#begin game mode endless hover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:game mode endless hover.png
+
 #begin game mode endless.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -259,6 +271,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:game mode endless.png
+
+#begin game mode screen.PNG
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:game mode screen.PNG
 
 #begin game setting screen.PNG
 /importer:TextureImporter
@@ -307,6 +331,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:MainMenuSplashScreen.png
+
+#begin settings button hover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:settings button hover.png
+
+#begin settings button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:settings button.png
 
 #begin title screen.PNG
 /importer:TextureImporter

@@ -136,7 +136,7 @@ namespace TurtleTowerDefense
             //turtleTowers = new List<Tower>();
             basicCrabs = new List<Crab>();
 
-            bgTexture = Content.Load<Texture2D>("bg");
+            bgTexture = Content.Load<Texture2D>("game bg");
 
             //prototype textures
             towerProtoTexture = Content.Load<Texture2D>("towerProto");
@@ -150,7 +150,7 @@ namespace TurtleTowerDefense
             menuSettingsScreen = Content.Load<Texture2D>("main setting screen");
             gameSettingsScreen = Content.Load<Texture2D>("game setting screen");
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
-            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            cannonTowerTexture = Content.Load<Texture2D>("canon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
 
             //buttons
