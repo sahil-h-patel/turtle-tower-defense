@@ -70,9 +70,27 @@ namespace TurtleTowerDefense
         /// <param name="sb"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void PlaceTower(SpriteBatch sb, int x, int y)
+        public void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+            if (tAttackCooldown == bAttackCooldown)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+            }
+            else if (tAttackCooldown < bAttackCooldown * 0.33)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3) + 60, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+
+            }
+            else if (tAttackCooldown < bAttackCooldown * 0.66)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 2) + 40, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+
+            }
+            else if (tAttackCooldown > bAttackCooldown * 0.66)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1) + 20, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+
+            }
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace TurtleTowerDefense
                 // Damage crab if cooldown is 0
                 if (tAttackCooldown <= 0)
                 {
-                    target.Health -= bDamage;
+                    target.TakeDamage(gt, bDamage);
                     // If the target just died, set target as null
                     if (target.Health <= 0)
                     {
