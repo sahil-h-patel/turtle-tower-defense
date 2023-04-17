@@ -220,6 +220,7 @@ namespace TurtleTowerDefense
                 case GameState.MainMenu:
                     // Resets towers and wave counter if values were modified
                     towerManager.Reset();
+                    grid.Reset();
                     waveCounter = 1;
                     setupTimer = 4;
 
