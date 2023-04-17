@@ -30,7 +30,14 @@ namespace TurtleTowerDefense
 
         public bool Click()
         {
-            return (currMouseState.LeftButton == ButtonState.Pressed) && (prevMouseState.LeftButton == ButtonState.Released);
+            if (box.Contains(currMouseState.X, currMouseState.Y))
+            {
+                return (currMouseState.LeftButton == ButtonState.Pressed) && (prevMouseState.LeftButton == ButtonState.Released);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Update()

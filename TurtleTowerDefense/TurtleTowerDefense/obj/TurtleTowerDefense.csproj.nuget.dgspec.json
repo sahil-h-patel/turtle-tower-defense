@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
+    "C:\\Users\\lacky\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
   },
   "projects": {
-    "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
+    "C:\\Users\\lacky\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "projectUniqueName": "C:\\Users\\lacky\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
         "projectName": "TurtleTowerDefense",
-        "projectPath": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
-        "packagesPath": "D:\\Profiles\\zaa8026\\.nuget\\packages\\",
-        "outputPath": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
+        "projectPath": "C:\\Users\\lacky\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "packagesPath": "C:\\Users\\lacky\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lacky\\Source\\Repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "Z:\\IGMProfile\\AppData\\NuGet\\NuGet.Config",
+          "C:\\Users\\lacky\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +55,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -64,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
