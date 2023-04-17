@@ -61,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:bg.PNG
 
-#begin canon tower button hover.png
+#begin cannon tower button hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:canon tower button hover.png
+/build:cannon tower button hover.png
 
-#begin canon tower button.png
+#begin cannon tower button.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:canon tower button.png
+/build:cannon tower button.png
 
-#begin canon tower sprite.png
+#begin cannon tower sprite.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,7 +95,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:canon tower sprite.png
+/build:cannon tower sprite.png
 
 #begin catapult tower button hover.png
 /importer:TextureImporter

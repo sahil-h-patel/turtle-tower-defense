@@ -453,21 +453,8 @@ namespace TurtleTowerDefense
                     //tower sprite place holder
                     _spriteBatch.Draw(homeBaseTexture, homeBaseRect, Color.White);
 
-                    // If in debug mode, draw circle outlines around the turtle towers
-                    if (debugMode)
-                    {
-                        _spriteBatch.End();
-                        ShapeBatch.Begin(GraphicsDevice);
-                        foreach (Tower turtle in turtleTowers)
-                        {
-                            ShapeBatch.CircleOutline(turtle.Center, (float)turtle.BaseDetectionRadius, Color.Black);
-                        }
-                        ShapeBatch.End();
-                        _spriteBatch.Begin();
-                    }
 
-
-                    towerManager.DrawTowers(_spriteBatch);
+                    towerManager.DrawTowers(_spriteBatch, GraphicsDevice, debugMode);
 
                     switch (inGameState)
                     {
