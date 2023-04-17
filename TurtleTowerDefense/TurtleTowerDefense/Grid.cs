@@ -62,14 +62,7 @@ namespace TurtleTowerDefense
                 }
             }
 
-            //setting home base area as filled
-            for(int c = 5; c < 11; c++)
-            {
-                for(int r = 0; r < 3; r++)
-                {
-                    grid[c, r].IsFilled = true;
-                }
-            }
+         
         }
 
         /// <summary>
@@ -169,6 +162,26 @@ namespace TurtleTowerDefense
                 }
             }
             return position;
+        }
+
+        /// <summary>
+        /// resets all filled status except for home base area
+        /// </summary>
+        public void Reset()
+        {
+            foreach(GridBox box in grid)
+            {
+                box.IsFilled = false;
+            }
+
+            //setting home base area as filled
+            for (int c = 5; c < 11; c++)
+            {
+                for (int r = 0; r < 3; r++)
+                {
+                    grid[c, r].IsFilled = true;
+                }
+            }
         }
     }
 }
