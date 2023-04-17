@@ -287,15 +287,13 @@ namespace TurtleTowerDefense
                     switch (inGameState)
                     {
                         // Allows the player time to place and upgrade towers
-                        case InGameState.Setup:
-
+                        case BattleState.Setup:
+                            crabListFilled = false;
+                            basicCrabs.Clear();
                             cannonButton.Update();
                             catapultButton.Update();
                             fireButton.Update();
 
-                        case BattleState.Setup:
-                            crabListFilled = false;
-                            basicCrabs.Clear();
                             // If you run out of time setting up, change into assault mode, beginning the crab attack
                             setupTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -474,13 +472,11 @@ namespace TurtleTowerDefense
                     switch (inGameState)
                     {
                         // Specifics during setup phase
-                        case InGameState.Setup:
+                        case BattleState.Setup:
+                            string timerString = String.Format("{0:0}", setupTimer);
                             cannonButton.Draw(_spriteBatch);
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
-
-                        case BattleState.Setup:
-                            string timerString = String.Format("{0:0}", setupTimer);
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
                             _spriteBatch.End();
