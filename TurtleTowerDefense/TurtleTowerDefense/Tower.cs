@@ -76,9 +76,9 @@ namespace TurtleTowerDefense
             {
                 sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
             }
-            else if (tAttackCooldown > bAttackCooldown * 0.66)
+            else if (tAttackCooldown < bAttackCooldown * 0.33)
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1) + 20, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3) + 60, 0, widthOfSingleSprite + 20, image.Height), Color.White);
 
             }
             else if (tAttackCooldown < bAttackCooldown * 0.66)
@@ -86,9 +86,9 @@ namespace TurtleTowerDefense
                 sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 2) + 40, 0, widthOfSingleSprite + 20, image.Height), Color.White);
 
             }
-            else if (tAttackCooldown < bAttackCooldown * 0.33)
+            else if (tAttackCooldown > bAttackCooldown * 0.66)
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3) + 60, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1) + 20, 0, widthOfSingleSprite + 20, image.Height), Color.White);
 
             }
         }
