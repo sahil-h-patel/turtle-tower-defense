@@ -70,7 +70,7 @@ namespace TurtleTowerDefense
         /// <param name="sb"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void PlaceTower(SpriteBatch sb, int x, int y)
+        public void Draw(SpriteBatch sb)
         {
             sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
         }
