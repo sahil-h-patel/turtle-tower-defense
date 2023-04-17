@@ -130,7 +130,7 @@ namespace TurtleTowerDefense
                     }
                     else
                     {
-                        ShapeBatch.BoxOutline(grid[c, r].Rect, Color.Black);
+                        ShapeBatch.BoxOutline(grid[c, r].Rect, new Color(Color.Black, 0.1f));
                     }
 
                 }
