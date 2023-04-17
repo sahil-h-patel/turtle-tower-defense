@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 namespace TurtleTowerDefense
 {
 
-    //enum GameState { CutScene, MainMenu, Modes, Settings_Menu, Game, Settings_Game, GameOver }
-    //enum InGameState { None, Setup, Assault }
+    enum GameState { CutScene, MainMenu, Modes, Settings_Menu, Game, Settings_Game, GameOver }
+    enum BattleState { None, Setup, Assault }
     internal class TurtleTowerInator
     {
 
@@ -30,6 +30,8 @@ namespace TurtleTowerDefense
         // Textures
         protected Texture2D cannonTowerTexture;
         protected Texture2D homeBaseTexture;
+
+        public int HomeBaseHP { get { return homeBaseHP; } }
 
         /// <summary>
         /// Essentially works as intialization. Sets up all fields
@@ -75,8 +77,6 @@ namespace TurtleTowerDefense
                         seashells -= defaultCannonTower.Cost;
 
                     }
-
-
                 }
             }
         }
@@ -99,6 +99,9 @@ namespace TurtleTowerDefense
         /// </summary>
         public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, bool debugMode)
         {
+
+            sb.Draw(homeBaseTexture, homeBaseRect, Color.White);
+
             for (int i = 0; i < turtleTowers.Count; i++)
             {
                 turtleTowers[i].Draw(sb);

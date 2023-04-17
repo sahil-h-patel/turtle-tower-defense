@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace TurtleTowerDefense
 {
-    enum GameState { CutScene, MainMenu, Modes, Settings_Menu, Game, Settings_Game, GameOver }
-    enum BattleState { None, Setup, Assault }
-
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -400,7 +398,7 @@ namespace TurtleTowerDefense
                     {
                         currentState = GameState.Settings_Game;
                     }
-                    if (SingleKeyPress(Keys.Enter) || homeBaseHP <= 0)
+                    if (SingleKeyPress(Keys.Enter) || towerManager.HomeBaseHP <= 0)
                     {
                         currentState = GameState.GameOver;
                     }
@@ -498,10 +496,6 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
 
                     gameSettingsButton.Draw(_spriteBatch);
-
-                    //tower sprite place holder
-                    _spriteBatch.Draw(homeBaseTexture, homeBaseRect, Color.White);
-
 
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, debugMode);
 
