@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ShapeUtils;
 using System.Threading;
 using Microsoft.Xna.Framework.Media;
+using System.Runtime.CompilerServices;
 
 namespace TurtleTowerDefense
 {
@@ -68,6 +69,9 @@ namespace TurtleTowerDefense
         private Texture2D skipTexture;
         private Texture2D skipHoverTexture;
         private Button backButtonMode;
+        private Button quitToMenuButton;
+        private Texture2D quitTexture;
+        private Texture2D quitHoverTexture;
 
         private GameState currentState;
         private BattleState inGameState;
@@ -177,6 +181,9 @@ namespace TurtleTowerDefense
             fireButtonHoverTexture = Content.Load<Texture2D>("fire tower button hover");
             skipTexture = Content.Load<Texture2D>("skip button");
             skipHoverTexture = Content.Load<Texture2D>("skip button hover");
+            quitTexture = Content.Load<Texture2D>("quit button");
+            quitHoverTexture = Content.Load<Texture2D>("quit button hover");
+
 
             //set up buttons
             classicModeButton = new Button(470, 280, 394, 122, classicModeTexture, classicModeHoverTexture);
@@ -190,6 +197,7 @@ namespace TurtleTowerDefense
             gameSettingsButton = new Button(1160, 620, 67, 67, settingsButtonTexture, settingsButtonHoverTexture);
             skipButton = new Button(1165, 65, 67, 67, skipTexture, skipHoverTexture);
             backButtonMode = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
+            quitToMenuButton = new Button(420, 430, 479, 112, quitTexture, quitHoverTexture);
 
             //set up button events
             classicModeButton.Click += GameStart_Clicked;
@@ -200,6 +208,7 @@ namespace TurtleTowerDefense
             backButtonGame.Click += BackGame_Clicked;
             gameSettingsButton.Click += GameSettings_Clicked;
             skipButton.Click += Skip_Clicked;
+            quitToMenuButton.Click += BackMenu_Clicked;
 
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             // Loads up content with TurtleTowerInator 
@@ -380,7 +389,7 @@ namespace TurtleTowerDefense
                             towerManager.AttackEnemies(basicCrabs, gameTime);
 
                             // Moves crabs, along with a timer spacing them out from being spawned
-                            for (int i = 0; i < basicCrabs.Count; i++)   
+                            for (int i = 0; i < basicCrabs.Count; i++)
                             {
                                 basicCrabs[i].X -= 2;
                                 if (basicCrabs[i].Health <= 0)
@@ -409,6 +418,7 @@ namespace TurtleTowerDefense
                 case GameState.Settings_Game:
 
                     backButtonGame.Update();
+                    quitToMenuButton.Update();
 
                     //hitting tab goes back to game
                     if (SingleKeyPress(Keys.Tab))
@@ -484,7 +494,6 @@ namespace TurtleTowerDefense
 
                     _spriteBatch.GraphicsDevice.Clear(Color.PeachPuff);
                     _spriteBatch.Draw(gameModeScreen, new Rectangle(0, 0, 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(50, 600), Color.CadetBlue);
                     classicModeButton.Draw(_spriteBatch);
                     endlessModeButton.Draw(_spriteBatch);
                     backButtonMode.Draw(_spriteBatch);
@@ -548,7 +557,11 @@ namespace TurtleTowerDefense
                     _spriteBatch.DrawString(comicSans20, "Home Base HP: " + homeBaseHP, new Vector2(50, 80), Color.White);
                     _spriteBatch.DrawString(comicSans20, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
                     _spriteBatch.DrawString(comicSans20, $"{seashells}", new Vector2(1090, 25), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(600, 650), Color.SteelBlue);
+                    if (debugMode)
+                    {
+                        _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(50, 650), Color.White);
+                    }
+
                     break;
 
                 case GameState.Settings_Game:
@@ -556,9 +569,8 @@ namespace TurtleTowerDefense
                     _spriteBatch.GraphicsDevice.Clear(Color.SeaGreen);
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
                     _spriteBatch.Draw(gameSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(300, 600), Color.White);
 
-
+                    quitToMenuButton.Draw(_spriteBatch);
                     backButtonGame.Draw(_spriteBatch);
 
                     break;

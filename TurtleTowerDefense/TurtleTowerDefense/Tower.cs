@@ -124,7 +124,7 @@ namespace TurtleTowerDefense
                 // Damage crab if cooldown is 0
                 if (tAttackCooldown <= 0)
                 {
-                    target.Health -= bDamage;
+                    target.TakeDamage(gt, bDamage);
                     // If the target just died, set target as null
                     if (target.Health <= 0)
                     {
