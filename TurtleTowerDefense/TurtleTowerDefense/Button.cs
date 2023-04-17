@@ -19,8 +19,9 @@ namespace TurtleTowerDefense
         private Texture2D hover_texture;
         private MouseState prevMouseState;
         private MouseState currMouseState;
+        public EventHandler Click;
 
-        public Button (int x, int y, int width, int height, Texture2D texture, Texture2D hover_texture)
+        public Button(int x, int y, int width, int height, Texture2D texture, Texture2D hover_texture)
         {
             pos = new Vector2(x, y);
             box = new Rectangle(x, y, width, height);
@@ -28,21 +29,30 @@ namespace TurtleTowerDefense
             this.hover_texture = hover_texture;
         }
 
-        public bool Click()
-        {
-            if (box.Contains(currMouseState.X, currMouseState.Y))
-            {
-                return (currMouseState.LeftButton == ButtonState.Pressed) && (prevMouseState.LeftButton == ButtonState.Released);
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //public bool Click()
+        //{
+        //    if (box.Contains(currMouseState.X, currMouseState.Y))
+        //    {
+        //        return (currMouseState.LeftButton == ButtonState.Pressed) && (prevMouseState.LeftButton == ButtonState.Released);
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         public void Update()
         {
             currMouseState = Mouse.GetState();
+
+            if (box.Contains(currMouseState.X, currMouseState.Y))
+            {
+                if ((currMouseState.LeftButton == ButtonState.Pressed) && (prevMouseState.LeftButton == ButtonState.Released))
+                {
+                    Click?.Invoke(this, new EventArgs());
+                }
+            }
+
             prevMouseState = currMouseState;
         }
 

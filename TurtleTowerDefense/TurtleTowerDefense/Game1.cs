@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ShapeUtils;
 using System.Threading;
+using Microsoft.Xna.Framework.Media;
 
 namespace TurtleTowerDefense
 {
@@ -19,6 +20,7 @@ namespace TurtleTowerDefense
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D bgTexture;
+        //private Microsoft.Xna.Framework.Media.VideoPlayer videoPlayer;
 
         //prototype sprites
         private Texture2D towerProtoTexture;
@@ -31,6 +33,7 @@ namespace TurtleTowerDefense
         //final sprites
         private Texture2D homeBaseTexture;
         private Texture2D cannonTowerTexture;
+        private Texture2D gameOverScreen;
         private Texture2D catapultTowerTexture;
         private Texture2D fireTowerTexture;
         private Texture2D basicCrabTexture;
@@ -49,7 +52,8 @@ namespace TurtleTowerDefense
         private Button settingsButton;
         private Texture2D settingsButtonTexture;
         private Texture2D settingsButtonHoverTexture;
-        private Button backButton;
+        private Button backButtonMenu;
+        private Button backButtonGame;
         private Texture2D backButtonTexture;
         private Texture2D backButtonHoverTexture;
         private Button cannonButton;
@@ -62,6 +66,10 @@ namespace TurtleTowerDefense
         private Texture2D fireButtonTexture;
         private Texture2D fireButtonHoverTexture;
         private Button gameSettingsButton;
+        private Button skipButton;
+        private Texture2D skipTexture;
+        private Texture2D skipHoverTexture;
+        private Button backButtonMode;
 
         private GameState currentState;
         private BattleState inGameState;
@@ -149,6 +157,7 @@ namespace TurtleTowerDefense
             //final sprite textures
             menuSettingsScreen = Content.Load<Texture2D>("main setting screen");
             gameSettingsScreen = Content.Load<Texture2D>("game setting screen");
+            gameOverScreen = Content.Load<Texture2D>("game over");
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
@@ -168,22 +177,73 @@ namespace TurtleTowerDefense
             catapultButtonHoverTexture = Content.Load<Texture2D>("catapult tower button hover");
             fireButtonTexture = Content.Load<Texture2D>("fire tower button");
             fireButtonHoverTexture = Content.Load<Texture2D>("fire tower button hover");
+            skipTexture = Content.Load<Texture2D>("skip button");
+            skipHoverTexture = Content.Load<Texture2D>("skip button hover");
 
             //set up buttons
             classicModeButton = new Button(470, 280, 394, 122, classicModeTexture, classicModeHoverTexture);
             endlessModeButton = new Button(470, 450, 393, 123, endlessModeTexture, endlessModeHoverTexture);
-            settingsButton = new Button(1140, 30, 67, 67, settingsButtonTexture, settingsButtonHoverTexture);
-            backButton = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
-            cannonButton = new Button(1140, 450, 115, 114, cannonButtonTexture, cannonButtonHoverTexture);
-            catapultButton = new Button(1140, 300, 115, 114, catapultButtonTexture, catapultButtonHoverTexture);
-            fireButton = new Button(1140, 150, 115, 114, fireButtonTexture, fireButtonHoverTexture);
+            settingsButton = new Button(1160, 30, 67, 67, settingsButtonTexture, settingsButtonHoverTexture);
+            backButtonMenu = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
+            backButtonGame = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
+            cannonButton = new Button(1140, 460, 115, 114, cannonButtonTexture, cannonButtonHoverTexture);
+            catapultButton = new Button(1140, 310, 115, 114, catapultButtonTexture, catapultButtonHoverTexture);
+            fireButton = new Button(1140, 160, 115, 114, fireButtonTexture, fireButtonHoverTexture);
             gameSettingsButton = new Button(1160, 620, 67, 67, settingsButtonTexture, settingsButtonHoverTexture);
+            skipButton = new Button(1165, 65, 67, 67, skipTexture, skipHoverTexture);
+            backButtonMode = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
+
+            //set up button events
+            classicModeButton.Click += GameStart_Clicked;
+            endlessModeButton.Click += GameStart_Clicked;
+            settingsButton.Click += MenuSettings_Clicked;
+            backButtonMenu.Click += BackMenu_Clicked;
+            backButtonMode.Click += BackMenu_Clicked;
+            backButtonGame.Click += BackGame_Clicked;
+            gameSettingsButton.Click += GameSettings_Clicked;
+            skipButton.Click += Skip_Clicked;
 
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             // Loads up content with TurtleTowerInator 
             towerManager.LoadContent(Content);
 
 
+        }
+
+        private void GameStart_Clicked(object sender, System.EventArgs e)
+        {
+            currentState = GameState.Game;
+            inGameState = BattleState.Setup;
+            seashells = 100;
+            if (debugMode == true)
+            {
+                seashells = 999999999;
+            }
+        }
+
+        private void MenuSettings_Clicked(object sender, System.EventArgs e)
+        {
+            currentState = GameState.Settings_Menu;
+        }
+
+        private void BackMenu_Clicked(object sender, System.EventArgs e)
+        {
+            currentState = GameState.MainMenu;
+        }
+
+        private void BackGame_Clicked(object sender, System.EventArgs e)
+        {
+            currentState = GameState.Game;
+        }
+
+        private void GameSettings_Clicked(object sender, System.EventArgs e)
+        {
+            currentState = GameState.Settings_Game;
+        }
+
+        private void Skip_Clicked(object sender, System.EventArgs e)
+        {
+            inGameState = BattleState.Assault;
         }
 
         /// <summary>
@@ -245,7 +305,7 @@ namespace TurtleTowerDefense
                     break;
 
                 case GameState.Settings_Menu:
-                    backButton.Update();
+                    backButtonMenu.Update();
 
                     //hitting tab goes back to the main menu
                     if (SingleKeyPress(Keys.Tab))
@@ -259,23 +319,12 @@ namespace TurtleTowerDefense
 
                     classicModeButton.Update();
                     endlessModeButton.Update();
+                    backButtonMode.Update();
 
                     //hitting backspace goes back to the main menu
                     if (SingleKeyPress(Keys.Back))
                     {
                         currentState = GameState.MainMenu;
-                    }
-                    //hitting enter starts game
-                    if (SingleKeyPress(Keys.Enter))
-                    {
-                        currentState = GameState.Game;
-                        inGameState = BattleState.Setup;
-                        seashells = 100;
-                        if (debugMode == true)
-                        {
-                            seashells = 999999999;
-                        }
-
                     }
 
                     break;
@@ -294,6 +343,7 @@ namespace TurtleTowerDefense
                             cannonButton.Update();
                             catapultButton.Update();
                             fireButton.Update();
+                            skipButton.Update();
 
                             // If you run out of time setting up, change into assault mode, beginning the crab attack
                             setupTimer -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -360,6 +410,8 @@ namespace TurtleTowerDefense
 
                 case GameState.Settings_Game:
 
+                    backButtonGame.Update();
+
                     //hitting tab goes back to game
                     if (SingleKeyPress(Keys.Tab))
                     {
@@ -419,18 +471,14 @@ namespace TurtleTowerDefense
 
                     _spriteBatch.GraphicsDevice.Clear(Color.White);
                     _spriteBatch.Draw(titleScreen, new Rectangle(0, 0, 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "This is the Main Menu!", new Vector2(50, 500), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Menu Settings", new Vector2(50, 550), Color.Black);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game Modes", new Vector2(50, 600), Color.Black);
                     settingsButton.Draw(_spriteBatch);
                     break;
 
                 case GameState.Settings_Menu:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.MediumBlue);
-                    _spriteBatch.DrawString(comicSans20, "This is the Menu Settings", new Vector2(300, 500), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Main Menu", new Vector2(300, 550), Color.White);
-                    backButton.Draw(_spriteBatch);
+                    _spriteBatch.Draw(menuSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                    backButtonMenu.Draw(_spriteBatch);
 
                     break;
 
@@ -438,10 +486,10 @@ namespace TurtleTowerDefense
 
                     _spriteBatch.GraphicsDevice.Clear(Color.PeachPuff);
                     _spriteBatch.Draw(gameModeScreen, new Rectangle(0, 0, 1280, 720), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Enter -> Game", new Vector2(50, 550), Color.Chocolate);
                     _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(50, 600), Color.CadetBlue);
                     classicModeButton.Draw(_spriteBatch);
                     endlessModeButton.Draw(_spriteBatch);
+                    backButtonMode.Draw(_spriteBatch);
 
                     break;
 
@@ -465,6 +513,8 @@ namespace TurtleTowerDefense
                             cannonButton.Draw(_spriteBatch);
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
+                            skipButton.Draw(_spriteBatch);
+
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
                             _spriteBatch.End();
@@ -504,26 +554,25 @@ namespace TurtleTowerDefense
                     _spriteBatch.DrawString(comicSans20, "Home Base HP: " + homeBaseHP, new Vector2(50, 80), Color.White);
                     _spriteBatch.DrawString(comicSans20, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
                     _spriteBatch.DrawString(comicSans20, $"{seashells}", new Vector2(1090, 25), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Game Settings", new Vector2(600, 600), Color.SteelBlue);
                     _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(600, 650), Color.SteelBlue);
                     break;
 
                 case GameState.Settings_Game:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.SeaGreen);
-                    _spriteBatch.DrawString(comicSans20, "This is the Game Settings", new Vector2(300, 500), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Tab -> Game", new Vector2(300, 550), Color.White);
+                    _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.Draw(gameSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
                     _spriteBatch.DrawString(comicSans20, "Backspace -> Main Menu", new Vector2(300, 600), Color.White);
 
 
-                    backButton.Draw(_spriteBatch);
+                    backButtonGame.Draw(_spriteBatch);
 
                     break;
 
                 case GameState.GameOver:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.Tomato);
-                    _spriteBatch.DrawString(comicSans20, "GAME OVER, BITCHHHHHHHHHHH", new Vector2(300, 500), Color.White);
+                    _spriteBatch.Draw(gameOverScreen, new Rectangle(0, 0, 1280, 720), Color.White);
                     _spriteBatch.DrawString(comicSans20, "Enter -> Main Menu", new Vector2(300, 550), Color.White);
 
                     break;
