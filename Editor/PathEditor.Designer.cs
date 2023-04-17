@@ -182,7 +182,7 @@
             // 
             // forwardTile
             // 
-            this.forwardTile.Image = global::Editor.Properties.Resources.straight_path_sand;
+            this.forwardTile.Image = global::Editor.Properties.Resources.straightPath;
             this.forwardTile.Location = new System.Drawing.Point(547, 4);
             this.forwardTile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.forwardTile.Name = "forwardTile";
@@ -193,7 +193,7 @@
             // 
             // rightTurnTile
             // 
-            this.rightTurnTile.Image = global::Editor.Properties.Resources.turn_path_left_sand;
+            this.rightTurnTile.Image = global::Editor.Properties.Resources.turnLeftPath;
             this.rightTurnTile.Location = new System.Drawing.Point(595, 4);
             this.rightTurnTile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.rightTurnTile.Name = "rightTurnTile";
@@ -204,7 +204,7 @@
             // 
             // leftTurnTile
             // 
-            this.leftTurnTile.Image = global::Editor.Properties.Resources.turn_path_right_sand;
+            this.leftTurnTile.Image = global::Editor.Properties.Resources.turnRightPath;
             this.leftTurnTile.Location = new System.Drawing.Point(644, 4);
             this.leftTurnTile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.leftTurnTile.Name = "leftTurnTile";
@@ -215,7 +215,7 @@
             // 
             // splitTile
             // 
-            this.splitTile.Image = global::Editor.Properties.Resources.split_path_sand;
+            this.splitTile.Image = global::Editor.Properties.Resources.splitPath;
             this.splitTile.Location = new System.Drawing.Point(693, 4);
             this.splitTile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitTile.Name = "splitTile";
@@ -226,7 +226,7 @@
             // 
             // sandTile
             // 
-            this.sandTile.Image = global::Editor.Properties.Resources.sand_texture;
+            this.sandTile.Image = global::Editor.Properties.Resources.sandTexture;
             this.sandTile.Location = new System.Drawing.Point(744, 4);
             this.sandTile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.sandTile.Name = "sandTile";
@@ -257,9 +257,11 @@
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.pathListView);
             this.Controls.Add(this.loadButton);
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "PathEditor";
             this.Text = "Path Editor";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PathEditor_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.currentTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.forwardTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightTurnTile)).EndInit();

@@ -63,9 +63,9 @@ namespace Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sand_texture {
+        internal static System.Drawing.Bitmap sandTexture {
             get {
-                object obj = ResourceManager.GetObject("sand texture", resourceCulture);
+                object obj = ResourceManager.GetObject("sandTexture", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap split_path_sand {
+        internal static System.Drawing.Bitmap splitPath {
             get {
-                object obj = ResourceManager.GetObject("split path sand", resourceCulture);
+                object obj = ResourceManager.GetObject("splitPath", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap straight_path_sand {
+        internal static System.Drawing.Bitmap straightPath {
             get {
-                object obj = ResourceManager.GetObject("straight path sand", resourceCulture);
+                object obj = ResourceManager.GetObject("straightPath", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap turn_path_left_sand {
+        internal static System.Drawing.Bitmap turnLeftPath {
             get {
-                object obj = ResourceManager.GetObject("turn path left sand", resourceCulture);
+                object obj = ResourceManager.GetObject("turnLeftPath", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace Editor.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap turn_path_right_sand {
+        internal static System.Drawing.Bitmap turnRightPath {
             get {
-                object obj = ResourceManager.GetObject("turn path right sand", resourceCulture);
+                object obj = ResourceManager.GetObject("turnRightPath", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

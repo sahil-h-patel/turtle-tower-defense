@@ -59,7 +59,7 @@ namespace Editor
             }
         }
 
-        protected void SetImage(PictureBox pb, object? tag)
+        protected static void SetImage(PictureBox pb, object? tag)
         {
             if(tag is Type)
             {
@@ -67,19 +67,19 @@ namespace Editor
                 switch (type)
                 {
                     case Type.Forward:
-                        pb.ImageLocation = "../../../Resources/straight path sand.png";
+                        pb.Load("../../../Resources/straightPath.png");
                         break;
                     case Type.Left_Turn:
-                        pb.ImageLocation = "../../../Resources/turn path left sand.png";
+                        pb.Load("../../../Resources/turnLeftPath.png");
                         break;
                     case Type.Right_Turn:
-                        pb.ImageLocation = "../../../Resources/turn path right sand.png";
+                        pb.Load("../../../Resources/straightPath.png");
                         break;
                     case Type.Split:
-                        pb.ImageLocation = "../../../Resources/split path sand.png";
+                        pb.Load("../../../Resources/splitPath.png");
                         break;
                     case Type.Sand:
-                        pb.ImageLocation = "../../../Resources/sand texture.png";
+                        pb.Load("../../../Resources/sandTexture.png");
                         break;
                 }
             }  
@@ -92,7 +92,7 @@ namespace Editor
                 PictureBox pb = (PictureBox)sender;
                 if (e.Button == MouseButtons.Left)
                 {
-                    SetImage(pb, pb.Tag);
+                    pb.Image = selectedTile.Image;
                     filled = true;
                 }
             }
@@ -104,7 +104,7 @@ namespace Editor
             {
                 PictureBox pb = (PictureBox)sender;
                 pb.Capture = false;
-                SetImage(pb, pb.Tag);
+                pb.Image = selectedTile.Image;
                 filled = true;
             }
         }
@@ -144,16 +144,5 @@ namespace Editor
         {
    
         }
-        //public void Show()
-        //{
-        //    for (int x = 0; x < pathGrid.GetLength(0); x++)
-        //    {
-        //        for (int y = 0; y < pathGrid.GetLength(1); y++)
-        //        {
-        //            pathCopy.pathGrid[x, y] = new PictureBox();
-        //            pathCopy.pathGrid[x, y].BackColor = pathGrid[x, y].BackColor;
-        //        }
-        //    }
-        //}
     }
 }

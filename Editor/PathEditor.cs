@@ -81,6 +81,7 @@ namespace Editor
         }
 
 
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
@@ -133,6 +134,16 @@ namespace Editor
                 }
                 currentTile.Image = pb.Image;
             }  
+        }
+
+        private void PathEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyData == Keys.R)
+            {
+                Image img = currentTile.Image;
+                img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                currentTile.Image = img;
+            }
         }
 
         //private void LoadPath(string path)
