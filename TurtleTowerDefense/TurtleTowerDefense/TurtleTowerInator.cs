@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ShapeUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,6 @@ namespace TurtleTowerDefense
         // Fields
 
         // Game Elements
-        protected int waveCounter;
         protected int homeBaseHP;
         protected Rectangle homeBaseRect;
         protected List<Tower> turtleTowers;
@@ -97,12 +97,21 @@ namespace TurtleTowerDefense
         /// <summary>
         /// Draws all the towers on the screen
         /// </summary>
-        public void DrawTowers(SpriteBatch sb)
+        public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, bool debugMode)
         {
             for (int i = 0; i < turtleTowers.Count; i++)
             {
                 turtleTowers[i].Draw(sb);
+                if (debugMode)
+                {
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.CircleOutline(turtleTowers[i].Center, (float)turtleTowers[i].BaseDetectionRadius, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
             }
+
         }
 
         /// <summary>
