@@ -30,6 +30,8 @@ namespace TurtleTowerDefense
         // Textures
         protected Texture2D cannonTowerTexture;
         protected Texture2D homeBaseTexture;
+        protected Texture2D catapultTowerTexture;
+        protected Texture2D fireTowerTexture;
 
         public int HomeBaseHP { get { return homeBaseHP; } }
 
@@ -54,6 +56,8 @@ namespace TurtleTowerDefense
         {
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
+            fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
 
             // Default cannon tower
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
@@ -62,7 +66,7 @@ namespace TurtleTowerDefense
         /// <summary>
         /// If the player clicks on a grid square
         /// </summary>
-        public void PlaceTower(Grid buildGrid, ref int seashells, MouseState currentMouseState, MouseState prevMouseState)
+        public void PlaceTower(Grid buildGrid, ref int seashells, MouseState currentMouseState, MouseState prevMouseState, TowerType tower)
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
             if (seashells >= defaultCannonTower.Cost)
@@ -73,9 +77,23 @@ namespace TurtleTowerDefense
 
                     if (towerPos != default)
                     {
-                        turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y));
-                        seashells -= defaultCannonTower.Cost;
+                        switch (tower)
+                        {
+                            case TowerType.cannon:
+                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y));
+                                seashells -= defaultCannonTower.Cost;
+                                break;
 
+                            case TowerType.catapult:
+                                turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y));
+                                seashells -= defaultCannonTower.Cost;
+                                break;
+
+                            case TowerType.fire:
+                                turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y));
+                                seashells -= defaultCannonTower.Cost;
+                                break;
+                        }
                     }
                 }
             }
@@ -97,14 +115,14 @@ namespace TurtleTowerDefense
         /// <summary>
         /// Draws all the towers on the screen
         /// </summary>
-        public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, bool debugMode)
+        public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, GameTime gT, bool debugMode)
         {
 
             sb.Draw(homeBaseTexture, homeBaseRect, Color.White);
 
             for (int i = 0; i < turtleTowers.Count; i++)
             {
-                turtleTowers[i].Draw(sb);
+                turtleTowers[i].Draw(sb, gT);
                 if (debugMode)
                 {
                     sb.End();

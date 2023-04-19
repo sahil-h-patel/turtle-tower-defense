@@ -14,12 +14,13 @@ using System.Runtime.CompilerServices;
 
 namespace TurtleTowerDefense
 {
+    enum TowerType { cannon, catapult, fire};
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D bgTexture;
-        //private Microsoft.Xna.Framework.Media.VideoPlayer videoPlayer;
+        //private Microsoft.Xna.Framework.Media.
 
         //prototype sprites
         private Texture2D towerProtoTexture;
@@ -33,8 +34,6 @@ namespace TurtleTowerDefense
         private Texture2D homeBaseTexture;
         private Texture2D cannonTowerTexture;
         private Texture2D gameOverScreen;
-        private Texture2D catapultTowerTexture;
-        private Texture2D fireTowerTexture;
         private Texture2D basicCrabTexture;
         private Texture2D fastCrabTexture;
         private Texture2D chungusCrabTexture;
@@ -75,6 +74,7 @@ namespace TurtleTowerDefense
 
         private GameState currentState;
         private BattleState inGameState;
+        private TowerType currentTower;
         private KeyboardState prevKbState;
         private MouseState currentMouseState;
         private MouseState prevMouseState;
@@ -121,6 +121,7 @@ namespace TurtleTowerDefense
             // Intializes all values right off the bat
             currentState = GameState.CutScene;
             inGameState = BattleState.None;
+            currentTower = TowerType.cannon;
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
@@ -209,6 +210,9 @@ namespace TurtleTowerDefense
             gameSettingsButton.Click += GameSettings_Clicked;
             skipButton.Click += Skip_Clicked;
             quitToMenuButton.Click += BackMenu_Clicked;
+            cannonButton.Click += Select_Cannon;
+            catapultButton.Click += Select_Catapult;
+            fireButton.Click += Select_Fire;
 
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             // Loads up content with TurtleTowerInator 
@@ -253,6 +257,21 @@ namespace TurtleTowerDefense
             inGameState = BattleState.Assault;
         }
 
+        private void Select_Cannon(object sender, System.EventArgs e)
+        {
+            currentTower = TowerType.cannon;
+        }
+
+        private void Select_Catapult(object sender, System.EventArgs e)
+        {
+            currentTower = TowerType.catapult;
+        }
+
+        private void Select_Fire(object sender, System.EventArgs e)
+        {
+            currentTower = TowerType.fire;
+        }
+
         /// <summary>
         /// checks if given key was first pressed on this frame
         /// </summary>
@@ -289,7 +308,7 @@ namespace TurtleTowerDefense
                     towerManager.Reset();
                     grid.Reset();
                     waveCounter = 1;
-                    setupTimer = 4;
+                    setupTimer = 10;
 
                     settingsButton.Update();
 
@@ -361,7 +380,7 @@ namespace TurtleTowerDefense
                             }
 
                             // Places a tower, if the player has enough cash
-                            towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState);
+                            towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState, currentTower);
 
                             break;
 
@@ -506,7 +525,7 @@ namespace TurtleTowerDefense
 
                     gameSettingsButton.Draw(_spriteBatch);
 
-                    towerManager.DrawTowers(_spriteBatch, GraphicsDevice, debugMode);
+                    towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
 
                     switch (inGameState)
                     {
@@ -561,7 +580,6 @@ namespace TurtleTowerDefense
                     {
                         _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(50, 650), Color.White);
                     }
-
                     break;
 
                 case GameState.Settings_Game:
