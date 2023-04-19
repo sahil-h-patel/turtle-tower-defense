@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,11 +11,17 @@ namespace Editor
 
     enum Type
     {
-        Forward,
-        Left_Turn,
-        Right_Turn,
-        Split,
-        Sand
+        Sand = 00,
+        ForwardNorth = 10,
+        ForwardEast = 11,
+        ForwardSouth = 12,
+        ForwardWest = 13,
+        TurnNorth = 20,
+        TurnEast = 21,
+        TurnSouth = 22,
+        TurnWest = 23,
+        SplitUpDown = 30,
+        SplitLeftRight = 31,
     }
 
     internal class Path
@@ -22,7 +29,6 @@ namespace Editor
         private Panel path;
         private PictureBox selectedTile;
         public PictureBox[,] pathGrid = new PictureBox[16, 28];
-        private List<Image> images = new List<Image>();
         private const int boxHeight = 40;
         private const int boxWidth = 40;
         private bool filled;
@@ -51,38 +57,12 @@ namespace Editor
                     pathGrid[x, y].Size = new Size(boxWidth, boxHeight);
                     pathGrid[x, y].Location = new Point(y * boxWidth, x * boxHeight);
                     pathGrid[x, y].Tag = Type.Sand;
-                    SetImage(pathGrid[x, y], pathGrid[x, y].Tag);
+                    pathGrid[x, y].Load("../../../Resources/sandTexture.png");
                     path.Controls.Add(pathGrid[x, y]);
                     pathGrid[x, y].MouseMove += MouseMove;
                     pathGrid[x, y].MouseDown += MouseDown;
                 }
             }
-        }
-
-        protected static void SetImage(PictureBox pb, object? tag)
-        {
-            if(tag is Type)
-            {
-                Type type = (Type)tag;
-                switch (type)
-                {
-                    case Type.Forward:
-                        pb.Load("../../../Resources/straightPath.png");
-                        break;
-                    case Type.Left_Turn:
-                        pb.Load("../../../Resources/turnLeftPath.png");
-                        break;
-                    case Type.Right_Turn:
-                        pb.Load("../../../Resources/straightPath.png");
-                        break;
-                    case Type.Split:
-                        pb.Load("../../../Resources/splitPath.png");
-                        break;
-                    case Type.Sand:
-                        pb.Load("../../../Resources/sandTexture.png");
-                        break;
-                }
-            }  
         }
 
         protected void MouseMove(object? sender, MouseEventArgs e)
@@ -93,6 +73,17 @@ namespace Editor
                 if (e.Button == MouseButtons.Left)
                 {
                     pb.Image = selectedTile.Image;
+                    for (int x = 0; x < Width; x++)
+                    {
+                        for (int y = 0; y < Height; y++)
+                        {
+                            if (pathGrid[x, y].Location == pb.Location)
+                            {
+                                pathGrid[x, y].Tag = selectedTile.Tag;
+                                return;
+                            }
+                        }
+                    }
                     filled = true;
                 }
             }
@@ -105,6 +96,18 @@ namespace Editor
                 PictureBox pb = (PictureBox)sender;
                 pb.Capture = false;
                 pb.Image = selectedTile.Image;
+                
+                for(int x = 0; x < Width; x++)
+                {
+                    for(int y = 0; y < Height; y++)
+                    {
+                        if (pathGrid[x,y].Location == pb.Location)
+                        {
+                            pathGrid[x,y].Tag = selectedTile.Tag;
+                            return;
+                        }
+                    }
+                }
                 filled = true;
             }
         }
@@ -115,10 +118,8 @@ namespace Editor
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    if (pathGrid[x, y].BackColor == Color.Gray)
-                    {
-                        pathGrid[x, y].BackColor = Color.FromKnownColor(KnownColor.Transparent);
-                    }
+                    pathGrid[x, y].Load("../../../Resources/sandTexture.png");
+                    pathGrid[x, y].Tag = Type.Sand;
                 }
             }
             return false;
@@ -131,18 +132,11 @@ namespace Editor
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    if (pathGrid[x,y].BackColor == Color.Gray)
-                    {
-                        pathCopy.pathGrid[x, y].BackColor = Color.Gray;
-                    }
+                    pathCopy.pathGrid[x, y].Tag = pathGrid[x, y].Tag;
+                    
                 }
             }
             return pathCopy;
-        }
-
-        public void LoadImages()
-        {
-   
         }
     }
 }

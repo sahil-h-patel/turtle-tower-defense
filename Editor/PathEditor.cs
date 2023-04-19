@@ -26,6 +26,7 @@ namespace Editor
             InitializeComponent();
             currentPath = new Path(path, currentTile);
         }
+
         private void addButton_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(pathName.Text))
@@ -57,13 +58,7 @@ namespace Editor
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            if (pathList.Count > 0)
-            {
-                if (pathList[pathListView.SelectedItems[0].Text].Filled)
-                {
-                    pathList[pathName.Text].Clear();
-                }
-            }
+            currentPath.Clear();
         }
 
         private void Draw(string namePath)
@@ -80,7 +75,79 @@ namespace Editor
             }
         }
 
+        private void sandTile_Click(object sender, EventArgs e)
+        {
+            if (sender is PictureBox)
+            {
+                PictureBox pb = (PictureBox)sender;
+                switch (pb.Name)
+                {
+                    case "forwardTile":
+                        pb.Tag = Type.ForwardEast;
+                        break;
+                    case "rightTurnTile":
+                        pb.Tag = Type.TurnWest;
+                        break;
+                    case "leftTurnTile":
+                        pb.Tag = Type.TurnEast;
+                        break;
+                    case "splitTile":
+                        pb.Tag = Type.SplitLeftRight;
+                        break;
+                    case "sandTile":
+                        pb.Tag = Type.Sand;
+                        break;
+                }
+                currentTile.Image = pb.Image;
+                currentTile.Tag = pb.Tag;
+            }
+        }
 
+        private void PathEditor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.R && currentTile.Image != null)
+            {
+                Image img = currentTile.Image;
+                if((Type)currentTile.Tag != Type.Sand && (Type)currentTile.Tag != Type.SplitUpDown)
+                {
+                    img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    
+                }
+                else if ((Type)currentTile.Tag == Type.SplitUpDown)
+                {
+                    img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                }
+                currentTile.Image = img;
+                currentTile.Tag = ChangeRotationTag();
+            }
+        }
+
+        private Type ChangeRotationTag()
+        {
+            int tag = (int)currentTile.Tag;
+            Type type = default;
+            if ((Type)currentTile.Tag != Type.Sand)
+            {
+                int firstNum = Convert.ToInt32(tag.ToString().Substring(0, 1));
+                int secondNum = Convert.ToInt32(tag.ToString().Substring(1));
+                switch (firstNum)
+                {
+                    case 1:
+                        secondNum = (secondNum == 3) ? 0 : secondNum + 1;
+                        break;
+                    case 2:
+                        secondNum = (secondNum == 3) ? 0 : secondNum + 1;
+                        break;
+                    case 3:
+                        secondNum = (secondNum == 1) ? 0 : 1;
+                        break;
+                }
+                int newTag = Convert.ToInt32(firstNum.ToString() + secondNum.ToString());
+                type = (Type)newTag;
+            }
+            return type;
+
+        }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
@@ -91,83 +158,114 @@ namespace Editor
             saveFile.InitialDirectory = "../../../Saves/";
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                FileStream stream = new FileStream(System.IO.Path.Combine(saveFile.InitialDirectory, saveFile.FileName), FileMode.Create);
-                StreamWriter output = new StreamWriter(stream);
-
-                foreach (KeyValuePair<string, Path> kvp in pathList)
+                StreamWriter output = null;
+                try
                 {
-                    output.WriteLine(kvp.Key);
-                    for (int x = 0; x < kvp.Value.Width; x++)
+                    FileStream stream = new FileStream(System.IO.Path.Combine(saveFile.InitialDirectory, saveFile.FileName), FileMode.Create);
+                    output = new StreamWriter(stream);
+
+                    foreach (KeyValuePair<string, Path> kvp in pathList)
                     {
-                        for (int y = 0; y < kvp.Value.Height; y++)
+                        for (int x = 0; x < kvp.Value.Width; x++)
                         {
-                            output.Write(kvp.Value.pathGrid[x, y].BackColor.ToArgb() + ", ");
+                            for (int y = 0; y < kvp.Value.Height; y++)
+                            {
+                                if((int)kvp.Value.pathGrid[x, y].Tag == 0)
+                                {
+                                    output.Write("00, ");
+                                }
+                                else
+                                {
+                                    output.Write((int)kvp.Value.pathGrid[x, y].Tag + ", ");
+                                }
+                            }
+                        }
+                        output.WriteLine();
+                        output.WriteLine();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DialogResult dialogResult = MessageBox.Show("Error with saving", ex.Message,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (output != null)
+                    {
+                        output.Close();
+                    }
+                }
+            }
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.Title = "Reading a path file";
+            openFile.Filter = "Path Files|*.path";
+            openFile.DefaultExt = ".path";
+            openFile.InitialDirectory = "../../../Saves/";
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader input = null;
+                try
+                {
+                    FileStream stream = new FileStream(System.IO.Path.Combine(openFile.InitialDirectory, openFile.FileName), FileMode.OpenOrCreate);
+                    input = new StreamReader(stream);
+
+                    foreach (KeyValuePair<string, Path> kvp in pathList)
+                    {
+                        string line;
+
+                        while ((line = input.ReadLine()) != null)
+                        {
+                            if (line == string.Empty)
+                                continue;
+                            else
+                            {
+                                int[] coords = ConvertInt32Array(line.Split(','));
+                                for (int i = 0; i < coords.Length; i++)
+                                {
+
+                                }
+                            }
                         }
                     }
-                    output.WriteLine();
                 }
-            }
-        }
-
-        private void sandTile_Click(object sender, EventArgs e)
-        {
-            if(sender is PictureBox)
-            {
-                PictureBox pb = (PictureBox)sender;
-                switch (pb.Name)
+                catch(Exception ex)
                 {
-                    case "forwardTile":
-                        pb.Tag = Type.Forward;
-                        break;
-                    case "rightTurnTile":
-                        pb.Tag = Type.Right_Turn;
-                        break;
-                    case "leftTurnTile":
-                        pb.Tag = Type.Left_Turn;
-                        break;
-                    case "splitTile":
-                        pb.Tag = Type.Split;
-                        break;
-                    case "sandTile":
-                        pb.Tag = Type.Sand;
-                        break;
+                    DialogResult dialogResult = MessageBox.Show("Error with loading", ex.Message,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                currentTile.Image = pb.Image;
-            }  
-        }
-
-        private void PathEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.KeyData == Keys.R)
-            {
-                Image img = currentTile.Image;
-                img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                currentTile.Image = img;
+                finally
+                {
+                    if(input != null)
+                    {
+                        input.Close();
+                    }
+                }
+                
             }
         }
 
-        //private void LoadPath(string path)
-        //{
-        //    OpenFileDialog openFile = new OpenFileDialog();
-        //    openFile.Title = "Saving a path file";
-        //    openFile.Filter = "Path Files|*.path";
-        //    openFile.DefaultExt = ".path";
+        private int[] ConvertInt32Array(string[] array)
+        {
+            int[] coords = new int[array.Length];
+            for(int i = 0; i < array.Length; i++)
+            {
+                coords[i] = Convert.ToInt32(array[i]);
+            }
 
-        //    if (openFile.ShowDialog() == DialogResult.OK)
-        //    {
-        //        FileStream stream = new FileStream(path, FileMode.OpenOrCreate);
-        //        StreamReader input = new StreamReader(stream);
-
-        //        foreach (KeyValuePair<string, Path> kvp in pathList)
-        //        {
-        //            string line;
-        //            while ((line = input.ReadLine()) != null)
-        //            {
-        //                if (input.ReadLine) 
-        //            }
-        //        }
-        //    }
-        //}
-
+            return coords;
+        }
     }
+
+    //private void LoadPath(string path)
+    //{
+    //    
+    //}
+
 }
+
