@@ -29,6 +29,16 @@ namespace TurtleTowerDefense
             this.hover_texture = hover_texture;
         }
 
+        public Texture2D Texture
+        {
+            set { this.texture = value; }
+        }
+
+        public Texture2D Hover_Texture
+        {
+            set { this.hover_texture = value; }
+        }
+
         //public bool Click()
         //{
         //    if (box.Contains(currMouseState.X, currMouseState.Y))
