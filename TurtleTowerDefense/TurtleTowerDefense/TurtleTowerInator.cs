@@ -46,7 +46,6 @@ namespace TurtleTowerDefense
 
             // Sets up lists for towers and crabs
             turtleTowers = new List<Tower>();
-
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace TurtleTowerDefense
         /// <summary>
         /// If the player clicks on a grid square
         /// </summary>
-        public void PlaceTower(Grid buildGrid, ref int seashells, MouseState currentMouseState, MouseState prevMouseState, TowerType tower)
+        public void PlaceTower(Grid buildGrid, ref int seashells, MouseState currentMouseState, MouseState prevMouseState, ref TowerType tower)
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
             if (seashells >= defaultCannonTower.Cost)
@@ -79,19 +78,22 @@ namespace TurtleTowerDefense
                     {
                         switch (tower)
                         {
-                            case TowerType.cannon:
+                            case TowerType.Cannon:
                                 turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y));
                                 seashells -= defaultCannonTower.Cost;
+                                tower = TowerType.None;
                                 break;
 
-                            case TowerType.catapult:
+                            case TowerType.Catapult:
                                 turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y));
                                 seashells -= defaultCannonTower.Cost;
+                                tower = TowerType.None;
                                 break;
 
-                            case TowerType.fire:
+                            case TowerType.Fire:
                                 turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y));
                                 seashells -= defaultCannonTower.Cost;
+                                tower = TowerType.None;
                                 break;
                         }
                     }
@@ -117,13 +119,20 @@ namespace TurtleTowerDefense
         /// </summary>
         public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, GameTime gT, bool debugMode)
         {
-
             sb.Draw(homeBaseTexture, homeBaseRect, Color.White);
-
+            MouseState mouse = Mouse.GetState();
             for (int i = 0; i < turtleTowers.Count; i++)
             {
                 turtleTowers[i].Draw(sb, gT);
                 if (debugMode)
+                {
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.CircleOutline(turtleTowers[i].Center, (float)turtleTowers[i].BaseDetectionRadius, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
+                if (turtleTowers[i].Hitbox.Contains(mouse.X, mouse.Y))
                 {
                     sb.End();
                     ShapeBatch.Begin(gD);
