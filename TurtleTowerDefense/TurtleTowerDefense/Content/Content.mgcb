@@ -61,6 +61,18 @@
 /processorParam:TextureFormat=Color
 /build:bg.PNG
 
+#begin cannon button selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:cannon button selected.png
+
 #begin cannon tower button hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -96,6 +108,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:cannon tower sprite.png
+
+#begin catapult button selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:catapult button selected.png
 
 #begin catapult tower button hover.png
 /importer:TextureImporter
@@ -180,6 +204,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fast crab sprite.png
+
+#begin fire button selected.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:fire button selected.png
 
 #begin fire tower button hover.png
 /importer:TextureImporter

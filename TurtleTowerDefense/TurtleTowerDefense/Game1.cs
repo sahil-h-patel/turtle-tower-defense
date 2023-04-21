@@ -70,6 +70,9 @@ namespace TurtleTowerDefense
         private Button quitToMenuButton;
         private Texture2D quitTexture;
         private Texture2D quitHoverTexture;
+        private Texture2D cannonButtonSelectedTexture;
+        private Texture2D catapultButtonSelectedTexture;
+        private Texture2D fireButtonSelectedTexture;
 
         private GameState currentState;
         private BattleState inGameState;
@@ -183,6 +186,9 @@ namespace TurtleTowerDefense
             skipHoverTexture = Content.Load<Texture2D>("skip button hover");
             quitTexture = Content.Load<Texture2D>("quit button");
             quitHoverTexture = Content.Load<Texture2D>("quit button hover");
+            cannonButtonSelectedTexture = Content.Load<Texture2D>("cannon button selected");
+            catapultButtonSelectedTexture = Content.Load<Texture2D>("catapult button selected");
+            fireButtonSelectedTexture = Content.Load<Texture2D>("fire button selected");
 
 
             //set up buttons
@@ -543,6 +549,22 @@ namespace TurtleTowerDefense
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
                             skipButton.Draw(_spriteBatch);
+
+                            switch (currentTower)
+                            {
+                                case TowerType.cannon:
+                                    _spriteBatch.Draw(cannonButtonSelectedTexture, new Rectangle(1140, 460, 115, 114), Color.White);
+
+                                    break;
+
+                                case TowerType.catapult:
+                                    _spriteBatch.Draw(catapultButtonSelectedTexture, new Rectangle(1140, 310, 115, 114), Color.White);
+                                    break;
+
+                                case TowerType.fire:
+                                    _spriteBatch.Draw(fireButtonSelectedTexture, new Rectangle(1140, 160, 115, 114), Color.White);
+                                    break;
+                            }
 
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
