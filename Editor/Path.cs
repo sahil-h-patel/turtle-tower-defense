@@ -26,13 +26,15 @@ namespace Editor
         TurnRightWest = 33,
         SplitUpDown = 40,
         SplitLeftRight = 41,
+        Start = 50,
+        End = 60,
     }
 
     internal class Path
     {
         private Panel path;
         private PictureBox selectedTile;
-        public PictureBox[,] pathGrid = new PictureBox[16, 28];
+        public PictureBox[,] pathGrid = new PictureBox[16, 31];
         private const int boxHeight = 40;
         private const int boxWidth = 40;
         private bool filled;

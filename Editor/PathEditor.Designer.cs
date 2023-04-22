@@ -47,12 +47,16 @@
             this.splitTile = new System.Windows.Forms.PictureBox();
             this.sandTile = new System.Windows.Forms.PictureBox();
             this.turnLeftTile = new System.Windows.Forms.PictureBox();
+            this.startTile = new System.Windows.Forms.PictureBox();
+            this.endTile = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.currentTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.forwardTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.turnRightTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sandTile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.turnLeftTile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startTile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.endTile)).BeginInit();
             this.SuspendLayout();
             // 
             // saveButton
@@ -99,10 +103,10 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(999, 18);
+            this.addButton.Location = new System.Drawing.Point(1111, 18);
             this.addButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(151, 31);
+            this.addButton.Size = new System.Drawing.Size(164, 31);
             this.addButton.TabIndex = 0;
             this.addButton.Text = "Add Path";
             this.addButton.UseVisualStyleBackColor = true;
@@ -110,10 +114,10 @@
             // 
             // removeButton
             // 
-            this.removeButton.Location = new System.Drawing.Point(842, 18);
+            this.removeButton.Location = new System.Drawing.Point(942, 18);
             this.removeButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.removeButton.Name = "removeButton";
-            this.removeButton.Size = new System.Drawing.Size(149, 31);
+            this.removeButton.Size = new System.Drawing.Size(161, 31);
             this.removeButton.TabIndex = 4;
             this.removeButton.Text = "Remove Path";
             this.removeButton.UseVisualStyleBackColor = true;
@@ -141,10 +145,10 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(1158, 18);
+            this.clearButton.Location = new System.Drawing.Point(1283, 18);
             this.clearButton.Margin = new System.Windows.Forms.Padding(4);
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(149, 31);
+            this.clearButton.Size = new System.Drawing.Size(144, 31);
             this.clearButton.TabIndex = 7;
             this.clearButton.Text = "Clear Path";
             this.clearButton.UseVisualStyleBackColor = true;
@@ -157,12 +161,12 @@
             this.path.Location = new System.Drawing.Point(188, 61);
             this.path.Margin = new System.Windows.Forms.Padding(4);
             this.path.Name = "path";
-            this.path.Size = new System.Drawing.Size(1120, 640);
+            this.path.Size = new System.Drawing.Size(1240, 640);
             this.path.TabIndex = 8;
             // 
             // currentTile
             // 
-            this.currentTile.Location = new System.Drawing.Point(503, 11);
+            this.currentTile.Location = new System.Drawing.Point(512, 9);
             this.currentTile.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.currentTile.Name = "currentTile";
             this.currentTile.Size = new System.Drawing.Size(40, 40);
@@ -182,7 +186,7 @@
             // tilesLabel
             // 
             this.tilesLabel.AutoSize = true;
-            this.tilesLabel.Location = new System.Drawing.Point(551, 22);
+            this.tilesLabel.Location = new System.Drawing.Point(560, 22);
             this.tilesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.tilesLabel.Name = "tilesLabel";
             this.tilesLabel.Size = new System.Drawing.Size(33, 15);
@@ -243,11 +247,33 @@
             this.turnLeftTile.TabStop = false;
             this.turnLeftTile.Click += new System.EventHandler(this.ChangeCurrentTileTag);
             // 
+            // startTile
+            // 
+            this.startTile.Image = global::Editor.Properties.Resources.start;
+            this.startTile.Location = new System.Drawing.Point(840, 11);
+            this.startTile.Name = "startTile";
+            this.startTile.Size = new System.Drawing.Size(40, 40);
+            this.startTile.TabIndex = 18;
+            this.startTile.TabStop = false;
+            this.startTile.Click += new System.EventHandler(this.ChangeCurrentTileTag);
+            // 
+            // endTile
+            // 
+            this.endTile.Image = global::Editor.Properties.Resources.end;
+            this.endTile.Location = new System.Drawing.Point(886, 11);
+            this.endTile.Name = "endTile";
+            this.endTile.Size = new System.Drawing.Size(40, 40);
+            this.endTile.TabIndex = 19;
+            this.endTile.TabStop = false;
+            this.endTile.Click += new System.EventHandler(this.ChangeCurrentTileTag);
+            // 
             // PathEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1324, 711);
+            this.ClientSize = new System.Drawing.Size(1440, 711);
+            this.Controls.Add(this.endTile);
+            this.Controls.Add(this.startTile);
             this.Controls.Add(this.turnLeftTile);
             this.Controls.Add(this.sandTile);
             this.Controls.Add(this.removeButton);
@@ -276,6 +302,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sandTile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.turnLeftTile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.startTile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.endTile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,5 +329,7 @@
         private Panel path;
         private PictureBox currentTile;
         private PictureBox turnLeftTile;
+        private PictureBox startTile;
+        private PictureBox endTile;
     }
 }

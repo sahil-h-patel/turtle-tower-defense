@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -115,6 +116,14 @@ namespace Editor
                         pb.Tag = Type.Sand;
                         currentTile.Load("../../../Resources/sandTexture.png");
                         break;
+                    case "startTile":
+                        pb.Tag = Type.Start;
+                        currentTile.Load("../../../Resources/start.png");
+                        break;
+                    case "endTile":
+                        pb.Tag = Type.End;
+                        currentTile.Load("../../../Resources/end.png");
+                        break;
                 }
                 currentTile.Tag = pb.Tag;
             }
@@ -127,14 +136,18 @@ namespace Editor
                 if (e.KeyData == Keys.R && currentTile.Image != null)
                 {
                     Image img = currentTile.Image;
-                    if ((Type)currentTile.Tag != Type.Sand && (Type)currentTile.Tag != Type.SplitUpDown)
+                    if ((Type)currentTile.Tag == Type.Sand || (Type)currentTile.Tag == Type.Start || (Type)currentTile.Tag == Type.End)
                     {
-                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
-
-                    }
+                        return;
+                    }          
                     else if ((Type)currentTile.Tag == Type.SplitUpDown)
                     {
                         img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    }
+                    else
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
                     }
                     currentTile.Image = img;
                     currentTile.Tag = ChangeRotationTag();
