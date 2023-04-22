@@ -18,6 +18,7 @@ namespace TurtleTowerDefense
         protected bool alive;
         protected Rectangle hitbox;
         protected int widthOfSingleSprite;
+        protected bool attacked;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -71,7 +72,33 @@ namespace TurtleTowerDefense
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(0, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.White);
+            if (attacked)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(100, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.MonoGameOrange);
+            }
+            else
+            {
+                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(0, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.White);
+            }
+            
+        }
+
+        /// <summary>
+        /// crab has taken damage. ouch!
+        /// </summary>
+        /// <param name="gT"></param>
+        /// <param name="damage"></param>
+        public void TakeDamage(GameTime gt, int damage)
+        {
+            health -= damage;
+            attacked = true;
+
+            double timer = 0.3;
+            timer -= gt.ElapsedGameTime.TotalSeconds;
+            if(timer <= 0)
+            {
+                attacked = false;
+            }
         }
 
         //public void Update(GameTime gT, GraphicsDeviceManager g)

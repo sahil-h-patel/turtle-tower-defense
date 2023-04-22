@@ -68,7 +68,7 @@ namespace TurtleTowerDefense
         /// <summary>
         /// draws grid, highlights where the mouse is hovering over
         /// </summary>
-        public void DrawGrid(MouseState mouse)
+        public void DrawGrid(MouseState mouse, TowerType tower)
         {
             for (int c = 0; c < grid.GetLength(0); c++)
             {
@@ -123,6 +123,22 @@ namespace TurtleTowerDefense
                                 ShapeBatch.Box(area[2].Rect, new Color(Color.Green, 0.02f));
                                 ShapeBatch.Box(area[3].Rect, new Color(Color.Green, 0.02f));
 
+                                // Need to draw towers here based on switch. might have to do something different though not sure yet
+                                switch (tower)
+                                {
+                                    case TowerType.Cannon:
+
+                                        break;
+
+                                    case TowerType.Catapult:
+
+                                        break;
+
+                                    case TowerType.Fire:
+
+                                        break;
+                                }
+
                                 //all is confirmed, can draw here
                                 validPlacement = true;
                             }
@@ -130,7 +146,7 @@ namespace TurtleTowerDefense
                     }
                     else
                     {
-                        ShapeBatch.BoxOutline(grid[c, r].Rect, Color.Black);
+                        ShapeBatch.BoxOutline(grid[c, r].Rect, new Color(Color.Black, 0.1f));
                     }
 
                 }

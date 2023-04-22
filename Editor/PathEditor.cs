@@ -1,8 +1,11 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,18 +15,25 @@ namespace Editor
 {
     public partial class PathEditor : Form
     {
+
+
         Menu menu = new Menu();
         Dictionary<string, Path> pathList = new Dictionary<string, Path>();
         private string selectedPath;
         private Path currentPath;
+        bool initialLoad;
+        //float dpiX = this.CreateGraphics().DpiX;
 
         public PathEditor(Menu menu)
         {
             this.menu = menu;
             InitializeComponent();
-            currentPath = new Path(path);
+            currentPath = new Path(path, currentTile, false);
+            selectedPath = null!;
+            initialLoad = true;
         }
-        private void addButton_Click(object sender, EventArgs e)
+
+        private void AddPath(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(pathName.Text))
                 return;
@@ -35,75 +45,305 @@ namespace Editor
             currentPath.Clear();
         }
 
-        private void removeButton_Click(object sender, EventArgs e)
+        private void RemovePath(object sender, EventArgs e)
         {
             if (pathListView.Items.Count > 0)
                 pathListView.Items.Remove(pathListView.SelectedItems[0]);
         }
 
-        private void pathListView_SelectedIndexChanged(object sender, EventArgs e)
+        private void ChangePath(object sender, EventArgs e)
         {
-            if(pathListView.SelectedItems.Count > 0)
+            if (pathListView.SelectedItems.Count > 0)
             {
                 selectedPath = pathListView.SelectedItems[0].Text;
                 pathName.Text = selectedPath;
                 currentPath = pathList[selectedPath];
-                Draw(selectedPath);
+                Draw();
             }
         }
 
-        private void clearButton_Click(object sender, EventArgs e)
+        private void Clear(object sender, EventArgs e)
         {
-            if(pathList.Count > 0)
+            currentPath.Clear();
+            pathName.Clear();
+            currentTile.Image = null;
+        }
+
+        private void Draw()
+        {
+            path.Controls.Clear();
+            for (int x = 0; x < currentPath.Width; x++)
             {
-                if (pathList[pathListView.SelectedItems[0].Text].Filled)
+                for (int y = 0; y < currentPath.Height; y++)
                 {
-                    pathList[pathName.Text].Clear();
+                    currentPath.pathGrid[x, y].Load(currentPath.pathGrid[x, y].ImageLocation);
+                    currentPath.pathGrid[x, y].Image.RotateFlip(ApplyRotation(currentPath.pathGrid[x, y]));
+                    path.Controls.Add(currentPath.pathGrid[x, y]);
                 }
             }
+
         }
 
-        private void Draw(string namePath)
+        private void ChangeCurrentTileTag(object sender, EventArgs e)
         {
-            for (int x = 0; x < pathList[namePath].pathGrid.GetLength(0); x++)
+            if (sender is PictureBox)
             {
-                for (int y = 0; y < pathList[namePath].pathGrid.GetLength(1); y++)
+                PictureBox pb = (PictureBox)sender;
+
+                if (currentTile.Image == pb.Image)
                 {
-                    if (pathList[namePath].pathGrid[x, y].BackColor == Color.Gray)
+                    return;
+                }
+                switch (pb.Name)
+                {
+                    case "forwardTile":
+                        pb.Tag = Type.ForwardEast;
+                        currentTile.Load("../../../Resources/straightPath.png");
+                        break;
+                    case "turnLeftTile":
+                        pb.Tag = Type.TurnLeftWest;
+                        currentTile.Load("../../../Resources/turnLeftPath.png");
+                        break;
+                    case "turnRightTile":
+                        pb.Tag = Type.TurnRightEast;
+                        currentTile.Load("../../../Resources/turnRightPath.png");
+                        break;
+                    case "splitTile":
+                        pb.Tag = Type.SplitLeftRight;
+                        currentTile.Load("../../../Resources/splitPath.png");
+                        break;
+                    case "sandTile":
+                        pb.Tag = Type.Sand;
+                        currentTile.Load("../../../Resources/sandTexture.png");
+                        break;
+                    case "startTile":
+                        pb.Tag = Type.Start;
+                        currentTile.Load("../../../Resources/start.png");
+                        break;
+                    case "endTile":
+                        pb.Tag = Type.End;
+                        currentTile.Load("../../../Resources/end.png");
+                        break;
+                }
+                currentTile.Tag = pb.Tag;
+            }
+        }
+
+        private void Rotate(object sender, KeyEventArgs e)
+        {
+            if (!pathName.Focused)
+            {
+                if (e.KeyData == Keys.R && currentTile.Image != null)
+                {
+                    Image img = currentTile.Image;
+                    if ((Type)currentTile.Tag == Type.Sand || (Type)currentTile.Tag == Type.Start || (Type)currentTile.Tag == Type.End)
                     {
-                        currentPath.pathGrid[x, y].BackColor = Color.Gray;
+                        return;
+                    }          
+                    else if ((Type)currentTile.Tag == Type.SplitUpDown)
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate270FlipNone);
                     }
+                    else
+                    {
+                        img.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+                    }
+                    currentTile.Image = img;
+                    currentTile.Tag = ChangeRotationTag();
                 }
+
             }
         }
 
-        private void Save(string path)
+        private Type ChangeRotationTag()
         {
-            SaveFileDialog saveFile = new SaveFileDialog();
-            if(saveFile.ShowDialog() == DialogResult.OK)
+            int tag = (int)currentTile.Tag;
+            Type type = default;
+            if ((Type)currentTile.Tag != Type.Sand)
             {
-                saveFile.Title = "Saving a path file";
-                saveFile.Filter = "Path Files|*.path";
-                saveFile.DefaultExt = ".path";
-
-                FileStream stream = new FileStream(path, FileMode.OpenOrCreate);
-                StreamWriter output = new StreamWriter(stream);
-                
-                foreach(KeyValuePair<string, Path> kvp in pathList)
+                int firstNum = Convert.ToInt32(tag.ToString().Substring(0, 1));
+                int secondNum = Convert.ToInt32(tag.ToString().Substring(1));
+                switch (firstNum)
                 {
-                    output.WriteLine(kvp.Key);
-                    for(int i = 0; i < kvp.Value.X; i++)
+                    case 1:
+                        secondNum = (secondNum == 3) ? 0 : secondNum + 1;
+                        break;
+                    case 2:
+                        secondNum = (secondNum == 3) ? 0 : secondNum + 1;
+                        break;
+                    case 3:
+                        secondNum = (secondNum == 3) ? 0 : secondNum + 1;
+                        break;
+                    case 4:
+                        secondNum = (secondNum == 1) ? 0 : 1;
+                        break;
+                }
+                int newTag = Convert.ToInt32(firstNum.ToString() + secondNum.ToString());
+                type = (Type)newTag;
+            }
+            return type;
+
+        }
+
+        private RotateFlipType ApplyRotation(PictureBox pb)
+        {
+            switch ((Type)pb.Tag)
+            {
+                case Type.Sand:
+                    return default;
+                case Type.ForwardNorth:
+                    return RotateFlipType.Rotate270FlipNone;
+                case Type.ForwardEast:
+                    return default;
+                case Type.ForwardSouth:
+                    return RotateFlipType.Rotate90FlipNone;
+                case Type.ForwardWest:
+                    return RotateFlipType.Rotate180FlipNone;
+                case Type.TurnLeftNorth:
+                    return RotateFlipType.Rotate90FlipNone;
+                case Type.TurnLeftEast:
+                    return RotateFlipType.Rotate180FlipNone;
+                case Type.TurnLeftSouth:
+                    return RotateFlipType.Rotate270FlipNone;
+                case Type.TurnLeftWest:
+                    return default;
+                case Type.TurnRightNorth:
+                    return RotateFlipType.Rotate270FlipNone;
+                case Type.TurnRightEast:
+                    return default;
+                case Type.TurnRightSouth:
+                    return RotateFlipType.Rotate90FlipNone;
+                case Type.TurnRightWest:
+                    return RotateFlipType.Rotate180FlipNone;
+                case Type.SplitUpDown:
+                    return RotateFlipType.Rotate270FlipNone;
+                case Type.SplitLeftRight:
+                    return default;
+                default:
+                    return default;
+            }
+        }
+
+        private void SavePaths(object sender, EventArgs e)
+        {
+            string namesOfPath = null;
+            foreach (KeyValuePair<string, Path> kvp in pathList)
+            {
+                StreamWriter output = null!;
+                try
+                {
+                    FileStream stream = new FileStream(System.IO.Path.Combine("../../../Saves/", kvp.Key + ".path"), FileMode.Create);
+                    output = new StreamWriter(stream);
+                    namesOfPath += $"   - {kvp.Key}\n";
+
+                    for (int x = 0; x < kvp.Value.Width; x++)
                     {
-                        for(int j = 0; j < kvp.Value.Y; j++)
+                        for (int y = 0; y < kvp.Value.Height; y++)
                         {
-
+                            if (((int)kvp.Value.pathGrid[x, y].Tag == 0) && (y == kvp.Value.Height - 1))
+                            {
+                                output.Write("00");
+                            }
+                            else if ((int)kvp.Value.pathGrid[x, y].Tag == 0)
+                            {
+                                output.Write("00, ");
+                            }
+                            else if (y == kvp.Value.Height - 1)
+                            {
+                                output.Write((int)kvp.Value.pathGrid[x, y].Tag);
+                            }
+                            else
+                            {
+                                output.Write((int)kvp.Value.pathGrid[x, y].Tag + ", ");
+                            }
                         }
+                        output.WriteLine();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error with saving", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (output != null)
+                    {
+                        output.Close();
                     }
                 }
             }
-          
-
+            MessageBox.Show($"Saved {pathList.Count} path(s):\n" + namesOfPath, "Successfuly saved paths to files",
+                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
-        
+
+        private void LoadPaths(object sender, EventArgs e)
+        {
+
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = "../../../Saves/";
+            openFile.Title = "Opening path files";
+            openFile.Filter = "PATH Files|*.path";
+            openFile.DefaultExt = ".path";
+            openFile.Multiselect = true;
+            if (pathListView.Items.Count > 0)
+            {
+                for (int i = 0; i < pathList.Count; i++)
+                {
+
+                }
+                currentPath.Clear();
+                pathListView.Clear();
+                pathList.Clear();
+            }
+
+            string namesOfPath = null;
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+
+                StreamReader input = null!;
+                try
+                {
+                    for (int i = 0; i < openFile.FileNames.Length; i++)
+                    {
+                        if (openFile.CheckFileExists && !initialLoad)
+                        {
+                            continue;
+                        }
+                        string fileName = openFile.SafeFileNames[i].Substring(0, openFile.SafeFileNames[i].Length - 5);
+                        namesOfPath += "- " + fileName + "\n";
+                        ListViewItem item = new ListViewItem(fileName);
+                        pathListView.Items.Add(item);
+                        FileStream stream = new FileStream(openFile.FileNames[i], FileMode.Open);
+                        input = new StreamReader(stream);
+
+                        Path newPath = new Path(path, currentTile, true);
+                        newPath.Load(input);
+                        pathList.Add(fileName, newPath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DialogResult dialogResult = MessageBox.Show(ex.Message, "Could not load path",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (input != null)
+                    {
+                        input.Close();
+                    }
+                    initialLoad = false;
+                    MessageBox.Show($"Loaded {openFile.FileNames.Length} path(s): \n" + namesOfPath, "Successfuly loaded paths to editor",
+                        MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                }
+            }
+        }
+
+        private void DeselectText(object sender, EventArgs e)
+        {
+            ActiveControl = null;
+        }
     }
 }
+

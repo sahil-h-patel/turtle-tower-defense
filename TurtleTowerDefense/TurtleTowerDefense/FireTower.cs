@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-    internal class CannonTower : Tower
+    internal class FireTower : Tower
     {
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public CannonTower(Texture2D image, int x, int y) : base(image)
+        public FireTower(Texture2D image, int x, int y) : base(image)
         {
             //upgradeTree = 
             bDetectionRadius = 300.0; // sets detection radius of cannon tower
@@ -27,7 +27,7 @@ namespace TurtleTowerDefense
             tAttackCooldown = bAttackCooldown;
             widthOfSingleSprite = 100;
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
-            center = new Vector2(x + (hitbox.Width/2), y + (hitbox.Height/2));
+            center = new Vector2(x + (hitbox.Width / 2), y + (hitbox.Height / 2));
         }
 
 

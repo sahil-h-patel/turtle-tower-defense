@@ -23,10 +23,12 @@ namespace TurtleTowerDefense
         protected int bDamage;
         protected double bAttackCooldown;
         protected double tAttackCooldown;
+        protected double animTimer;
         protected Rectangle hitbox;
         protected Vector2 center;
         protected Crab target;
         protected int widthOfSingleSprite;
+        protected float rotation;
 
 
         /// <summary>
@@ -49,6 +51,8 @@ namespace TurtleTowerDefense
         /// </summary>
         public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
 
+        public Rectangle Hitbox { get { return hitbox; } }
+
         /// <summary>
         /// Creates a new tower object with all the specified attributes
         /// </summary>
@@ -62,6 +66,7 @@ namespace TurtleTowerDefense
         public Tower(Texture2D image)
         {
             this.image = image;
+            rotation = 0;
         }
 
         /// <summary>
@@ -70,26 +75,44 @@ namespace TurtleTowerDefense
         /// <param name="sb"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, GameTime gT)
         {
-            if (tAttackCooldown == bAttackCooldown)
+            if (animTimer <= 0)
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+                //first frame (idle)
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite/2, hitbox.Y + widthOfSingleSprite/2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite/2, WidthOfSingleSprite/2), SpriteEffects.None, 0f);
             }
-            else if (tAttackCooldown < bAttackCooldown * 0.33)
+            else
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3) + 60, 0, widthOfSingleSprite + 20, image.Height), Color.White);
+                if (animTimer >= 0.4)
+                {
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite/2, hitbox.Y = widthOfSingleSprite/2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
+                }
+                else if (animTimer >= 0.2)
+                {
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 2), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+
+                }
+                else if (animTimer >= 0)
+                {
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+
+                }
+
+                animTimer -= gT.ElapsedGameTime.TotalSeconds;
             }
-            else if (tAttackCooldown < bAttackCooldown * 0.66)
-            {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 2) + 40, 0, widthOfSingleSprite + 20, image.Height), Color.White);
 
-            }
-            else if (tAttackCooldown > bAttackCooldown * 0.66)
-            {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1) + 20, 0, widthOfSingleSprite + 20, image.Height), Color.White);
 
+
+
+        }
+
+        public void UpdateAnimation(GameTime gt)
+        {
+            if (tAttackCooldown <= 0 && target != null)
+            {
+                animTimer += gt.ElapsedGameTime.TotalSeconds;
             }
         }
 
@@ -119,12 +142,14 @@ namespace TurtleTowerDefense
             // Otherwise, attack the crab!
             else
             {
+                rotation = (float)Math.Atan2((double)target.Y - (double)hitbox.Y, (double)target.X - (double)hitbox.X);
                 double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
 
                 // Damage crab if cooldown is 0
                 if (tAttackCooldown <= 0)
                 {
-                    target.Health -= bDamage;
+                    target.TakeDamage(gt, bDamage);
+
                     // If the target just died, set target as null
                     if (target.Health <= 0)
                     {
