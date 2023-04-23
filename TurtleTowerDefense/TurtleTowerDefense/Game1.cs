@@ -9,12 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ShapeUtils;
 using System.Threading;
-using Microsoft.Xna.Framework.Media;
 using System.Runtime.CompilerServices;
 
 namespace TurtleTowerDefense
 {
-    enum TowerType { cannon, catapult, fire};
+    enum TowerType { None, Cannon, Catapult, Fire };
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -71,6 +70,9 @@ namespace TurtleTowerDefense
         private Button quitToMenuButton;
         private Texture2D quitTexture;
         private Texture2D quitHoverTexture;
+        private Texture2D cannonButtonSelectedTexture;
+        private Texture2D catapultButtonSelectedTexture;
+        private Texture2D fireButtonSelectedTexture;
 
         private GameState currentState;
         private BattleState inGameState;
@@ -121,7 +123,7 @@ namespace TurtleTowerDefense
             // Intializes all values right off the bat
             currentState = GameState.CutScene;
             inGameState = BattleState.None;
-            currentTower = TowerType.cannon;
+            currentTower = TowerType.None;
             waveCounter = 1;
             // Sets up timers for game
             cutsceneTimer = 5;
@@ -184,6 +186,9 @@ namespace TurtleTowerDefense
             skipHoverTexture = Content.Load<Texture2D>("skip button hover");
             quitTexture = Content.Load<Texture2D>("quit button");
             quitHoverTexture = Content.Load<Texture2D>("quit button hover");
+            cannonButtonSelectedTexture = Content.Load<Texture2D>("cannon button selected");
+            catapultButtonSelectedTexture = Content.Load<Texture2D>("catapult button selected");
+            fireButtonSelectedTexture = Content.Load<Texture2D>("fire button selected");
 
 
             //set up buttons
@@ -259,17 +264,17 @@ namespace TurtleTowerDefense
 
         private void Select_Cannon(object sender, System.EventArgs e)
         {
-            currentTower = TowerType.cannon;
+            currentTower = TowerType.Cannon;
         }
 
         private void Select_Catapult(object sender, System.EventArgs e)
         {
-            currentTower = TowerType.catapult;
+            currentTower = TowerType.Catapult;
         }
 
         private void Select_Fire(object sender, System.EventArgs e)
         {
-            currentTower = TowerType.fire;
+            currentTower = TowerType.Fire;
         }
 
         /// <summary>
@@ -357,8 +362,12 @@ namespace TurtleTowerDefense
 
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
-
                     gameSettingsButton.Update();
+
+                    if (towerManager.HomeBaseHP <= 0)
+                    {
+                        currentState = GameState.GameOver;
+                    }
 
                     switch (inGameState)
                     {
@@ -379,8 +388,11 @@ namespace TurtleTowerDefense
                                 inGameState = BattleState.Assault;
                             }
 
-                            // Places a tower, if the player has enough cash
-                            towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState, currentTower);
+                            // Places a tower, if the player has enough cash and one is selected
+                            if (currentTower != TowerType.None)
+                            {
+                                towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState, ref currentTower);
+                            }
 
                             break;
 
@@ -388,6 +400,7 @@ namespace TurtleTowerDefense
 
                         // Begins the crab assault on the turtle base
                         case BattleState.Assault:
+                            currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             if (basicCrabs.Count < 1 + waveCounter && !crabListFilled)
                             {
@@ -537,16 +550,52 @@ namespace TurtleTowerDefense
                             fireButton.Draw(_spriteBatch);
                             skipButton.Draw(_spriteBatch);
 
+                            switch (currentTower)
+                            {
+                                case TowerType.Cannon:
+                                    _spriteBatch.Draw(cannonButtonSelectedTexture, new Rectangle(1140, 460, 115, 114), Color.White);
+
+                                    break;
+
+                                case TowerType.Catapult:
+                                    _spriteBatch.Draw(catapultButtonSelectedTexture, new Rectangle(1140, 310, 115, 114), Color.White);
+                                    break;
+
+                                case TowerType.Fire:
+                                    _spriteBatch.Draw(fireButtonSelectedTexture, new Rectangle(1140, 160, 115, 114), Color.White);
+                                    break;
+                            }
+
                             _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
-                            _spriteBatch.End();
 
                             //draw grid
-                            ShapeBatch.Begin(GraphicsDevice);
-                            grid.DrawGrid(prevMouseState);
-                            ShapeBatch.End();
+                            if (currentTower != TowerType.None)
+                            {
+                                _spriteBatch.End();
 
-                            _spriteBatch.Begin();
+                                ShapeBatch.Begin(GraphicsDevice);
+                                grid.DrawGrid(prevMouseState, currentTower);
+                                ShapeBatch.End();
+
+                                _spriteBatch.Begin();
+                            }
+
+                            // Depending on the type of tower selected, a transparent sillhoute will be drawn
+                            switch (currentTower)
+                            {
+                                case TowerType.Cannon:
+
+                                    break;
+
+                                case TowerType.Catapult:
+
+                                    break;
+
+                                case TowerType.Fire:
+
+                                    break;
+                            }
 
                             break;
 
