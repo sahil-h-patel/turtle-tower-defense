@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
+    
     internal class Crab
     {
 
@@ -101,9 +102,5 @@ namespace TurtleTowerDefense
             }
         }
 
-        //public void Update(GameTime gT, GraphicsDeviceManager g)
-        //{
-
-        //}
     }
 }

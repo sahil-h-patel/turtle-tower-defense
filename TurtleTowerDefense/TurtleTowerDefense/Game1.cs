@@ -552,16 +552,16 @@ namespace TurtleTowerDefense
 
                             switch (currentTower)
                             {
-                                case TowerType.cannon:
+                                case TowerType.Cannon:
                                     _spriteBatch.Draw(cannonButtonSelectedTexture, new Rectangle(1140, 460, 115, 114), Color.White);
 
                                     break;
 
-                                case TowerType.catapult:
+                                case TowerType.Catapult:
                                     _spriteBatch.Draw(catapultButtonSelectedTexture, new Rectangle(1140, 310, 115, 114), Color.White);
                                     break;
 
-                                case TowerType.fire:
+                                case TowerType.Fire:
                                     _spriteBatch.Draw(fireButtonSelectedTexture, new Rectangle(1140, 160, 115, 114), Color.White);
                                     break;
                             }
