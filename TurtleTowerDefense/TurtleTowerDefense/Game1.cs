@@ -471,16 +471,16 @@ namespace TurtleTowerDefense
                             // Checks for Crab Targets
                             towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
-                            // Moves crabs, along with a timer spacing them out from being spawned
-                            for (int i = 0; i < basicCrabs.Count; i++)
-                            {
-                                basicCrabs[i].X -= 2;
-                                if (basicCrabs[i].Health <= 0)
-                                {
-                                    seashells += 15;
-                                    basicCrabs.Remove(basicCrabs[i]);
-                                }
-                            }
+                            //// Moves crabs, along with a timer spacing them out from being spawned
+                            //for (int i = 0; i < basicCrabs.Count; i++)
+                            //{
+                            //    basicCrabs[i].X -= 2;
+                            //    if (basicCrabs[i].Health <= 0)
+                            //    {
+                            //        seashells += 15;
+                            //        basicCrabs.Remove(basicCrabs[i]);
+                            //    }
+                            //}
                             break;
 
                     }
@@ -686,20 +686,22 @@ namespace TurtleTowerDefense
                         // Starts the crab assault, drawing them and moving them towards the base
                         case BattleState.Assault:
 
-                            for (int i = 0; i < basicCrabs.Count; i++)
-                            {
-                                basicCrabs[i].Draw(_spriteBatch);
-                                // If in debug mode, print crab HP
-                                if (debugMode)
-                                {
-                                    _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
-                                }
-                                if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
-                                {
-                                    homeBaseHP -= 10;
-                                    basicCrabs.Remove(basicCrabs[i]);
-                                }
-                            }
+                            //for (int i = 0; i < basicCrabs.Count; i++)
+                            //{
+                            //    basicCrabs[i].Draw(_spriteBatch);
+                            //    // If in debug mode, print crab HP
+                            //    if (debugMode)
+                            //    {
+                            //        _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
+                            //    }
+                            //    if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
+                            //    {
+                            //        homeBaseHP -= 10;
+                            //        basicCrabs.Remove(basicCrabs[i]);
+                            //    }
+                            //}
+
+                            crabManager.Draw(_spriteBatch, debugMode);
 
 
                             break;

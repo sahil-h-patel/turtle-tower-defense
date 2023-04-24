@@ -17,7 +17,7 @@ namespace TurtleTowerDefense
         public ChungusCrab(Texture2D image, int[] currentLocation, int x, int y) : base(image, currentLocation, x, y)
         {
             health = 15;
-            speed = 3;
+            speed = 1;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
             widthOfSingleSprite = spaceTaken * 40;

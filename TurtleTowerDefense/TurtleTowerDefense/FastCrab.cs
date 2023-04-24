@@ -17,7 +17,7 @@ namespace TurtleTowerDefense
         public FastCrab(Texture2D image, int[] currentLocation, int x, int y) : base(image, currentLocation, x, y)
         {
             health = 4;
-            speed = 10;
+            speed = 5;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
             widthOfSingleSprite = spaceTaken * 40;
