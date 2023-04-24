@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 namespace TurtleTowerDefense
 {
     enum TowerType { None, Cannon, Catapult, Fire };
+    enum TutorialPage { Page1, Page2};
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -22,16 +23,14 @@ namespace TurtleTowerDefense
         //private Microsoft.Xna.Framework.Media.
 
         //prototype sprites
-        private Texture2D towerProtoTexture;
-        private Texture2D crabProtoTexture;
         private Texture2D SplashScreen;
         private Texture2D titleScreen;
         private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
 
         //final sprites
-        private Texture2D homeBaseTexture;
-        private Texture2D cannonTowerTexture;
+        //private Texture2D homeBaseTexture;
+        //private Texture2D cannonTowerTexture;
         private Texture2D gameOverScreen;
         private Texture2D basicCrabTexture;
         private Texture2D fastCrabTexture;
@@ -73,10 +72,19 @@ namespace TurtleTowerDefense
         private Texture2D cannonButtonSelectedTexture;
         private Texture2D catapultButtonSelectedTexture;
         private Texture2D fireButtonSelectedTexture;
+        private Texture2D tutorial1Texture;
+        private Texture2D tutorial2Texture;
+        private Texture2D tutorialNextTexture;
+        private Texture2D tutorialNextHoverTexture;
+        private Button tutorialNextButton;
+        private Texture2D tutorialOkTexture;
+        private Texture2D tutorialOkHoverTexture;
+        private Button tutorialOkButton;
 
         private GameState currentState;
         private BattleState inGameState;
         private TowerType currentTower;
+        private TutorialPage currentTutorialPage;
         private KeyboardState prevKbState;
         private MouseState currentMouseState;
         private MouseState prevMouseState;
@@ -102,12 +110,18 @@ namespace TurtleTowerDefense
         // Debug mode. Gives infinite money and makes homebase invincible.
         private bool debugMode;
 
+        //determines whether to show tutorial to player or not
+        private bool firstPlay;
+
         // Home Base 
         private int homeBaseHP;
         private Rectangle homeBaseRect;
 
-        // Turtle Tower manager
+        // Managers
         TurtleTowerInator towerManager;
+        CrabInator crabManager;
+
+        Level currentLevel;
 
         public Game1()
         {
@@ -121,7 +135,7 @@ namespace TurtleTowerDefense
         protected override void Initialize()
         {
             // Intializes all values right off the bat
-            currentState = GameState.CutScene;
+            currentState = GameState.MainMenu;
             inGameState = BattleState.None;
             currentTower = TowerType.None;
             waveCounter = 1;
@@ -132,12 +146,17 @@ namespace TurtleTowerDefense
             homeBaseRect = new Rectangle(0, 240, 120, 240);
 
             //set up grid
-            grid = new Grid(16, 28);
+            grid = new Grid(16, 31);
 
             debugMode = false;
+            firstPlay = true;
 
-            // Intialize TowerManager
+            // Intialize managers
             towerManager = new TurtleTowerInator();
+            crabManager = new CrabInator();
+
+            // Creates a new Level object
+            currentLevel = new Level();
 
             base.Initialize();
         }
@@ -152,8 +171,6 @@ namespace TurtleTowerDefense
             bgTexture = Content.Load<Texture2D>("game bg");
 
             //prototype textures
-            towerProtoTexture = Content.Load<Texture2D>("towerProto");
-            crabProtoTexture = Content.Load<Texture2D>("crabProto");
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
             titleScreen = Content.Load<Texture2D>("title screen");
@@ -163,8 +180,10 @@ namespace TurtleTowerDefense
             menuSettingsScreen = Content.Load<Texture2D>("main setting screen");
             gameSettingsScreen = Content.Load<Texture2D>("game setting screen");
             gameOverScreen = Content.Load<Texture2D>("game over");
-            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
-            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            tutorial1Texture = Content.Load<Texture2D>("tutorial screen 1");
+            tutorial2Texture = Content.Load<Texture2D>("tutorial screen 2");
+            //homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
+            //cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
 
             //buttons
@@ -189,6 +208,10 @@ namespace TurtleTowerDefense
             cannonButtonSelectedTexture = Content.Load<Texture2D>("cannon button selected");
             catapultButtonSelectedTexture = Content.Load<Texture2D>("catapult button selected");
             fireButtonSelectedTexture = Content.Load<Texture2D>("fire button selected");
+            tutorialNextTexture = Content.Load<Texture2D>("tutorial next");
+            tutorialNextHoverTexture = Content.Load<Texture2D>("tutorial next hover");
+            tutorialOkTexture = Content.Load<Texture2D>("tutorial ok");
+            tutorialOkHoverTexture = Content.Load<Texture2D>("tutorial ok hover");
 
 
             //set up buttons
@@ -204,6 +227,8 @@ namespace TurtleTowerDefense
             skipButton = new Button(1165, 65, 67, 67, skipTexture, skipHoverTexture);
             backButtonMode = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
             quitToMenuButton = new Button(420, 430, 479, 112, quitTexture, quitHoverTexture);
+            tutorialOkButton = new Button(500, 480, 330, 106, tutorialOkTexture, tutorialOkHoverTexture);
+            tutorialNextButton = new Button(920, 520, 79, 69, tutorialNextTexture, tutorialNextHoverTexture);
 
             //set up button events
             classicModeButton.Click += GameStart_Clicked;
@@ -218,23 +243,54 @@ namespace TurtleTowerDefense
             cannonButton.Click += Select_Cannon;
             catapultButton.Click += Select_Catapult;
             fireButton.Click += Select_Fire;
+            tutorialNextButton.Click += TutorialNext_Clicked;
+            tutorialOkButton.Click += TutorialOk_Clicked;
 
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
-            // Loads up content with TurtleTowerInator 
+            // Loads up content for managers
             towerManager.LoadContent(Content);
+            crabManager.LoadContent(Content);
 
 
         }
 
-        private void GameStart_Clicked(object sender, System.EventArgs e)
+        /// <summary>
+        /// starts the game
+        /// </summary>
+        private void StartGame()
         {
             currentState = GameState.Game;
             inGameState = BattleState.Setup;
+            currentLevel.Load("../../../Levels/Map1/level1.path", grid);
             seashells = 100;
             if (debugMode == true)
             {
                 seashells = 999999999;
             }
+        }
+
+        private void GameStart_Clicked(object sender, System.EventArgs e)
+        {
+            if (firstPlay)
+            {
+                currentState = GameState.Tutorial;
+                currentTutorialPage = TutorialPage.Page1;
+            }
+            else
+            {
+                StartGame();
+            }
+
+        }
+
+        private void TutorialNext_Clicked(object sender, System.EventArgs e)
+        {
+            currentTutorialPage = TutorialPage.Page2;
+        }
+
+        private void TutorialOk_Clicked(object sender, System.EventArgs e)
+        {
+            firstPlay = false;
+            StartGame();
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
@@ -402,15 +458,10 @@ namespace TurtleTowerDefense
                         case BattleState.Assault:
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
-                            if (basicCrabs.Count < 1 + waveCounter && !crabListFilled)
-                            {
-                                for (int i = 0; i < 1 + waveCounter; i++)
-                                {
-                                    basicCrabs.Add(new BasicCrab(basicCrabTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
-                                }
-                                crabListFilled = true;
-                            }
-                            if (basicCrabs.Count == 0)
+                            crabManager.CrabSpawning(waveCounter, grid);
+                            crabManager.CrabMovement(grid);
+
+                            if (crabManager.Crabs.Count == 0)
                             {
                                 waveCounter++;
                                 setupTimer = 15;
@@ -418,18 +469,18 @@ namespace TurtleTowerDefense
                             }
 
                             // Checks for Crab Targets
-                            towerManager.AttackEnemies(basicCrabs, gameTime);
+                            towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
-                            // Moves crabs, along with a timer spacing them out from being spawned
-                            for (int i = 0; i < basicCrabs.Count; i++)
-                            {
-                                basicCrabs[i].X -= 2;
-                                if (basicCrabs[i].Health <= 0)
-                                {
-                                    seashells += 15;
-                                    basicCrabs.Remove(basicCrabs[i]);
-                                }
-                            }
+                            //// Moves crabs, along with a timer spacing them out from being spawned
+                            //for (int i = 0; i < basicCrabs.Count; i++)
+                            //{
+                            //    basicCrabs[i].X -= 2;
+                            //    if (basicCrabs[i].Health <= 0)
+                            //    {
+                            //        seashells += 15;
+                            //        basicCrabs.Remove(basicCrabs[i]);
+                            //    }
+                            //}
                             break;
 
                     }
@@ -444,6 +495,20 @@ namespace TurtleTowerDefense
                         currentState = GameState.GameOver;
                     }
 
+                    break;
+
+                    //introduction to the game if it is the first time that the user is playing
+                case GameState.Tutorial:
+                    switch (currentTutorialPage)
+                    {
+                        case TutorialPage.Page1:
+                            tutorialNextButton.Update();
+                            break;
+
+                        case TutorialPage.Page2:
+                            tutorialOkButton.Update();
+                            break;
+                    }
                     break;
 
 
@@ -532,6 +597,25 @@ namespace TurtleTowerDefense
 
                     break;
 
+                case GameState.Tutorial:
+                    _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
+
+                    switch (currentTutorialPage)
+                    {
+                        case TutorialPage.Page1:
+                            _spriteBatch.Draw(tutorial1Texture, new Rectangle(0, 0, 1280, 720), Color.White);
+                            _spriteBatch.DrawString(comicSans20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
+                            tutorialNextButton.Draw(_spriteBatch);
+                            break;
+
+                        case TutorialPage.Page2:
+                            _spriteBatch.Draw(tutorial2Texture, new Rectangle(0, 0, 1280, 720), Color.White);
+                            _spriteBatch.DrawString(comicSans20, "Use these buttons to place down turtle towers \nand defend the home base!", new Vector2(380, 350), Color.White);
+                            tutorialOkButton.Draw(_spriteBatch);
+                            break;
+                    }
+                    break;
+
                 case GameState.Game:
                     //background image
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
@@ -552,16 +636,16 @@ namespace TurtleTowerDefense
 
                             switch (currentTower)
                             {
-                                case TowerType.cannon:
+                                case TowerType.Cannon:
                                     _spriteBatch.Draw(cannonButtonSelectedTexture, new Rectangle(1140, 460, 115, 114), Color.White);
 
                                     break;
 
-                                case TowerType.catapult:
+                                case TowerType.Catapult:
                                     _spriteBatch.Draw(catapultButtonSelectedTexture, new Rectangle(1140, 310, 115, 114), Color.White);
                                     break;
 
-                                case TowerType.fire:
+                                case TowerType.Fire:
                                     _spriteBatch.Draw(fireButtonSelectedTexture, new Rectangle(1140, 160, 115, 114), Color.White);
                                     break;
                             }
@@ -602,20 +686,22 @@ namespace TurtleTowerDefense
                         // Starts the crab assault, drawing them and moving them towards the base
                         case BattleState.Assault:
 
-                            for (int i = 0; i < basicCrabs.Count; i++)
-                            {
-                                basicCrabs[i].Draw(_spriteBatch);
-                                // If in debug mode, print crab HP
-                                if (debugMode)
-                                {
-                                    _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
-                                }
-                                if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
-                                {
-                                    homeBaseHP -= 10;
-                                    basicCrabs.Remove(basicCrabs[i]);
-                                }
-                            }
+                            //for (int i = 0; i < basicCrabs.Count; i++)
+                            //{
+                            //    basicCrabs[i].Draw(_spriteBatch);
+                            //    // If in debug mode, print crab HP
+                            //    if (debugMode)
+                            //    {
+                            //        _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
+                            //    }
+                            //    if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
+                            //    {
+                            //        homeBaseHP -= 10;
+                            //        basicCrabs.Remove(basicCrabs[i]);
+                            //    }
+                            //}
+
+                            crabManager.Draw(_spriteBatch, debugMode);
 
 
                             break;

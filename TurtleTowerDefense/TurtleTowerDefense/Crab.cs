@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
+
     internal class Crab
     {
 
@@ -19,6 +20,9 @@ namespace TurtleTowerDefense
         protected Rectangle hitbox;
         protected int widthOfSingleSprite;
         protected bool attacked;
+        protected int[] currentLocation;
+        protected double xVelo;
+        protected double yVelo;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -60,12 +64,32 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Height { get { return spaceTaken * 40; } }
 
+        /// <summary>
+        /// Sets or returns the x velocity of the crab
+        /// </summary>
+        public double XVelo { get { return xVelo; } set { xVelo = value; } }
+
+        /// <summary>
+        /// Sets or returns the y velocity of the crab
+        /// </summary>
+        public double YVelo { get { return yVelo; } set { yVelo = value; } }
+
+        public double Speed { get { return speed; } }
+
+
+        /// <summary>
+        /// Gets the width of one sprite
+        /// </summary>
         public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
 
-        public Crab(Texture2D image, int x, int y)
+        public int[] CurrentLocation { get { return currentLocation; } set { currentLocation = value; } }
+
+        public Crab(Texture2D image, int[] currentLocation, int x, int y)
         {
             this.image = image;
             alive = true;
+            xVelo = speed;
+            this.currentLocation = currentLocation;
         }
 
         // A method to detect its current position which will be used in Update to adjust appropiate values
@@ -80,7 +104,7 @@ namespace TurtleTowerDefense
             {
                 sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(0, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.White);
             }
-            
+
         }
 
         /// <summary>
@@ -95,15 +119,11 @@ namespace TurtleTowerDefense
 
             double timer = 0.3;
             timer -= gt.ElapsedGameTime.TotalSeconds;
-            if(timer <= 0)
+            if (timer <= 0)
             {
                 attacked = false;
             }
         }
 
-        //public void Update(GameTime gT, GraphicsDeviceManager g)
-        //{
-
-        //}
     }
 }

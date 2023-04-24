@@ -23,6 +23,11 @@ namespace TurtleTowerDefense
         private bool validPlacement;
 
         /// <summary>
+        /// Retrieves the entire gridbox, or sets it to a new value.
+        /// </summary>
+        public GridBox[,] GridBoxes{ get { return grid; } set { grid = value; } }
+
+        /// <summary>
         /// creates a grid based on given width and height in boxes
         /// </summary>
         /// <param name="width"></param>

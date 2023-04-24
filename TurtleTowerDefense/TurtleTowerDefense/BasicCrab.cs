@@ -15,10 +15,10 @@ namespace TurtleTowerDefense
         /// Creates a basic, unmodified crab. Bottom of the barrel.
         /// </summary>
         /// <param name="image"></param>
-        public BasicCrab(Texture2D image, int x, int y) : base(image, x, y)
+        public BasicCrab(Texture2D image, int[] currentLocation, int x, int y) : base(image, currentLocation, x, y)
         {
             health = 8;
-            speed = 5;
+            speed = 2;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
             widthOfSingleSprite = spaceTaken * 40;
