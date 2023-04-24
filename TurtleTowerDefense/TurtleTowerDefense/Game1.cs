@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 namespace TurtleTowerDefense
 {
     enum TowerType { None, Cannon, Catapult, Fire };
+    enum TutorialPage { Page1, Page2};
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -71,10 +72,19 @@ namespace TurtleTowerDefense
         private Texture2D cannonButtonSelectedTexture;
         private Texture2D catapultButtonSelectedTexture;
         private Texture2D fireButtonSelectedTexture;
+        private Texture2D tutorial1Texture;
+        private Texture2D tutorial2Texture;
+        private Texture2D tutorialNextTexture;
+        private Texture2D tutorialNextHoverTexture;
+        private Button tutorialNextButton;
+        private Texture2D tutorialOkTexture;
+        private Texture2D tutorialOkHoverTexture;
+        private Button tutorialOkButton;
 
         private GameState currentState;
         private BattleState inGameState;
         private TowerType currentTower;
+        private TutorialPage currentTutorialPage;
         private KeyboardState prevKbState;
         private MouseState currentMouseState;
         private MouseState prevMouseState;
@@ -100,6 +110,9 @@ namespace TurtleTowerDefense
         // Debug mode. Gives infinite money and makes homebase invincible.
         private bool debugMode;
 
+        //determines whether to show tutorial to player or not
+        private bool firstPlay;
+
         // Home Base 
         private int homeBaseHP;
         private Rectangle homeBaseRect;
@@ -122,7 +135,7 @@ namespace TurtleTowerDefense
         protected override void Initialize()
         {
             // Intializes all values right off the bat
-            currentState = GameState.CutScene;
+            currentState = GameState.MainMenu;
             inGameState = BattleState.None;
             currentTower = TowerType.None;
             waveCounter = 1;
@@ -136,6 +149,7 @@ namespace TurtleTowerDefense
             grid = new Grid(16, 31);
 
             debugMode = false;
+            firstPlay = true;
 
             // Intialize managers
             towerManager = new TurtleTowerInator();
@@ -166,6 +180,8 @@ namespace TurtleTowerDefense
             menuSettingsScreen = Content.Load<Texture2D>("main setting screen");
             gameSettingsScreen = Content.Load<Texture2D>("game setting screen");
             gameOverScreen = Content.Load<Texture2D>("game over");
+            tutorial1Texture = Content.Load<Texture2D>("tutorial screen 1");
+            tutorial2Texture = Content.Load<Texture2D>("tutorial screen 2");
             //homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             //cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
@@ -192,6 +208,10 @@ namespace TurtleTowerDefense
             cannonButtonSelectedTexture = Content.Load<Texture2D>("cannon button selected");
             catapultButtonSelectedTexture = Content.Load<Texture2D>("catapult button selected");
             fireButtonSelectedTexture = Content.Load<Texture2D>("fire button selected");
+            tutorialNextTexture = Content.Load<Texture2D>("tutorial next");
+            tutorialNextHoverTexture = Content.Load<Texture2D>("tutorial next hover");
+            tutorialOkTexture = Content.Load<Texture2D>("tutorial ok");
+            tutorialOkHoverTexture = Content.Load<Texture2D>("tutorial ok hover");
 
 
             //set up buttons
@@ -207,6 +227,8 @@ namespace TurtleTowerDefense
             skipButton = new Button(1165, 65, 67, 67, skipTexture, skipHoverTexture);
             backButtonMode = new Button(960, 120, 57, 58, backButtonTexture, backButtonHoverTexture);
             quitToMenuButton = new Button(420, 430, 479, 112, quitTexture, quitHoverTexture);
+            tutorialOkButton = new Button(500, 480, 330, 106, tutorialOkTexture, tutorialOkHoverTexture);
+            tutorialNextButton = new Button(920, 520, 79, 69, tutorialNextTexture, tutorialNextHoverTexture);
 
             //set up button events
             classicModeButton.Click += GameStart_Clicked;
@@ -221,6 +243,8 @@ namespace TurtleTowerDefense
             cannonButton.Click += Select_Cannon;
             catapultButton.Click += Select_Catapult;
             fireButton.Click += Select_Fire;
+            tutorialNextButton.Click += TutorialNext_Clicked;
+            tutorialOkButton.Click += TutorialOk_Clicked;
 
             // Loads up content for managers
             towerManager.LoadContent(Content);
@@ -229,7 +253,10 @@ namespace TurtleTowerDefense
 
         }
 
-        private void GameStart_Clicked(object sender, System.EventArgs e)
+        /// <summary>
+        /// starts the game
+        /// </summary>
+        private void StartGame()
         {
             currentState = GameState.Game;
             inGameState = BattleState.Setup;
@@ -239,6 +266,31 @@ namespace TurtleTowerDefense
             {
                 seashells = 999999999;
             }
+        }
+
+        private void GameStart_Clicked(object sender, System.EventArgs e)
+        {
+            if (firstPlay)
+            {
+                currentState = GameState.Tutorial;
+                currentTutorialPage = TutorialPage.Page1;
+            }
+            else
+            {
+                StartGame();
+            }
+
+        }
+
+        private void TutorialNext_Clicked(object sender, System.EventArgs e)
+        {
+            currentTutorialPage = TutorialPage.Page2;
+        }
+
+        private void TutorialOk_Clicked(object sender, System.EventArgs e)
+        {
+            firstPlay = false;
+            StartGame();
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
@@ -445,6 +497,20 @@ namespace TurtleTowerDefense
 
                     break;
 
+                    //introduction to the game if it is the first time that the user is playing
+                case GameState.Tutorial:
+                    switch (currentTutorialPage)
+                    {
+                        case TutorialPage.Page1:
+                            tutorialNextButton.Update();
+                            break;
+
+                        case TutorialPage.Page2:
+                            tutorialOkButton.Update();
+                            break;
+                    }
+                    break;
+
 
                 case GameState.Settings_Game:
 
@@ -529,6 +595,25 @@ namespace TurtleTowerDefense
                     endlessModeButton.Draw(_spriteBatch);
                     backButtonMode.Draw(_spriteBatch);
 
+                    break;
+
+                case GameState.Tutorial:
+                    _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
+
+                    switch (currentTutorialPage)
+                    {
+                        case TutorialPage.Page1:
+                            _spriteBatch.Draw(tutorial1Texture, new Rectangle(0, 0, 1280, 720), Color.White);
+                            _spriteBatch.DrawString(comicSans20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
+                            tutorialNextButton.Draw(_spriteBatch);
+                            break;
+
+                        case TutorialPage.Page2:
+                            _spriteBatch.Draw(tutorial2Texture, new Rectangle(0, 0, 1280, 720), Color.White);
+                            _spriteBatch.DrawString(comicSans20, "Use these buttons to place down turtle towers \nand defend the home base!", new Vector2(380, 350), Color.White);
+                            tutorialOkButton.Draw(_spriteBatch);
+                            break;
+                    }
                     break;
 
                 case GameState.Game:
