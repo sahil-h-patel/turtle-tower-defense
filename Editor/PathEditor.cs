@@ -139,7 +139,7 @@ namespace Editor
                     if ((Type)currentTile.Tag == Type.Sand || (Type)currentTile.Tag == Type.Start || (Type)currentTile.Tag == Type.End)
                     {
                         return;
-                    }          
+                    }
                     else if ((Type)currentTile.Tag == Type.SplitUpDown)
                     {
                         img.RotateFlip(RotateFlipType.Rotate270FlipNone);
@@ -227,54 +227,120 @@ namespace Editor
 
         private void SavePaths(object sender, EventArgs e)
         {
-            string namesOfPath = null;
-            foreach (KeyValuePair<string, Path> kvp in pathList)
-            {
-                StreamWriter output = null!;
-                try
-                {
-                    FileStream stream = new FileStream(System.IO.Path.Combine("../../../Saves/", kvp.Key + ".path"), FileMode.Create);
-                    output = new StreamWriter(stream);
-                    namesOfPath += $"   - {kvp.Key}\n";
+            //string namesOfPath = null;
+            //foreach (KeyValuePair<string, Path> kvp in pathList)
+            //{
+            //    StreamWriter output = null!;
+            //    try
+            //    {
+            //        FileStream stream = new FileStream(System.IO.Path.Combine("../../../Saves/", kvp.Key + ".path"), FileMode.Create);
+            //        output = new StreamWriter(stream);
+            //        namesOfPath += $"   - {kvp.Key}\n";
 
-                    for (int x = 0; x < kvp.Value.Width; x++)
+            //        for (int x = 0; x < kvp.Value.Width; x++)
+            //        {
+            //            for (int y = 0; y < kvp.Value.Height; y++)
+            //            {
+            //                if (((int)kvp.Value.pathGrid[x, y].Tag == 0) && (y == kvp.Value.Height - 1))
+            //                {
+            //                    output.Write("00");
+            //                }
+            //                else if ((int)kvp.Value.pathGrid[x, y].Tag == 0)
+            //                {
+            //                    output.Write("00, ");
+            //                }
+            //                else if (y == kvp.Value.Height - 1)
+            //                {
+            //                    output.Write((int)kvp.Value.pathGrid[x, y].Tag);
+            //                }
+            //                else
+            //                {
+            //                    output.Write((int)kvp.Value.pathGrid[x, y].Tag + ", ");
+            //                }
+            //            }
+            //            output.WriteLine();
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message, "Error with saving", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //    finally
+            //    {
+            //        if (output != null)
+            //        {
+            //            output.Close();
+            //        }
+            //    }
+            //}
+            //MessageBox.Show($"Saved {pathList.Count} path(s):\n" + namesOfPath, "Successfuly saved paths to files",
+            //    MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Path Files | *.path";
+            saveFileDialog.Title = "Save a Path File";
+            saveFileDialog.FileName = "untitled";
+
+
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                
+                foreach (KeyValuePair<string, Path> kvp in pathList)
+                {
+                    StreamWriter output = null;
+                    try
                     {
-                        for (int y = 0; y < kvp.Value.Height; y++)
+                        //FileStream stream = new FileStream(System.IO.Path.Combine($"{saveFileDialog.FileName}", ".path"), FileMode.Create);
+                        output = new StreamWriter(saveFileDialog.FileName);
+                        for (int x = 0; x < kvp.Value.Width; x++)
                         {
-                            if (((int)kvp.Value.pathGrid[x, y].Tag == 0) && (y == kvp.Value.Height - 1))
+                            for (int y = 0; y < kvp.Value.Height; y++)
                             {
-                                output.Write("00");
+                                if (((int)kvp.Value.pathGrid[x, y].Tag == 0) && (y == kvp.Value.Height - 1))
+                                {
+                                    output.Write("00");
+                                }
+                                else if ((int)kvp.Value.pathGrid[x, y].Tag == 0)
+                                {
+                                    output.Write("00, ");
+                                }
+                                else if (y == kvp.Value.Height - 1)
+                                {
+                                    output.Write((int)kvp.Value.pathGrid[x, y].Tag);
+                                }
+                                else
+                                {
+                                    output.Write((int)kvp.Value.pathGrid[x, y].Tag + ", ");
+                                }
                             }
-                            else if ((int)kvp.Value.pathGrid[x, y].Tag == 0)
-                            {
-                                output.Write("00, ");
-                            }
-                            else if (y == kvp.Value.Height - 1)
-                            {
-                                output.Write((int)kvp.Value.pathGrid[x, y].Tag);
-                            }
-                            else
-                            {
-                                output.Write((int)kvp.Value.pathGrid[x, y].Tag + ", ");
-                            }
+                            output.WriteLine();
                         }
-                        output.WriteLine();
+
+                        if (output != null)
+                        {
+                            output.Close();
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error with saving", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    if (output != null)
+                    catch (Exception ex)
                     {
-                        output.Close();
+                        MessageBox.Show(ex.Message, "Error with saving", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+                    finally
+                    {
+                        if (output != null)
+                        {
+                            output.Close();
+                        }
                     }
                 }
             }
-            MessageBox.Show($"Saved {pathList.Count} path(s):\n" + namesOfPath, "Successfuly saved paths to files",
-                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            DialogResult fileSaved = MessageBox.Show(
+                        "File saved successfully",
+                        "File Saved",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
         }
 
         private void LoadPaths(object sender, EventArgs e)

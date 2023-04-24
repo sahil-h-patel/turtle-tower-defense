@@ -20,6 +20,7 @@ namespace TurtleTowerDefense
         protected Rectangle hitbox;
         protected int widthOfSingleSprite;
         protected bool attacked;
+        protected int[] currentLocation;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -61,9 +62,14 @@ namespace TurtleTowerDefense
         /// </summary>
         public int Height { get { return spaceTaken * 40; } }
 
+        /// <summary>
+        /// Gets the width of one sprite
+        /// </summary>
         public int WidthOfSingleSprite { get { return widthOfSingleSprite; } }
 
-        public Crab(Texture2D image, int x, int y)
+        public int[] CurrentLocation { get { return currentLocation; } set { currentLocation = value; } }
+
+        public Crab(Texture2D image, int[] currentLocation, int x, int y)
         {
             this.image = image;
             alive = true;

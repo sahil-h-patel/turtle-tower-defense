@@ -18,6 +18,7 @@ namespace TurtleTowerDefense
         private int height;
         private Rectangle rect;
         private bool isFilled;
+        private CrabMotion crabDirection;
 
         public int X
         {
@@ -40,6 +41,12 @@ namespace TurtleTowerDefense
         {
             get { return isFilled; }
             set { isFilled = value; }
+        }
+
+        public CrabMotion CrabPathing
+        {
+            get { return crabDirection; }
+            set { crabDirection = value; }
         }
 
         public GridBox(int x, int y, int width, int height)

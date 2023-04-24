@@ -8,21 +8,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TurtleTowerDefense
 {
-    internal class BasicCrab : Crab
+    internal class FastCrab : Crab
     {
-
         /// <summary>
         /// Creates a basic, unmodified crab. Bottom of the barrel.
         /// </summary>
         /// <param name="image"></param>
-        public BasicCrab(Texture2D image, int[] currentLocation, int x, int y) : base(image, currentLocation, x, y)
+        public FastCrab(Texture2D image, int[] currentLocation, int x, int y) : base(image, currentLocation, x, y)
         {
-            health = 8;
-            speed = 5;
+            health = 4;
+            speed = 10;
             spaceTaken = 1;
             hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
             widthOfSingleSprite = spaceTaken * 40;
         }
-
     }
 }

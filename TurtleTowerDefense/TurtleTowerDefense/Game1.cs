@@ -22,16 +22,14 @@ namespace TurtleTowerDefense
         //private Microsoft.Xna.Framework.Media.
 
         //prototype sprites
-        private Texture2D towerProtoTexture;
-        private Texture2D crabProtoTexture;
         private Texture2D SplashScreen;
         private Texture2D titleScreen;
         private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
 
         //final sprites
-        private Texture2D homeBaseTexture;
-        private Texture2D cannonTowerTexture;
+        //private Texture2D homeBaseTexture;
+        //private Texture2D cannonTowerTexture;
         private Texture2D gameOverScreen;
         private Texture2D basicCrabTexture;
         private Texture2D fastCrabTexture;
@@ -106,8 +104,11 @@ namespace TurtleTowerDefense
         private int homeBaseHP;
         private Rectangle homeBaseRect;
 
-        // Turtle Tower manager
+        // Managers
         TurtleTowerInator towerManager;
+        CrabInator crabManager;
+
+        Level currentLevel;
 
         public Game1()
         {
@@ -132,12 +133,16 @@ namespace TurtleTowerDefense
             homeBaseRect = new Rectangle(0, 240, 120, 240);
 
             //set up grid
-            grid = new Grid(16, 28);
+            grid = new Grid(16, 31);
 
             debugMode = false;
 
-            // Intialize TowerManager
+            // Intialize managers
             towerManager = new TurtleTowerInator();
+            crabManager = new CrabInator();
+
+            // Creates a new Level object
+            currentLevel = new Level();
 
             base.Initialize();
         }
@@ -152,8 +157,6 @@ namespace TurtleTowerDefense
             bgTexture = Content.Load<Texture2D>("game bg");
 
             //prototype textures
-            towerProtoTexture = Content.Load<Texture2D>("towerProto");
-            crabProtoTexture = Content.Load<Texture2D>("crabProto");
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
             titleScreen = Content.Load<Texture2D>("title screen");
@@ -163,8 +166,8 @@ namespace TurtleTowerDefense
             menuSettingsScreen = Content.Load<Texture2D>("main setting screen");
             gameSettingsScreen = Content.Load<Texture2D>("game setting screen");
             gameOverScreen = Content.Load<Texture2D>("game over");
-            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
-            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            //homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
+            //cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
 
             //buttons
@@ -219,7 +222,6 @@ namespace TurtleTowerDefense
             catapultButton.Click += Select_Catapult;
             fireButton.Click += Select_Fire;
 
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
             // Loads up content with TurtleTowerInator 
             towerManager.LoadContent(Content);
 
@@ -250,6 +252,7 @@ namespace TurtleTowerDefense
         private void BackGame_Clicked(object sender, System.EventArgs e)
         {
             currentState = GameState.Game;
+            currentLevel.Load("../../../../../Editor/Saves/path 2", grid);
         }
 
         private void GameSettings_Clicked(object sender, System.EventArgs e)
@@ -402,15 +405,10 @@ namespace TurtleTowerDefense
                         case BattleState.Assault:
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
-                            if (basicCrabs.Count < 1 + waveCounter && !crabListFilled)
-                            {
-                                for (int i = 0; i < 1 + waveCounter; i++)
-                                {
-                                    basicCrabs.Add(new BasicCrab(basicCrabTexture, _graphics.PreferredBackBufferWidth + 10 + (i * 80), _graphics.PreferredBackBufferHeight / 2));
-                                }
-                                crabListFilled = true;
-                            }
-                            if (basicCrabs.Count == 0)
+                            crabManager.CrabSpawning(waveCounter, grid);
+                            crabManager.CrabMovement(grid);
+
+                            if (crabManager.Crabs.Count == 0)
                             {
                                 waveCounter++;
                                 setupTimer = 15;
@@ -418,7 +416,7 @@ namespace TurtleTowerDefense
                             }
 
                             // Checks for Crab Targets
-                            towerManager.AttackEnemies(basicCrabs, gameTime);
+                            towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
                             // Moves crabs, along with a timer spacing them out from being spawned
                             for (int i = 0; i < basicCrabs.Count; i++)
