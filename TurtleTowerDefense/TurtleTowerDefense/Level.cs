@@ -56,19 +56,22 @@ namespace TurtleTowerDefense
                 string[] pData = new string[31];
                 StreamReader input = new StreamReader(filepath);
                 string line = null;
+                int row = 0;
 
                 // Adds all data from the file into a 2d array
                 while ((line = input.ReadLine()!) != null)
                 {
                     pData = line.Split(", ");
                     // The data is split by commas so that information can be accessed 
-                    for (int i = 0; i < grid.GridBoxes.GetLength(0); i++)
+                    for (int i = row; i < grid.GridBoxes.GetLength(0);)
                     {
                         for (int j = 0; j < grid.GridBoxes.GetLength(1); j++)
                         {
                             grid.GridBoxes[i, j].CrabPathing = (CrabMotion)int.Parse(pData[j]);
                         }
+                        break;
                     }
+                    row++;
                 }
                 input.Close();
 
@@ -79,7 +82,7 @@ namespace TurtleTowerDefense
                     for (int k = 0; k < grid.GridBoxes.GetLength(1); k++)
                     {
                         //put a single value
-                        System.Diagnostics.Debug.Write(grid.GridBoxes[i, k]);
+                        System.Diagnostics.Debug.Write(grid.GridBoxes[i, k].CrabPathing);
                     }
                     //next row
                     System.Diagnostics.Debug.WriteLine("");
@@ -88,7 +91,7 @@ namespace TurtleTowerDefense
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("ERROR: No file with that name. Try something else.");
+                System.Diagnostics.Debug.WriteLine(e);
             }
         }
 

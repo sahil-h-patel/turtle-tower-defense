@@ -19,13 +19,14 @@ namespace TurtleTowerDefense
 
         // Game Elements
         protected List<Crab> crabs;
-        protected List<Vector2> spawnPoints;
+        protected List<int[]> spawnPoints;
         protected bool crabListFilled;
 
         // Textures
         private Texture2D basicCrabTexture;
         private Texture2D fastCrabTexture;
         private Texture2D chungusCrabTexture;
+        private SpriteFont comicSans20;
 
         public List<Crab> Crabs { get { return crabs; } }
 
@@ -37,7 +38,7 @@ namespace TurtleTowerDefense
         {
             // Sets up lists for crabs
             crabs = new List<Crab>();
-            spawnPoints = new List<Vector2>();
+            spawnPoints = new List<int[]>();
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace TurtleTowerDefense
                     // If the grid is the spawn point, then we've found one of them
                     if (grid.GridBoxes[i, j].CrabPathing == CrabMotion.Start)
                     {
-                        spawnPoints.Add(new Vector2(i, j));
+                        spawnPoints.Add(new int[] { i, j});
                     }
                 }
             }
@@ -83,7 +84,7 @@ namespace TurtleTowerDefense
                 indexOfSpawn = rng.Next(0, spawnPoints.Count);
                 // Really long. What it does:
                 // Adds the crab to the list, and also spawns it in it's random spawn location.
-                crabs.Add(new BasicCrab(basicCrabTexture, new int[2]{ (int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y}, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].X, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].Y));
+                crabs.Add(new BasicCrab(basicCrabTexture, spawnPoints[indexOfSpawn], grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].X, grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].Y));
             }
 
             // If the wave is greater than 2, then brute crabs start spawning
@@ -92,7 +93,7 @@ namespace TurtleTowerDefense
                 for (int i = 0; i < 1 + wave; i++)
                 {
                     indexOfSpawn = rng.Next(0, spawnPoints.Count);
-                    crabs.Add(new ChungusCrab(chungusCrabTexture, new int[2] { (int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y }, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].X, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].Y));
+                    crabs.Add(new ChungusCrab(chungusCrabTexture, spawnPoints[indexOfSpawn], grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].X, grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].Y));
                 }
             }
 
@@ -102,7 +103,25 @@ namespace TurtleTowerDefense
                 for (int i = 0; i < 1 + wave; i++)
                 {
                     indexOfSpawn = rng.Next(0, spawnPoints.Count);
-                    crabs.Add(new FastCrab(fastCrabTexture, new int[2] { (int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y }, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].X, grid.GridBoxes[(int)spawnPoints[indexOfSpawn].X, (int)spawnPoints[indexOfSpawn].Y].Y));
+                    crabs.Add(new FastCrab(fastCrabTexture, spawnPoints[indexOfSpawn], grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].X, grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].Y));
+                }
+            }
+        }
+
+        public void Draw(SpriteBatch sb, bool debugMode)
+        {
+            for (int i = 0; i < crabs.Count; i++)
+            {
+                crabs[i].Draw(sb);
+                // If in debug mode, print crab HP
+                if (debugMode)
+                {
+                    sb.DrawString(comicSans20, $"{crabs[i].Health}", new Vector2(crabs[i].X + crabs[i].Width / 2, crabs[i].Y + crabs[i].Height / 2), Color.White);
+                }
+                if (crabs[i].Hitbox.Intersects(homeBaseRect))
+                {
+                    homeBaseHP -= 10;
+                    crabs.Remove(crabs[i]);
                 }
             }
         }
@@ -125,6 +144,34 @@ namespace TurtleTowerDefense
                     case CrabMotion.TurnRightWest:
                     case CrabMotion.TurnLeftWest:
 
+                        // If the crab has passed or is right on the edge of the next spot, change the current location
+                        // reset the crab position and start moving them in the direction
+                        if (crab.X <= grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X)
+                        {
+                            // Moving up
+                            if (grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardNorth || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightNorth || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftNorth)
+                            {
+                                crab.XVelo = 0;
+                                crab.YVelo -= crab.Speed;
+                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
+                            }
+                            // Moving down
+                            if (grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardSouth || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightSouth || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftSouth)
+                            {
+                                crab.XVelo = 0;
+                                crab.YVelo += crab.Speed;
+                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
+                            }
+                            // Moving right
+                            if (grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardEast || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightEast || grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftEast)
+                            {
+                                crab.XVelo += crab.Speed;
+                                crab.YVelo = 0;
+                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
+                            }
+                        }
+
+                        crab.X += (int)crab.XVelo;
 
                         break;
 
