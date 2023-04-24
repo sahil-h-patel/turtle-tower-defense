@@ -77,7 +77,7 @@ namespace TurtleTowerDefense
         {
             for (int c = 0; c < grid.GetLength(0); c++)
             {
-                for (int r = 0; r < grid.GetLength(1); r++)
+                for (int r = 0; r < 26; r++)
                 {
                     //check if mouse is hovering over box
                     if (grid[c, r].Contains(mouse.Position))
@@ -166,9 +166,9 @@ namespace TurtleTowerDefense
         public Vector2 GetClickedPosition(MouseState mouse)
         {
             Vector2 position = default;
-            for (int c = 0; c < grid.GetLength(0); c++)
+            for (int c = 0; c < 16; c++)
             {
-                for (int r = 0; r < grid.GetLength(1); r++)
+                for (int r = 0; r < 28; r++)
                 {
                     if (grid[c, r].Contains(mouse.Position) && validPlacement)
                     {
@@ -199,6 +199,15 @@ namespace TurtleTowerDefense
             for (int c = 5; c < 11; c++)
             {
                 for (int r = 0; r < 3; r++)
+                {
+                    grid[c, r].IsFilled = true;
+                }
+            }
+
+            //crab area is filled
+            for(int c = 0; c < grid.GetLength(0); c++)
+            {
+                for(int r = 26; r < grid.GetLength(1); r++)
                 {
                     grid[c, r].IsFilled = true;
                 }
