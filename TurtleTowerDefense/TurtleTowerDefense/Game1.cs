@@ -222,8 +222,9 @@ namespace TurtleTowerDefense
             catapultButton.Click += Select_Catapult;
             fireButton.Click += Select_Fire;
 
-            // Loads up content with TurtleTowerInator 
+            // Loads up content for managers
             towerManager.LoadContent(Content);
+            crabManager.LoadContent(Content);
 
 
         }
@@ -232,6 +233,7 @@ namespace TurtleTowerDefense
         {
             currentState = GameState.Game;
             inGameState = BattleState.Setup;
+            currentLevel.Load("../../../Levels/Map1/level1.path", grid);
             seashells = 100;
             if (debugMode == true)
             {
@@ -252,7 +254,6 @@ namespace TurtleTowerDefense
         private void BackGame_Clicked(object sender, System.EventArgs e)
         {
             currentState = GameState.Game;
-            currentLevel.Load("../../../../../Editor/Saves/path 2", grid);
         }
 
         private void GameSettings_Clicked(object sender, System.EventArgs e)

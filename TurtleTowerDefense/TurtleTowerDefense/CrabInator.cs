@@ -47,8 +47,7 @@ namespace TurtleTowerDefense
         {
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
             fastCrabTexture = Content.Load<Texture2D>("fast crab sprite");
-            chungusCrabTexture = Content.Load<Texture2D>("chungus crab texture");
-
+            chungusCrabTexture = Content.Load<Texture2D>("chungus crab sprite");
         }
 
         /// <summary>
@@ -73,6 +72,7 @@ namespace TurtleTowerDefense
 
         public void CrabSpawning(int wave, Grid grid)
         {
+            LocateSpawnPoint(grid);
             // In the case that there is more than one spawn point, this will randomly generate which for them to spawn at
             Random rng = new Random();
             int indexOfSpawn;
