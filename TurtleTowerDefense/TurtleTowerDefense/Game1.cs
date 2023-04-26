@@ -96,7 +96,6 @@ namespace TurtleTowerDefense
 
         // Cash for player
         private int seashells;
-
         // Contains all placed turtle towers
         private List<Tower> turtleTowers;
         // Contains all basicCrabs

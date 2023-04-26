@@ -177,25 +177,25 @@ namespace TurtleTowerDefense
                             {
                                 crab.XVelo = 0;
                                 crab.YVelo -= crab.Speed;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
-                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0] - 1, crab.CurrentLocation[1] };
+                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1] - 1].X;
+                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0], crab.CurrentLocation[1] - 1 };
                             }
                             // Moving down
                             else if (grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.ForwardSouth || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnRightSouth || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnLeftSouth)
                             {
                                 crab.XVelo = 0;
                                 crab.YVelo += crab.Speed;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
-                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]- 1 };
+                                crab.X = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].X;
+                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0], crab.CurrentLocation[1] - 1 };
                             }
                             // Moving right
-                            else if (grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.ForwardEast || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnRightEast || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnLeftEast)
-                            {
-                                crab.XVelo += crab.Speed;
-                                crab.YVelo = 0;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
-                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0], crab.CurrentLocation[1] + 1 };
-                            }
+                            //else if (grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.ForwardEast || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnRightEast || grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.TurnLeftEast)
+                            //{
+                            //    crab.XVelo += crab.Speed;
+                            //    crab.YVelo = 0;
+                            //    crab.X = grid.GridBoxes[crab.CurrentLocation[0] - 1, crab.CurrentLocation[1]].X;
+                            //    crab.CurrentLocation = new int[] { crab.CurrentLocation[0], crab.CurrentLocation[1] + 1 };
+                            //}
                             else if (grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] - 1].CrabPathing == CrabMotion.ForwardWest)
                             {
                                 crab.CurrentLocation = new int[] { crab.CurrentLocation[0], crab.CurrentLocation[1] - 1 };
@@ -254,23 +254,29 @@ namespace TurtleTowerDefense
                             {
                                 crab.XVelo -= crab.Speed;
                                 crab.YVelo = 0;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].X;
+                                crab.Y = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].Y;
+                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0] + 1, crab.CurrentLocation[1] };
+
                             }
                             // Moving up
                             if (grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardNorth || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightNorth || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftNorth)
                             {
                                 crab.XVelo = 0;
                                 crab.YVelo -= crab.Speed;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].X;
+                                crab.Y = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].Y;
+                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0] + 1, crab.CurrentLocation[1] };
+
                             }
                             // Moving right
                             if (grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardEast || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightEast || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftEast)
                             {
                                 crab.XVelo += crab.Speed;
                                 crab.YVelo = 0;
-                                crab.X = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].X;
+                                crab.Y = grid.GridBoxes[crab.CurrentLocation[0], crab.CurrentLocation[1] + 1].Y;
+                                crab.CurrentLocation = new int[] { crab.CurrentLocation[0] + 1, crab.CurrentLocation[1] };
+
                             }
-                            else if (grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardSouth)
+                            else if (grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.ForwardSouth || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnLeftSouth || grid.GridBoxes[crab.CurrentLocation[0] + 1, crab.CurrentLocation[1]].CrabPathing == CrabMotion.TurnRightSouth)
                             {
                                 crab.CurrentLocation = new int[] { crab.CurrentLocation[0] + 1, crab.CurrentLocation[1] };
                             }
