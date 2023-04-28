@@ -419,7 +419,7 @@ namespace TurtleTowerDefense
                 case GameState.Game:
                     gameSettingsButton.Update();
 
-                    if (towerManager.HomeBaseHP <= 0)
+                    if (homeBaseHP <= 0)
                     {
                         currentState = GameState.GameOver;
                     }
@@ -458,7 +458,7 @@ namespace TurtleTowerDefense
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
-                            crabManager.CrabMovement(grid);
+                            crabManager.CrabMovement(grid, ref homeBaseHP);
 
                             if (crabManager.Crabs.Count == 0)
                             {
