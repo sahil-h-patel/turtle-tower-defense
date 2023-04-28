@@ -497,7 +497,7 @@ namespace TurtleTowerDefense
 
                     break;
 
-                    //introduction to the game if it is the first time that the user is playing
+                //introduction to the game if it is the first time that the user is playing
                 case GameState.Tutorial:
                     switch (currentTutorialPage)
                     {
