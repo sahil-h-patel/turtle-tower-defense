@@ -47,9 +47,9 @@ namespace TurtleTowerDefense
         /// </summary>
         public void LoadContent(ContentManager Content)
         {
-            basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
-            fastCrabTexture = Content.Load<Texture2D>("fast crab sprite");
-            chungusCrabTexture = Content.Load<Texture2D>("chungus crab sprite");
+            basicCrabTexture = Content.Load<Texture2D>("Sprites/basic crab sprite");
+            fastCrabTexture = Content.Load<Texture2D>("Sprites/fast crab sprite");
+            chungusCrabTexture = Content.Load<Texture2D>("Sprites/chungus crab sprite");
         }
 
         /// <summary>
