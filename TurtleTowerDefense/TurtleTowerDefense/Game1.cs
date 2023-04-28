@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 namespace TurtleTowerDefense
 {
     enum TowerType { None, Cannon, Catapult, Fire };
-    enum TutorialPage { Page1, Page2};
+    enum TutorialPage { Page1, Page2 };
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -29,8 +29,8 @@ namespace TurtleTowerDefense
         private SpriteFont comicSans20;
 
         //final sprites
-        //private Texture2D homeBaseTexture;
-        //private Texture2D cannonTowerTexture;
+        private Texture2D homeBaseTexture;
+        private Texture2D cannonTowerTexture;
         private Texture2D gameOverScreen;
         private Texture2D basicCrabTexture;
         private Texture2D fastCrabTexture;
@@ -39,47 +39,47 @@ namespace TurtleTowerDefense
         private Texture2D gameSettingsScreen;
 
         //button
-        private Button classicModeButton;
-        private Texture2D classicModeTexture;
-        private Texture2D classicModeHoverTexture;
-        private Button endlessModeButton;
-        private Texture2D endlessModeTexture;
-        private Texture2D endlessModeHoverTexture;
-        private Button settingsButton;
-        private Texture2D settingsButtonTexture;
-        private Texture2D settingsButtonHoverTexture;
-        private Button backButtonMenu;
-        private Button backButtonGame;
-        private Texture2D backButtonTexture;
-        private Texture2D backButtonHoverTexture;
-        private Button cannonButton;
-        private Texture2D cannonButtonTexture;
-        private Texture2D cannonButtonHoverTexture;
-        private Button catapultButton;
-        private Texture2D catapultButtonTexture;
-        private Texture2D catapultButtonHoverTexture;
-        private Button fireButton;
-        private Texture2D fireButtonTexture;
-        private Texture2D fireButtonHoverTexture;
-        private Button gameSettingsButton;
-        private Button skipButton;
-        private Texture2D skipTexture;
-        private Texture2D skipHoverTexture;
-        private Button backButtonMode;
-        private Button quitToMenuButton;
-        private Texture2D quitTexture;
-        private Texture2D quitHoverTexture;
-        private Texture2D cannonButtonSelectedTexture;
-        private Texture2D catapultButtonSelectedTexture;
-        private Texture2D fireButtonSelectedTexture;
-        private Texture2D tutorial1Texture;
-        private Texture2D tutorial2Texture;
-        private Texture2D tutorialNextTexture;
-        private Texture2D tutorialNextHoverTexture;
-        private Button tutorialNextButton;
-        private Texture2D tutorialOkTexture;
-        private Texture2D tutorialOkHoverTexture;
-        private Button tutorialOkButton;
+        private Button classicmodebutton;
+        private Texture2D classicmodetexture;
+        private Texture2D classicmodehovertexture;
+        private Button endlessmodebutton;
+        private Texture2D endlessmodetexture;
+        private Texture2D endlessmodehovertexture;
+        private Button settingsbutton;
+        private Texture2D settingsbuttontexture;
+        private Texture2D settingsbuttonhovertexture;
+        private Button backbuttonmenu;
+        private Button backbuttongame;
+        private Texture2D backbuttontexture;
+        private Texture2D backbuttonhovertexture;
+        private Button cannonbutton;
+        private Texture2D cannonbuttontexture;
+        private Texture2D cannonbuttonhovertexture;
+        private Button catapultbutton;
+        private Texture2D catapultbuttontexture;
+        private Texture2D catapultbuttonhovertexture;
+        private Button firebutton;
+        private Texture2D firebuttontexture;
+        private Texture2D firebuttonhovertexture;
+        private Button gamesettingsbutton;
+        private Button skipbutton;
+        private Texture2D skiptexture;
+        private Texture2D skiphovertexture;
+        private Button backbuttonmode;
+        private Button quittomenubutton;
+        private Texture2D quittexture;
+        private Texture2D quithovertexture;
+        private Texture2D cannonbuttonselectedtexture;
+        private Texture2D catapultbuttonselectedtexture;
+        private Texture2D firebuttonselectedtexture;
+        private Texture2D tutorial1texture;
+        private Texture2D tutorial2texture;
+        private Texture2D tutorialnexttexture;
+        private Texture2D tutorialnexthovertexture;
+        private Button tutorialnextbutton;
+        private Texture2D tutorialoktexture;
+        private Texture2D tutorialokhovertexture;
+        private Button tutorialokbutton;
 
         private GameState currentState;
         private BattleState inGameState;
@@ -181,8 +181,8 @@ namespace TurtleTowerDefense
             gameOverScreen = Content.Load<Texture2D>("game over");
             tutorial1Texture = Content.Load<Texture2D>("tutorial screen 1");
             tutorial2Texture = Content.Load<Texture2D>("tutorial screen 2");
-            //homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
-            //cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
+            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
 
             //buttons
@@ -497,7 +497,7 @@ namespace TurtleTowerDefense
 
                     break;
 
-                    //introduction to the game if it is the first time that the user is playing
+                //introduction to the game if it is the first time that the user is playing
                 case GameState.Tutorial:
                     switch (currentTutorialPage)
                     {
