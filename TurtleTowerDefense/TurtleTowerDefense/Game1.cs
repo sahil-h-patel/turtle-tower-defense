@@ -470,6 +470,7 @@ namespace TurtleTowerDefense
                             // Checks for Crab Targets
                             towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
+
                             //// Moves crabs, along with a timer spacing them out from being spawned
                             //for (int i = 0; i < basicCrabs.Count; i++)
                             //{

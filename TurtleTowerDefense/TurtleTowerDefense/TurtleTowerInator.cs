@@ -29,6 +29,7 @@ namespace TurtleTowerDefense
 
         // Textures
         protected Texture2D cannonTowerTexture;
+        protected Texture2D bulletTexutre;
         protected Texture2D homeBaseTexture;
         protected Texture2D catapultTowerTexture;
         protected Texture2D fireTowerTexture;
@@ -55,11 +56,12 @@ namespace TurtleTowerDefense
         {
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            bulletTexutre = Content.Load<Texture2D>("bullet");
             catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
             fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
 
             // Default cannon tower
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
+            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, bulletTexutre);
         }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace TurtleTowerDefense
                         switch (tower)
                         {
                             case TowerType.Cannon:
-                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y));
+                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexutre));
                                 seashells -= defaultCannonTower.Cost;
                                 tower = TowerType.None;
                                 break;
@@ -111,8 +113,11 @@ namespace TurtleTowerDefense
             for (int i = 0; i < turtleTowers.Count; i++)
             {
                 turtleTowers[i].CheckForTargets(crabs, gT);
+                turtleTowers[i].Update(gT);
             }
         }
+
+        
 
         /// <summary>
         /// Draws all the towers on the screen
