@@ -80,23 +80,23 @@ namespace TurtleTowerDefense
             if (animTimer <= 0)
             {
                 //first frame (idle)
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite/2, hitbox.Y + widthOfSingleSprite/2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite/2, WidthOfSingleSprite/2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else
             {
                 if (animTimer >= 0.4)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite/2, hitbox.Y = widthOfSingleSprite/2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 3), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
                 else if (animTimer >= 0.2)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 2), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
                 else if (animTimer >= 0)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle((widthOfSingleSprite * 1), 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
 
@@ -131,9 +131,9 @@ namespace TurtleTowerDefense
             {
                 foreach (Crab crab in crabList)
                 {
-                    double distance = Math.Sqrt(Math.Pow((crab.X - center.X), 2) + Math.Pow((crab.Y - center.Y), 2));
+                    double distance = Math.Sqrt(Math.Pow(crab.X - center.X, 2) + Math.Pow(crab.Y - center.Y, 2));
 
-                    if (distance <= this.bDetectionRadius && target == null)
+                    if (distance <= bDetectionRadius && target == null)
                     {
                         target = crab;
                     }
@@ -142,8 +142,8 @@ namespace TurtleTowerDefense
             // Otherwise, attack the crab!
             else
             {
-                rotation = (float)Math.Atan2((double)target.Y - (double)hitbox.Y, (double)target.X - (double)hitbox.X);
-                double distance = Math.Sqrt(Math.Pow((target.X - center.X), 2) + Math.Pow((target.Y - center.Y), 2));
+                rotation = (float)Math.Atan2(target.Y - (double)hitbox.Y, target.X - (double)hitbox.X);
+                double distance = Math.Sqrt(Math.Pow(target.X - center.X, 2) + Math.Pow(target.Y - center.Y, 2));
 
                 // Damage crab if cooldown is 0
                 if (tAttackCooldown <= 0)
@@ -158,7 +158,7 @@ namespace TurtleTowerDefense
                     tAttackCooldown = bAttackCooldown;
                 }
                 // Sets to target to null if out of range
-                if (distance > this.bDetectionRadius)
+                if (distance > bDetectionRadius)
                 {
                     target = null;
                 }

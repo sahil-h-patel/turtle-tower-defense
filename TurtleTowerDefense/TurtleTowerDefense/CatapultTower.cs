@@ -28,7 +28,7 @@ namespace TurtleTowerDefense
             animTimer = 0; //set initially to 0
             widthOfSingleSprite = 100;
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
-            center = new Vector2(x + (hitbox.Width / 2), y + (hitbox.Height / 2));
+            center = new Vector2(x + hitbox.Width / 2, y + hitbox.Height / 2);
         }
 
 

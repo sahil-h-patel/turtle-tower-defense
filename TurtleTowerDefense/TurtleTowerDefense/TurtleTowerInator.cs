@@ -24,7 +24,6 @@ namespace TurtleTowerDefense
         protected int homeBaseHP;
         protected Rectangle homeBaseRect;
         protected List<Tower> turtleTowers;
-
         protected Tower defaultCannonTower;
 
         // Textures
@@ -53,10 +52,10 @@ namespace TurtleTowerDefense
         /// </summary>
         public void LoadContent(ContentManager Content)
         {
-            homeBaseTexture = Content.Load<Texture2D>("Sprites/homebase sprite");
-            cannonTowerTexture = Content.Load<Texture2D>("Sprites/cannon tower sprite");
-            catapultTowerTexture = Content.Load<Texture2D>("Sprites/catapult tower sprite");
-            fireTowerTexture = Content.Load<Texture2D>("Sprites/fire tower sprite");
+            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
+            cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
+            catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
+            fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
 
             // Default cannon tower
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50);
