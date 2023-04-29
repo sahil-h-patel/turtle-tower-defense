@@ -11,12 +11,16 @@ namespace TurtleTowerDefense
     internal class CannonTower : Tower
     {
 
+        public Bullet Bullet;
+        private Texture2D bulletTexture;
+        public List<Bullet> bullets;
+
         /// <summary>
         /// Creates a new cannon tower object, and intializes all of it's data
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public CannonTower(Texture2D image, int x, int y) : base(image)
+        public CannonTower(Texture2D image, int x, int y, Texture2D bulletTexture) : base(image)
         {
             //upgradeTree = 
             bDetectionRadius = 300.0; // sets detection radius of cannon tower
@@ -27,9 +31,11 @@ namespace TurtleTowerDefense
             tAttackCooldown = bAttackCooldown;
             widthOfSingleSprite = 100;
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
-            center = new Vector2(x + hitbox.Width / 2, y + hitbox.Height / 2);
+            center = new Vector2(x + (hitbox.Width/2), y + (hitbox.Height/2));
         }
 
+            base.Draw(sb, gT);
 
+        }
     }
 }

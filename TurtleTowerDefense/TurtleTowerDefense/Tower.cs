@@ -70,12 +70,20 @@ namespace TurtleTowerDefense
         }
 
         /// <summary>
+        /// updates bullet information, etc.
+        /// </summary>
+        public virtual void Update(GameTime gt)
+        {
+
+        }
+
+        /// <summary>
         /// Draws a tower
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void Draw(SpriteBatch sb, GameTime gT)
+        public virtual void Draw(SpriteBatch sb, GameTime gT)
         {
             if (animTimer <= 0)
             {
@@ -120,7 +128,7 @@ namespace TurtleTowerDefense
         /// Takes in a list of crabs and checks if any of them are within range for attacking
         /// </summary>
         /// <param name="crabList"></param>
-        public void CheckForTargets(List<Crab> crabList, GameTime gt)
+        public virtual void CheckForTargets(List<Crab> crabList, GameTime gt)
         {
 
             // Cooldown is always ticking down
