@@ -371,6 +371,8 @@ namespace TurtleTowerDefense
                     // Resets towers and wave counter if values were modified
                     towerManager.Reset();
                     grid.Reset();
+                    crabManager.Reset();
+                    homeBaseHP = 100;
                     waveCounter = 1;
                     setupTimer = 10;
 

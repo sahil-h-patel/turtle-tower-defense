@@ -94,17 +94,17 @@ namespace TurtleTowerDefense
             {
                 if (animTimer >= 0.4)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
                 else if (animTimer >= 0.2)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
                 else if (animTimer >= 0)
                 {
-                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y = widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                    sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
 
                 }
 

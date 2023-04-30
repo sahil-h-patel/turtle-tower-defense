@@ -28,7 +28,7 @@ namespace TurtleTowerDefense
 
         // Textures
         protected Texture2D cannonTowerTexture;
-        protected Texture2D bulletTexutre;
+        protected Texture2D bulletTexture;
         protected Texture2D homeBaseTexture;
         protected Texture2D catapultTowerTexture;
         protected Texture2D fireTowerTexture;
@@ -59,9 +59,10 @@ namespace TurtleTowerDefense
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
             fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
+            bulletTexture = Content.Load<Texture2D>("cannon tower sprite");
 
             // Default cannon tower
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, bulletTexutre);
+            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, bulletTexture);
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace TurtleTowerDefense
                         switch (tower)
                         {
                             case TowerType.Cannon:
-                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexutre));
+                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
                                 seashells -= defaultCannonTower.Cost;
                                 tower = TowerType.None;
                                 break;

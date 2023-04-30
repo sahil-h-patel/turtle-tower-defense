@@ -23,6 +23,7 @@ namespace TurtleTowerDefense
         protected int[] currentLocation;
         protected double xVelo;
         protected double yVelo;
+        protected float rotation;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -74,7 +75,15 @@ namespace TurtleTowerDefense
         /// </summary>
         public double YVelo { get { return yVelo; } set { yVelo = value; } }
 
+        /// <summary>
+        /// Returns the speed of the crab
+        /// </summary>
         public double Speed { get { return speed; } }
+
+        /// <summary>
+        /// Returns or sets the rotation of the crab
+        /// </summary>
+        public float Rotation { get { return rotation; } set { rotation = value; } }
 
 
         /// <summary>
@@ -98,11 +107,11 @@ namespace TurtleTowerDefense
         {
             if (attacked)
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(100, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.MonoGameOrange);
+                sb.Draw(image, new Rectangle(hitbox.X + (widthOfSingleSprite / 2), hitbox.Y + widthOfSingleSprite / 2, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(widthOfSingleSprite, 0, widthOfSingleSprite, image.Height), Color.Red, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else
             {
-                sb.Draw(image, new Rectangle(hitbox.X, hitbox.Y, spaceTaken * 40, spaceTaken * 40), new Rectangle(0, 0, widthOfSingleSprite * 2 + 20, image.Height), Color.White);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
 
         }
