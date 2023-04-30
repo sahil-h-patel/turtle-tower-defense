@@ -37,7 +37,7 @@ namespace TurtleTowerDefense
         private Texture2D chungusCrabTexture;
         private Texture2D menuSettingsScreen;
         private Texture2D gameSettingsScreen;
-
+        private Texture2D resetWaveTexture;
         //button
         private Button classicModeButton;
         private Texture2D classicModeTexture;
@@ -105,7 +105,8 @@ namespace TurtleTowerDefense
         private CannonTower defaultCannonTower;
 
         private int waveCounter;
-
+        ResetWave wave;
+        private Rectangle resetWaveRect;
         // Debug mode. Gives infinite money and makes homebase invincible.
         private bool debugMode;
 
@@ -143,6 +144,7 @@ namespace TurtleTowerDefense
             setupTimer = 4;
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(0, 240, 120, 240);
+            resetWaveRect = new Rectangle(1280, 0, 1280, 720);
 
             //set up grid
             grid = new Grid(16, 31);
@@ -184,7 +186,7 @@ namespace TurtleTowerDefense
             homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
-
+            resetWaveTexture = Content.Load<Texture2D>("reset wave");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -249,6 +251,8 @@ namespace TurtleTowerDefense
             towerManager.LoadContent(Content);
             crabManager.LoadContent(Content);
 
+            // Initializing resetWave
+            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
 
         }
 
@@ -428,6 +432,11 @@ namespace TurtleTowerDefense
                     {
                         // Allows the player time to place and upgrade towers
                         case BattleState.Setup:
+                            if (waveCounter % 2 == 0)
+                            {
+                                wave.Active = true;
+                            }
+                            wave.Update(_graphics, towerManager.Towers);
                             crabListFilled = false;
                             basicCrabs.Clear();
                             cannonButton.Update();
@@ -436,6 +445,7 @@ namespace TurtleTowerDefense
                             skipButton.Update();
 
                             // If you run out of time setting up, change into assault mode, beginning the crab attack
+
                             setupTimer -= gameTime.ElapsedGameTime.TotalSeconds;
 
                             if (setupTimer <= 0)
@@ -444,17 +454,18 @@ namespace TurtleTowerDefense
                             }
 
                             // Places a tower, if the player has enough cash and one is selected
+
                             if (currentTower != TowerType.None)
                             {
                                 towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState, ref currentTower);
                             }
-
                             break;
 
 
 
                         // Begins the crab assault on the turtle base
                         case BattleState.Assault:
+
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
@@ -628,7 +639,9 @@ namespace TurtleTowerDefense
                     {
                         // Specifics during setup phase
                         case BattleState.Setup:
+
                             string timerString = String.Format("{0:0}", setupTimer);
+                            wave.Draw(_spriteBatch);
                             cannonButton.Draw(_spriteBatch);
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
@@ -702,7 +715,6 @@ namespace TurtleTowerDefense
                             //}
 
                             crabManager.Draw(_spriteBatch, debugMode);
-
 
                             break;
                     }

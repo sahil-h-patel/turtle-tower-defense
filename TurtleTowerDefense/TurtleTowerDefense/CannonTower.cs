@@ -33,9 +33,7 @@ namespace TurtleTowerDefense
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
             center = new Vector2(x + (hitbox.Width/2), y + (hitbox.Height/2));
         }
-
-            base.Draw(sb, gT);
-
-        }
+        
     }
 }
+

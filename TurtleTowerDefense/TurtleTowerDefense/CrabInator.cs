@@ -50,6 +50,7 @@ namespace TurtleTowerDefense
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
             fastCrabTexture = Content.Load<Texture2D>("fast crab sprite");
             chungusCrabTexture = Content.Load<Texture2D>("chungus crab sprite");
+            comicSans20 = Content.Load<SpriteFont>("comicSans20");
         }
 
         /// <summary>

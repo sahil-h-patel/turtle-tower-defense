@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace TurtleTowerDefense
 {
-    internal class Wave : GameObject
+    internal class ResetWave
     {
-        protected Rectangle hitbox;
         protected List<Tower> towers;
+        protected Rectangle hitbox;
         protected Texture2D image;
         protected bool active;
+        private Vector2 position;
 
-        Wave(Texture2D image, Rectangle hitbox, List<Tower> towers) :base(image)
+        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers)
         {
             this.image = image;
             this.hitbox = hitbox;
@@ -24,41 +25,49 @@ namespace TurtleTowerDefense
             active = false;
         }
 
+        public bool Active { set { active = value; } }
+        private int X { get { return hitbox.X; } set { hitbox.X = value; } }
+        private int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+
         public void RemoveTower(List<Tower> towers)
         {
-            foreach (Tower tower in towers)
+            for (int i = 0; i < towers.Count; i++)
             {
-                if (hitbox.Intersects(tower.Hitbox))
+                if (hitbox.Intersects(towers[i].Hitbox))
                 {
-                    towers.Remove(tower);
+                    towers.Remove(towers[i]);
                 }
             }
         }
 
-        public override void Update(GameTime gt, GraphicsDeviceManager g)
+        public void Update(GraphicsDeviceManager g, List<Tower> updatedTowers)
         {
+            // Updates towers so that it can remove the correct amount of towers
+            towers = updatedTowers;
             if (active)
             {
-                // Moves the wave to the left and should recede back removing towers
+                // Moves the wave to the left
                 while (X != 0)
                 {
                     X -= 5;
                     RemoveTower(towers);
                 }
-                while(X == g.PreferredBackBufferWidth)
+
+                // Wave recedes back(moves to the right)
+                while (X != g.PreferredBackBufferWidth)
                 {
                     X += 5;
                 }
-                
-
             }
-            base.Update(gt, g);
         }
 
-        public override void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
-            sb.Draw(image, hitbox, Color.White);
-            base.Draw(sb);
+            if (active)
+            {
+                sb.Draw(image, new Rectangle(X, Y, hitbox.Width, hitbox.Height), Color.White);
+            }
         }
+
     }
 }
