@@ -99,6 +99,7 @@ namespace TurtleTowerDefense
 
         // Cash for player
         private int seashells;
+        private int spentShells;
         // Contains all placed turtle towers
         private List<Tower> turtleTowers;
         // Contains all basicCrabs
@@ -385,6 +386,7 @@ namespace TurtleTowerDefense
                     homeBaseHP = 100;
                     waveCounter = 1;
                     setupTimer = 10;
+                    spentShells = 0;
 
                     settingsButton.Update();
 
@@ -473,7 +475,7 @@ namespace TurtleTowerDefense
 
                             if (currentTower != TowerType.None)
                             {
-                                towerManager.PlaceTower(grid, ref seashells, currentMouseState, prevMouseState, ref currentTower);
+                                towerManager.PlaceTower(grid, ref seashells, ref spentShells, currentMouseState, prevMouseState, ref currentTower);
                             }
                             break;
 
@@ -501,6 +503,9 @@ namespace TurtleTowerDefense
 
                         case BattleState.Wave:
                             wave.Update(_graphics, currentLevel, towerManager.Towers, ref inGameState, grid);
+                            // Refunds half of what was spent
+                            seashells += spentShells/2;
+                            spentShells = 0;
                             break;
 
                     }

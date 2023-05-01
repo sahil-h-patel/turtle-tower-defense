@@ -16,7 +16,7 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public FireTower(Texture2D image, int x, int y) : base(image)
+        public FireTower(Texture2D image, int x, int y, Texture2D bulletTexture) : base(image)
         {
             //upgradeTree = 
             bDetectionRadius = 300.0; // sets detection radius of cannon tower

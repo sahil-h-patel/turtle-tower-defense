@@ -58,6 +58,7 @@ namespace TurtleTowerDefense
         /// <param name="grid"></param>
         public void LocateSpawnPoint(Grid grid)
         {
+            spawnPoints.Clear();
             // Since the grid is a 2d array, set up two for statements
             for (int i = 0; i < grid.GridBoxes.GetLength(0); i++)
             {

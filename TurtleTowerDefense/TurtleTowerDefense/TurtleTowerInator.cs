@@ -25,6 +25,8 @@ namespace TurtleTowerDefense
         protected Rectangle homeBaseRect;
         protected List<Tower> turtleTowers;
         protected Tower defaultCannonTower;
+        protected Tower defaultCatapultTower;
+        protected Tower defaultFireTower;
 
         // Textures
         protected Texture2D cannonTowerTexture;
@@ -63,12 +65,14 @@ namespace TurtleTowerDefense
 
             // Default cannon tower
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, bulletTexture);
+            defaultCatapultTower = new CatapultTower(catapultTowerTexture, -50, -50, bulletTexture);
+            defaultFireTower = new FireTower(fireTowerTexture, -50, -50, bulletTexture);
         }
 
         /// <summary>
         /// If the player clicks on a grid square
         /// </summary>
-        public void PlaceTower(Grid buildGrid, ref int seashells, MouseState currentMouseState, MouseState prevMouseState, ref TowerType tower)
+        public void PlaceTower(Grid buildGrid, ref int seashells, ref int spentShells, MouseState currentMouseState, MouseState prevMouseState, ref TowerType tower)
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
             if (seashells >= defaultCannonTower.Cost)
@@ -84,18 +88,21 @@ namespace TurtleTowerDefense
                             case TowerType.Cannon:
                                 turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
                                 seashells -= defaultCannonTower.Cost;
+                                spentShells += defaultCannonTower.Cost;
                                 tower = TowerType.None;
                                 break;
 
                             case TowerType.Catapult:
-                                turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y));
-                                seashells -= defaultCannonTower.Cost;
+                                turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                                seashells -= defaultCatapultTower.Cost;
+                                spentShells += defaultCatapultTower.Cost;
                                 tower = TowerType.None;
                                 break;
 
                             case TowerType.Fire:
-                                turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y));
-                                seashells -= defaultCannonTower.Cost;
+                                turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                                seashells -= defaultFireTower.Cost;
+                                spentShells += defaultFireTower.Cost;
                                 tower = TowerType.None;
                                 break;
                         }
