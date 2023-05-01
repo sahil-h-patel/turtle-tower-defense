@@ -166,7 +166,7 @@ namespace TurtleTowerDefense
         {
             for (int c = 0; c < grid.GetLength(0); c++)
             {
-                for (int r = 0; r < 26; r++)
+                for (int r = 0; r < grid.GetLength(1); r++)
                 {
                     if (grid[c, r].PathTexture != null)
                     {

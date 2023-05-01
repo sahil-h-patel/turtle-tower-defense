@@ -108,7 +108,7 @@ namespace TurtleTowerDefense
         private CannonTower defaultCannonTower;
 
         private int waveCounter;
-        ResetWave wave;
+        private ResetWave wave;
         private Rectangle resetWaveRect;
         // Debug mode. Gives infinite money and makes homebase invincible.
         private bool debugMode;
@@ -255,8 +255,6 @@ namespace TurtleTowerDefense
             towerManager.LoadContent(Content);
             crabManager.LoadContent(Content);
 
-            // Creates a new ResetWave object
-            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
             // Creates a new Level object
             currentLevel = new Level(straightPathTexture, turnPathTexture);
             // Initializing resetWave
@@ -289,7 +287,7 @@ namespace TurtleTowerDefense
             {
                 StartGame();
                 wave.FillLevelList("../../../Levels/Map1/");
-                wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
+                wave.ChooseLevel(ref currentLevel, grid);
             }
 
         }
@@ -304,7 +302,7 @@ namespace TurtleTowerDefense
             firstPlay = false;
             StartGame();
             wave.FillLevelList("../../../Levels/Map1/");
-            wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
+            wave.ChooseLevel(ref currentLevel, grid);
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
@@ -448,6 +446,7 @@ namespace TurtleTowerDefense
                             // Wave shenanigans
                             if (wave.WaveTimer <= 0)
                             {
+                                wave.Active = true;
                                 inGameState = BattleState.Wave;
                             }
 
@@ -501,8 +500,7 @@ namespace TurtleTowerDefense
                             break;
 
                         case BattleState.Wave:
-                            wave.Active = true;
-                            wave.Update(_graphics, currentLevel, towerManager.Towers, inGameState);
+                            wave.Update(_graphics, currentLevel, towerManager.Towers, inGameState, grid);
                             break;
 
                     }
@@ -643,11 +641,12 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
 
                     gameSettingsButton.Draw(_spriteBatch);
-
+                    grid.DrawPath(_spriteBatch);
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
 
                     switch (inGameState)
                     {
+
                         // Specifics during setup phase
                         case BattleState.Setup:
 
@@ -656,7 +655,6 @@ namespace TurtleTowerDefense
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
                             skipButton.Draw(_spriteBatch);
-                            grid.DrawPath(_spriteBatch);
                             switch (currentTower)
                             {
                                 case TowerType.Cannon:
