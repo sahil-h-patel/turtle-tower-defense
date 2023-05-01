@@ -68,7 +68,7 @@ namespace TurtleTowerDefense
         /// <param name="g"></param>
         /// <param name="level"></param>
         /// <param name="updatedTowers"></param>
-        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers, BattleState gameState, Grid grid)
+        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers, ref BattleState gameState, Grid grid)
         {
             // Updates towers so that it can remove the correct amount of towers
             towers = updatedTowers;
@@ -84,14 +84,17 @@ namespace TurtleTowerDefense
                 // Wave recedes back(moves to the right)
                 if (X <= 0 || movingLeft == false)
                 {
-                    ChooseLevel(ref level, grid);
+                    if (waveTimer == 0)
+                    {
+                        ChooseLevel(ref level, grid);
+                    }
+                    waveTimer = bWaveTimer;
                     movingLeft = false;
                     X += 20;
                     if (X > g.PreferredBackBufferWidth)
                     {
                         active = false;
                         movingLeft = true;
-                        waveTimer = bWaveTimer;
                         gameState = BattleState.Setup;
                     }
                 }

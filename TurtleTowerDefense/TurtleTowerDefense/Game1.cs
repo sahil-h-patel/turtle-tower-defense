@@ -500,7 +500,7 @@ namespace TurtleTowerDefense
                             break;
 
                         case BattleState.Wave:
-                            wave.Update(_graphics, currentLevel, towerManager.Towers, inGameState, grid);
+                            wave.Update(_graphics, currentLevel, towerManager.Towers, ref inGameState, grid);
                             break;
 
                     }
