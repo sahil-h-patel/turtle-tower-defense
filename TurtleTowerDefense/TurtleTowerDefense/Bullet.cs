@@ -98,20 +98,23 @@ namespace TurtleTowerDefense
         /// draws bullet on screen
         /// </summary>
         /// <param name="sb"></param>
-        public virtual void Draw(SpriteBatch sb, GraphicsDevice gD, float rotation)
+        public virtual void Draw(SpriteBatch sb, GraphicsDevice gD, float rotation, bool debug)
         {
             if (!isRemoved)
             {
                 if (bRotation == default)
                 {
-                     bRotation = rotation;
+                    bRotation = rotation;
                 }
                 sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, hitBox.Width, hitBox.Height), null, Color.White, bRotation, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None, 0f);
-                sb.End();
-                ShapeBatch.Begin(gD);
-                ShapeBatch.BoxOutline(this.hitBox, Color.Black);
-                ShapeBatch.End();
-                sb.Begin();
+                if (debug)
+                {
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.BoxOutline(this.hitBox, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
             }
         }
         /// <summary>

@@ -188,7 +188,7 @@ namespace TurtleTowerDefense
             MouseState mouse = Mouse.GetState();
             for (int i = 0; i < turtleTowers.Count; i++)
             {
-                turtleTowers[i].Draw(sb, gT, gD);
+                turtleTowers[i].Draw(sb, gT, gD, debugMode);
                 if (debugMode)
                 {
                     sb.End();

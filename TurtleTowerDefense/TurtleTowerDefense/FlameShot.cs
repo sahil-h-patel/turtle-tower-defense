@@ -69,7 +69,7 @@ namespace TurtleTowerDefense
 
         }
 
-        public virtual void Draw(SpriteBatch sb, GraphicsDevice gD, float rotation)
+        public override void Draw(SpriteBatch sb, GraphicsDevice gD, float rotation, bool debug)
         {
             if (!isRemoved)
             {
@@ -78,11 +78,14 @@ namespace TurtleTowerDefense
                     bRotation = rotation;
                 }
                 sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, hitBox.Width, hitBox.Height/2), null, Color.White, bRotation, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None, 0f);
-                sb.End();
-                ShapeBatch.Begin(gD);
-                ShapeBatch.BoxOutline(this.hitBox, Color.Black);
-                ShapeBatch.End();
-                sb.Begin();
+                if (debug)
+                {
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.BoxOutline(this.hitBox, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
             }
         }
 

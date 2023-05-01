@@ -110,14 +110,14 @@ namespace TurtleTowerDefense
             }
         }
 
-        public override void Draw(SpriteBatch sb, GameTime gT, GraphicsDevice gD)
+        public override void Draw(SpriteBatch sb, GameTime gT, GraphicsDevice gD, bool debug)
         {
             foreach (FlameShot bullet in bullets)
             {
-                bullet.Draw(sb, gD, rotation);
+                bullet.Draw(sb, gD, rotation, debug);
             }
 
-            base.Draw(sb, gT, gD);
+            base.Draw(sb, gT, gD, debug);
 
         }
 
