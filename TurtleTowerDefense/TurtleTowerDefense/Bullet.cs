@@ -34,6 +34,10 @@ namespace TurtleTowerDefense
         {
             get { return texture; }
         }
+        /// <summary>
+        /// Returns or sets the isRemoved boolean
+        /// </summary>
+        public bool IsRemoved { get { return isRemoved; } set { isRemoved = value; } }
 
         public Bullet(Texture2D texture)
         {

@@ -24,6 +24,8 @@ namespace TurtleTowerDefense
         protected double xVelo;
         protected double yVelo;
         protected float rotation;
+        private double bDamageTimer;
+        private double tDamageTimer;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -85,6 +87,13 @@ namespace TurtleTowerDefense
         /// </summary>
         public float Rotation { get { return rotation; } set { rotation = value; } }
 
+        /// <summary>
+        /// Returns the attacked boolean
+        /// </summary>
+        public bool Attacked { get { return attacked; } set { attacked = value; } }
+
+        public double DamageTimer { get { return tDamageTimer; } set { tDamageTimer = value; } }
+
 
         /// <summary>
         /// Gets the width of one sprite
@@ -99,6 +108,8 @@ namespace TurtleTowerDefense
             alive = true;
             xVelo = speed;
             this.currentLocation = currentLocation;
+            bDamageTimer = 0.3;
+            tDamageTimer = bDamageTimer;
         }
 
         // A method to detect its current position which will be used in Update to adjust appropiate values
@@ -107,11 +118,11 @@ namespace TurtleTowerDefense
         {
             if (attacked)
             {
-                sb.Draw(image, new Rectangle(hitbox.X + (widthOfSingleSprite / 2), hitbox.Y + widthOfSingleSprite / 2, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(widthOfSingleSprite, 0, widthOfSingleSprite, image.Height), Color.Red, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2 - 10, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(widthOfSingleSprite, 0, widthOfSingleSprite, image.Height), Color.Red, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else
             {
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2  - 10, 40 * spaceTaken, 40 * spaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
 
         }
@@ -125,13 +136,6 @@ namespace TurtleTowerDefense
         {
             health -= damage;
             attacked = true;
-
-            double timer = 0.3;
-            timer -= gt.ElapsedGameTime.TotalSeconds;
-            if (timer <= 0)
-            {
-                attacked = false;
-            }
         }
 
     }

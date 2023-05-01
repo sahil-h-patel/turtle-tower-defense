@@ -141,11 +141,19 @@ namespace TurtleTowerDefense
         /// Will move the crabs according to the level that's currently loaded
         /// </summary>
         /// <param name="crabPathing"></param>
-        public void CrabMovement(Grid grid, ref int homeBaseHP, ref int seashells)
+        public void CrabMovement(Grid grid, ref int homeBaseHP, ref int seashells, GameTime gT)
         {
             // Remove crab if it's dead
             for (int i = 0; i < crabs.Count; i++)
             {
+                if (crabs[i].Attacked)
+                {
+                    crabs[i].DamageTimer -= gT.ElapsedGameTime.TotalSeconds;
+                    if (crabs[i].DamageTimer <= 0)
+                    {
+                        crabs[i].Attacked = false;
+                    }
+                }
                 if (crabs[i].Health <= 0)
                 {
                     if (crabs[i] is BasicCrab)
@@ -161,9 +169,12 @@ namespace TurtleTowerDefense
                         seashells += 35;
                     }
                     crabs.RemoveAt(i);
-
                 }
+
             }
+
+            // Does the crab timer for being attacked
+
             if (crabs.Count == 0)
             {
                 crabListFilled = false;

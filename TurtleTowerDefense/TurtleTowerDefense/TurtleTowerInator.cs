@@ -29,11 +29,26 @@ namespace TurtleTowerDefense
         // Textures
         protected Texture2D cannonTowerTexture;
         protected Texture2D bulletTexture;
-        protected Texture2D homeBaseTexture;
         protected Texture2D catapultTowerTexture;
         protected Texture2D fireTowerTexture;
 
+        /// <summary>
+        /// Returns a list of all the turtle towers
+        /// </summary>
         public List<Tower> Towers { get { return turtleTowers; } }
+
+        /// <summary>
+        /// Returns the cannon tower texture
+        /// </summary>
+        public Texture2D CannonTowerTexture { get { return cannonTowerTexture; } }
+        /// <summary>
+        /// Returns the catapult tower texture
+        /// </summary>
+        public Texture2D CatapultTowerTexture { get { return catapultTowerTexture; } }
+        /// <summary>
+        /// Returns the fire tower texture
+        /// </summary>
+        public Texture2D FireTowerTexture { get { return fireTowerTexture; } }
 
         /// <summary>
         /// Essentially works as intialization. Sets up all fields
@@ -67,7 +82,8 @@ namespace TurtleTowerDefense
         public void PlaceTower(Grid buildGrid, ref int seashells, ref int spentShells, MouseState currentMouseState, MouseState prevMouseState, ref TowerType tower)
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
-            if (seashells >= defaultCannonTower.Cost)
+            // This is the pricing and checks for a cannon tower
+            if (seashells > defaultCannonTower.Cost && tower == TowerType.Cannon)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -75,30 +91,49 @@ namespace TurtleTowerDefense
 
                     if (towerPos != default)
                     {
-                        switch (tower)
-                        {
-                            case TowerType.Cannon:
-                                turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
-                                seashells -= defaultCannonTower.Cost;
-                                spentShells += defaultCannonTower.Cost;
-                                tower = TowerType.None;
-                                break;
 
-                            case TowerType.Catapult:
-                                turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
-                                seashells -= defaultCatapultTower.Cost;
-                                spentShells += defaultCatapultTower.Cost;
-                                tower = TowerType.None;
-                                break;
-
-                            case TowerType.Fire:
-                                turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
-                                seashells -= defaultFireTower.Cost;
-                                spentShells += defaultFireTower.Cost;
-                                tower = TowerType.None;
-                                break;
-                        }
+                        turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        seashells -= defaultCannonTower.Cost;
+                        spentShells += defaultCannonTower.Cost;
+                        tower = TowerType.None;
                     }
+
+                }
+            }
+            // Pricing and checks for a catapult tower
+            if (seashells > defaultCatapultTower.Cost && tower == TowerType.Catapult)
+            {
+                if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                {
+                    Vector2 towerPos = buildGrid.GetClickedPosition(currentMouseState);
+
+                    if (towerPos != default)
+                    {
+
+                        turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        seashells -= defaultCatapultTower.Cost;
+                        spentShells += defaultCatapultTower.Cost;
+                        tower = TowerType.None;
+                    }
+
+                }
+            }
+            // This is the pricing and checks for a fire tower
+            if (seashells > defaultFireTower.Cost && tower == TowerType.Fire)
+            {
+                if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                {
+                    Vector2 towerPos = buildGrid.GetClickedPosition(currentMouseState);
+
+                    if (towerPos != default)
+                    {
+
+                        turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        seashells -= defaultFireTower.Cost;
+                        spentShells += defaultFireTower.Cost;
+                        tower = TowerType.None;
+                    }
+
                 }
             }
         }
@@ -128,7 +163,7 @@ namespace TurtleTowerDefense
 
             }
         }
-        
+
 
         /// <summary>
         /// Draws all the towers on the screen

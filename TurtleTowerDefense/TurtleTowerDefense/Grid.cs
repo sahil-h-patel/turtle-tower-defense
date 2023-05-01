@@ -27,7 +27,7 @@ namespace TurtleTowerDefense
         /// <summary>
         /// Retrieves the entire gridbox, or sets it to a new value.
         /// </summary>
-        public GridBox[,] GridBoxes{ get { return grid; } set { grid = value; } }
+        public GridBox[,] GridBoxes { get { return grid; } set { grid = value; } }
 
         /// <summary>
         /// creates a grid based on given width and height in boxes
@@ -66,11 +66,11 @@ namespace TurtleTowerDefense
                 {
                     //creates new rectangle inside the grid
                     grid[c, r] = new GridBox((boxWidth * r), (boxHeight * c) + 80, boxWidth, boxHeight);
-                    
+
                 }
             }
 
-         
+
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace TurtleTowerDefense
                     //check if mouse is hovering over box
                     if (grid[c, r].Contains(mouse.Position))
                     {
-                        
+
                         //initially set to be wrong
                         validPlacement = false;
 
@@ -156,7 +156,7 @@ namespace TurtleTowerDefense
                     {
                         ShapeBatch.BoxOutline(grid[c, r].Rect, new Color(Color.Black, 0.1f));
                     }
-                    
+
 
                 }
             }
@@ -171,11 +171,29 @@ namespace TurtleTowerDefense
                     if (grid[c, r].PathTexture != null)
                     {
                         grid[c, r].IsFilled = true;
-                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 50, grid[c,r].Rect.Y + 50, grid[c,r].Rect.Width, grid[c, r].Rect.Height), null, Color.White, grid[c, r].Rotation, new Vector2(0, 0), grid[c, r].Flip, 1f);
+                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 40, grid[c, r].Rect.Y + 40, grid[c, r].Rect.Width, grid[c, r].Rect.Height), null, Color.White, grid[c, r].Rotation, new Vector2(20, 20), grid[c, r].Flip, 0f);
                     }
                 }
             }
-            
+
+        }
+
+        /// <summary>
+        /// Will specifically draw the spawn clam
+        /// </summary>
+        /// <param name="sb"></param>
+        public void DrawSpawn(SpriteBatch sb)
+        {
+            for (int c = 0; c < grid.GetLength(0); c++)
+            {
+                for (int r = 0; r < grid.GetLength(1); r++)
+                {
+                    if (grid[c, r].CrabPathing == CrabMotion.Start)
+                    {
+                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 40, grid[c, r].Rect.Y + 40, grid[c, r].Rect.Width + 60, grid[c, r].Rect.Height + 60), null, Color.White, grid[c, r].Rotation, new Vector2(20, 20), grid[c, r].Flip, 0f);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -206,11 +224,32 @@ namespace TurtleTowerDefense
         }
 
         /// <summary>
+        /// Returns a vector that is the correct position the player is hovering over
+        /// </summary>
+        /// <param name="mouse"></param>
+        /// <returns></returns>
+        public Vector2 GetHoverPosition(MouseState mouse)
+        {
+            Vector2 position = default;
+            for (int c = 0; c < 16; c++)
+            {
+                for (int r = 0; r < 28; r++)
+                {
+                    if (grid[c, r].Contains(mouse.Position) && validPlacement)
+                    {
+                        position = new Vector2(grid[c, r].X, grid[c, r].Y);
+                    }
+                }
+            }
+            return position;
+        }
+
+        /// <summary>
         /// resets all filled status except for home base area
         /// </summary>
         public void Reset()
         {
-            foreach(GridBox box in grid)
+            foreach (GridBox box in grid)
             {
                 box.IsFilled = false;
             }
@@ -225,9 +264,9 @@ namespace TurtleTowerDefense
             }
 
             //crab area is filled
-            for(int c = 0; c < grid.GetLength(0); c++)
+            for (int c = 0; c < grid.GetLength(0); c++)
             {
-                for(int r = 26; r < grid.GetLength(1); r++)
+                for (int r = 26; r < grid.GetLength(1); r++)
                 {
                     grid[c, r].IsFilled = true;
                 }

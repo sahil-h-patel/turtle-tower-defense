@@ -49,6 +49,7 @@ namespace TurtleTowerDefense
                     if (b.IsHit(crab))
                     {
                         crab.TakeDamage(gt, bDamage);
+                        b.IsRemoved = true;
                     }
                 }
             }

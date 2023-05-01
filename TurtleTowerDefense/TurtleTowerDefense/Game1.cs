@@ -41,6 +41,7 @@ namespace TurtleTowerDefense
         private Texture2D resetWaveTexture;
         private Texture2D turnPathTexture;
         private Texture2D straightPathTexture;
+        private Texture2D spawnShell;
 
         #region Buttons
         //button
@@ -84,7 +85,7 @@ namespace TurtleTowerDefense
         private Button tutorialNextButton;
         private Texture2D tutorialOkTexture;
         private Texture2D tutorialOkHoverTexture;
-        private Button tutorialOkButton; 
+        private Button tutorialOkButton;
         #endregion
 
         private GameState currentState;
@@ -158,7 +159,7 @@ namespace TurtleTowerDefense
             towerManager = new TurtleTowerInator();
             crabManager = new CrabInator();
 
-            
+
 
             base.Initialize();
         }
@@ -188,6 +189,7 @@ namespace TurtleTowerDefense
             resetWaveTexture = Content.Load<Texture2D>("reset wave");
             turnPathTexture = Content.Load<Texture2D>("turn path");
             straightPathTexture = Content.Load<Texture2D>("straight path");
+            spawnShell = Content.Load<Texture2D>("spawn shell");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -253,7 +255,7 @@ namespace TurtleTowerDefense
             crabManager.LoadContent(Content);
 
             // Creates a new Level object
-            currentLevel = new Level(straightPathTexture, turnPathTexture);
+            currentLevel = new Level(straightPathTexture, turnPathTexture, spawnShell);
             // Initializing resetWave
             wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers, 2);
 
@@ -343,7 +345,7 @@ namespace TurtleTowerDefense
         private void Select_Fire(object sender, System.EventArgs e)
         {
             currentTower = TowerType.Fire;
-        } 
+        }
         #endregion
 
         /// <summary>
@@ -486,7 +488,7 @@ namespace TurtleTowerDefense
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
-                            crabManager.CrabMovement(grid, ref homeBaseHP, ref seashells);
+                            crabManager.CrabMovement(grid, ref homeBaseHP, ref seashells, gameTime);
 
                             if (crabManager.Crabs.Count == 0)
                             {
@@ -504,7 +506,7 @@ namespace TurtleTowerDefense
                             grid.Reset();
                             wave.Update(_graphics, currentLevel, towerManager.Towers, ref inGameState, grid);
                             // Refunds half of what was spent
-                            seashells += spentShells/2;
+                            seashells += spentShells / 2;
                             spentShells = 0;
                             break;
 
@@ -651,11 +653,11 @@ namespace TurtleTowerDefense
                     _spriteBatch.DrawString(comicSans20, $"{seashells}", new Vector2(1090, 10), Color.White);
 
                     grid.DrawPath(_spriteBatch);
+                    grid.DrawSpawn(_spriteBatch);
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
-                    _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f); 
+                    _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
                     switch (inGameState)
                     {
-
                         // Specifics during setup phase
                         case BattleState.Setup:
 
@@ -698,16 +700,31 @@ namespace TurtleTowerDefense
                             // Depending on the type of tower selected, a transparent sillhoute will be drawn
                             switch (currentTower)
                             {
-                                case TowerType.Cannon:
 
+                                case TowerType.Cannon:
+                                    Vector2 towerPos = grid.GetHoverPosition(currentMouseState);
+                                    if (towerPos != default)
+                                    {
+                                        _spriteBatch.Draw(towerManager.CannonTowerTexture, new Rectangle((int)towerPos.X, (int)towerPos.Y, 80, 80), new Rectangle(0, 0, 100, towerManager.CannonTowerTexture.Height), Color.White * 0.5f);
+                                    }
                                     break;
 
                                 case TowerType.Catapult:
+                                    towerPos = grid.GetHoverPosition(currentMouseState);
 
+                                    if (towerPos != default)
+                                    {
+                                        _spriteBatch.Draw(towerManager.CatapultTowerTexture, new Rectangle((int)towerPos.X, (int)towerPos.Y, 80, 80), new Rectangle(0, 0, 100, towerManager.CatapultTowerTexture.Height), Color.White * 0.5f);
+                                    }
                                     break;
 
                                 case TowerType.Fire:
+                                     towerPos = grid.GetHoverPosition(currentMouseState);
 
+                                    if (towerPos != default)
+                                    {
+                                        _spriteBatch.Draw(towerManager.FireTowerTexture, new Rectangle((int)towerPos.X, (int)towerPos.Y, 80, 80), new Rectangle(0, 0, 100, towerManager.FireTowerTexture.Height), Color.White * 0.5f);
+                                    }
                                     break;
                             }
                             break;
@@ -715,6 +732,7 @@ namespace TurtleTowerDefense
                         // Starts the crab assault, drawing them and moving them towards the base
                         case BattleState.Assault:
                             crabManager.Draw(_spriteBatch, currentMouseState, GraphicsDevice, debugMode);
+                            grid.DrawSpawn(_spriteBatch);
                             break;
 
                         case BattleState.Wave:
@@ -732,7 +750,7 @@ namespace TurtleTowerDefense
                 case GameState.Settings_Game:
 
                     _spriteBatch.GraphicsDevice.Clear(Color.SeaGreen);
-                    _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
+                    _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), null, Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
                     _spriteBatch.Draw(gameSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
 
                     quitToMenuButton.Draw(_spriteBatch);

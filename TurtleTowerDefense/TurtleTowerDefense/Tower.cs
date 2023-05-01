@@ -93,20 +93,22 @@ namespace TurtleTowerDefense
             if (target == null)
             {
                 //first frame (idle)
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2 - 10, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else if (tAttackCooldown >= bAttackCooldown * 0.6)
             {
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2 - 10, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else if (tAttackCooldown >= bAttackCooldown * 0.3)
             {
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2 - 10, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
             else if (tAttackCooldown >= 0)
             {
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2 - 10, hitbox.Y + widthOfSingleSprite / 2 - 10, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
+ 
+
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace TurtleTowerDefense
             if (target == null)
             {
                 // Cooldown is always ticking down
-                if (tAttackCooldown > bAttackCooldown/2)
+                if (tAttackCooldown > bAttackCooldown * 0.6)
                 {
                     tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 }
