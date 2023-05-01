@@ -125,6 +125,17 @@ namespace TurtleTowerDefense
             }
         }
 
+        /// <summary>
+        /// Removes the turtle's targets
+        /// </summary>
+        public void RemoveTargets()
+        {
+            foreach (Tower turtle in turtleTowers)
+            {
+                turtle.Target = null;
+
+            }
+        }
         
 
         /// <summary>

@@ -529,27 +529,6 @@
 /processorParam:TextureFormat=Color
 /build:towerProto.PNG
 
-#begin TsukiFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:TsukiFont.spritefont
-
-#begin TsukiFontBig.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:TsukiFontBig.spritefont
-
-#begin TsukiFontCash.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:TsukiFontCash.spritefont
-
 #begin turn path.png
 /importer:TextureImporter
 /processor:TextureProcessor
