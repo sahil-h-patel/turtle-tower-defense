@@ -252,7 +252,7 @@ namespace TurtleTowerDefense
             crabManager.LoadContent(Content);
 
             // Initializing resetWave
-            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers, "../../../Levels/Map1/level0.path");
+            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
 
         }
 
@@ -281,7 +281,7 @@ namespace TurtleTowerDefense
             {
                 StartGame();
                 wave.FillLevelList("../../../Levels/Map1/");
-                wave.ChooseLevel("../../../Levels/Map1/", currentLevel, grid);
+                wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
             }
 
         }
@@ -296,6 +296,7 @@ namespace TurtleTowerDefense
             firstPlay = false;
             StartGame();
             wave.FillLevelList("../../../Levels/Map1/");
+            wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)

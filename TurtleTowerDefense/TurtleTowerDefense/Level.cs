@@ -75,19 +75,6 @@ namespace TurtleTowerDefense
                 }
                 input.Close();
 
-                //System.Diagnostics.Debug.WriteLine("BUNCHA STUFF: ");
-
-                //for (int i = 0; i < grid.GridBoxes.GetLength(0); i++)
-                //{
-                //    for (int k = 0; k < grid.GridBoxes.GetLength(1); k++)
-                //    {
-                //        //put a single value
-                //        System.Diagnostics.Debug.Write(grid.GridBoxes[i, k].CrabPathing);
-                //    }
-                //    //next row
-                //    System.Diagnostics.Debug.WriteLine("");
-                //}
-
             }
             catch (Exception e)
             {

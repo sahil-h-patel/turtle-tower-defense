@@ -21,7 +21,7 @@ namespace TurtleTowerDefense
         private List<int> randomLevelChooser;
         private int currentLevel;
 
-        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers, string path)
+        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers)
         {
             this.currentLevel = 0;
             this.image = image;
@@ -110,9 +110,9 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="path"></param>
         /// <param name="grid"></param>
-        public void ChooseLevel(string path, Level level, Grid grid)
+        public void ChooseLevel(string path, ref Level level, Grid grid)
         {
-            level.Load(path + $"level{currentLevel}", grid);
+            level.Load(path + $"level{randomLevelChooser[currentLevel]}" + ".PATH", grid);
             if (currentLevel == Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length)
             {
                 currentLevel = 0;
