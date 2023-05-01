@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ShapeUtils;
 using Microsoft.Xna.Framework.Input;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TurtleTowerDefense
 {
@@ -64,6 +66,7 @@ namespace TurtleTowerDefense
                 {
                     //creates new rectangle inside the grid
                     grid[c, r] = new GridBox((boxWidth * r), (boxHeight * c) + 80, boxWidth, boxHeight);
+                    
                 }
             }
 
@@ -153,9 +156,26 @@ namespace TurtleTowerDefense
                     {
                         ShapeBatch.BoxOutline(grid[c, r].Rect, new Color(Color.Black, 0.1f));
                     }
+                    
 
                 }
             }
+        }
+
+        public void DrawPath(SpriteBatch sb)
+        {
+            for (int c = 0; c < grid.GetLength(0); c++)
+            {
+                for (int r = 0; r < 26; r++)
+                {
+                    if (grid[c, r].PathTexture != null)
+                    {
+                        grid[c, r].IsFilled = true;
+                        sb.Draw(grid[c, r].PathTexture, grid[c, r].Rect, null, Color.White, grid[c, r].Rotation, new Vector2(0, 0), grid[c, r].Flip, 1f);
+                    }
+                }
+            }
+            
         }
 
         /// <summary>

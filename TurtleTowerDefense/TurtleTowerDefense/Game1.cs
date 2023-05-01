@@ -38,6 +38,9 @@ namespace TurtleTowerDefense
         private Texture2D menuSettingsScreen;
         private Texture2D gameSettingsScreen;
         private Texture2D resetWaveTexture;
+        private Texture2D turnPathTexture;
+        private Texture2D straightPathTexture;
+
         //button
         private Button classicModeButton;
         private Texture2D classicModeTexture;
@@ -156,8 +159,7 @@ namespace TurtleTowerDefense
             towerManager = new TurtleTowerInator();
             crabManager = new CrabInator();
 
-            // Creates a new Level object
-            currentLevel = new Level();
+            
 
             base.Initialize();
         }
@@ -187,6 +189,8 @@ namespace TurtleTowerDefense
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
             resetWaveTexture = Content.Load<Texture2D>("reset wave");
+            turnPathTexture = Content.Load<Texture2D>("turn path");
+            straightPathTexture = Content.Load<Texture2D>("straight path");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -251,6 +255,10 @@ namespace TurtleTowerDefense
             towerManager.LoadContent(Content);
             crabManager.LoadContent(Content);
 
+            // Creates a new ResetWave object
+            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
+            // Creates a new Level object
+            currentLevel = new Level(straightPathTexture, turnPathTexture);
             // Initializing resetWave
             wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers, 2);
 
@@ -648,7 +656,7 @@ namespace TurtleTowerDefense
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
                             skipButton.Draw(_spriteBatch);
-
+                            grid.DrawPath(_spriteBatch);
                             switch (currentTower)
                             {
                                 case TowerType.Cannon:
