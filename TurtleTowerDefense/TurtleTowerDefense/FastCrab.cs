@@ -19,7 +19,7 @@ namespace TurtleTowerDefense
             health = 4;
             speed = 5;
             spaceTaken = 1;
-            hitbox = new Rectangle(x, y, spaceTaken * 40, spaceTaken * 40);
+            hitbox = new Rectangle(x, y, spaceTaken * 40 + 10, spaceTaken * 40 + 10);
             widthOfSingleSprite = 100;
         }
     }

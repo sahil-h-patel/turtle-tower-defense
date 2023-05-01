@@ -19,7 +19,7 @@ namespace TurtleTowerDefense
         public FlameShot(Texture2D texture, Rectangle hitbox) : base(texture, hitbox)
         {
             this.texture = texture;
-            linearVelocity = 0.3f;
+            linearVelocity = 0.25f;
             lifespan = 0.5f;
             isRemoved = false;
             this.hitBox = hitbox;
@@ -77,7 +77,10 @@ namespace TurtleTowerDefense
                 {
                     bRotation = rotation;
                 }
-                sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, hitBox.Width, hitBox.Height/2), null, Color.White, bRotation, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None, 0f);
+                if (timer != 0)
+                {
+                    sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, hitBox.Width, hitBox.Height/2), null, Color.White, bRotation, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None, 0f);
+                }
                 if (debug)
                 {
                     sb.End();

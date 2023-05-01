@@ -565,7 +565,7 @@
 /processorParam:TextureFormat=Color
 /build:skip button.png
 
-#begin spawn shell.png
+#begin spawn clam.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -575,7 +575,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:spawn shell.png
+/build:spawn clam.png
 
 #begin straight path.png
 /importer:TextureImporter
