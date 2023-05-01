@@ -86,6 +86,13 @@ namespace TurtleTowerDefense
         private Texture2D tutorialOkTexture;
         private Texture2D tutorialOkHoverTexture;
         private Button tutorialOkButton;
+        private Texture2D debugEnabledTexture;
+        private Texture2D debugEnabledHoverTexture;
+        private Button debugEnabledButton;
+        private Texture2D debugDisabledTexture;
+        private Texture2D debugDisabledHoverTexture;
+        private Button debugDisabledButton;
+        private bool debugEnabled;
         #endregion
 
         private GameState currentState;
@@ -153,6 +160,7 @@ namespace TurtleTowerDefense
             grid = new Grid(16, 31);
 
             debugMode = false;
+            debugEnabled = false;
             firstPlay = true;
 
             // Intialize managers
@@ -216,6 +224,10 @@ namespace TurtleTowerDefense
             tutorialNextHoverTexture = Content.Load<Texture2D>("tutorial next hover");
             tutorialOkTexture = Content.Load<Texture2D>("tutorial ok");
             tutorialOkHoverTexture = Content.Load<Texture2D>("tutorial ok hover");
+            debugEnabledTexture = Content.Load<Texture2D>("debug enabled");
+            debugEnabledHoverTexture = Content.Load<Texture2D>("debug enabled hover");
+            debugDisabledTexture = Content.Load<Texture2D>("debug disabled");
+            debugDisabledHoverTexture = Content.Load<Texture2D>("debug disabled hover");
 
 
             //set up buttons
@@ -233,11 +245,15 @@ namespace TurtleTowerDefense
             quitToMenuButton = new Button(420, 430, 479, 112, quitTexture, quitHoverTexture);
             tutorialOkButton = new Button(500, 480, 330, 106, tutorialOkTexture, tutorialOkHoverTexture);
             tutorialNextButton = new Button(920, 520, 79, 69, tutorialNextTexture, tutorialNextHoverTexture);
+            debugEnabledButton = new Button(420, 350, 468, 135, debugEnabledTexture, debugEnabledHoverTexture);
+            debugDisabledButton = new Button(420, 350, 468, 135, debugDisabledTexture, debugDisabledHoverTexture);
 
             //set up button events
             classicModeButton.Click += GameStart_Clicked;
             endlessModeButton.Click += GameStart_Clicked;
             settingsButton.Click += MenuSettings_Clicked;
+            debugEnabledButton.Click += debugEnabled_Clicked;
+            debugDisabledButton.Click += debugDisabled_Clicked;
             backButtonMenu.Click += BackMenu_Clicked;
             backButtonMode.Click += BackMenu_Clicked;
             backButtonGame.Click += BackGame_Clicked;
@@ -310,6 +326,18 @@ namespace TurtleTowerDefense
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
         {
             currentState = GameState.Settings_Menu;
+        }
+
+        private void debugEnabled_Clicked(object sender, System.EventArgs e)
+        {
+            debugMode = false;
+            debugEnabled = false;
+        }
+
+        private void debugDisabled_Clicked(object sender, System.EventArgs e)
+        {
+            debugMode = true;
+            debugEnabled = true;
         }
 
         private void BackMenu_Clicked(object sender, System.EventArgs e)
@@ -412,6 +440,15 @@ namespace TurtleTowerDefense
 
                 case GameState.Settings_Menu:
                     backButtonMenu.Update();
+
+                    if (debugEnabled)
+                    {
+                        debugEnabledButton.Update();
+                    }
+                    else
+                    {
+                        debugDisabledButton.Update();
+                    }
 
                     //hitting tab goes back to the main menu
                     if (SingleKeyPress(Keys.Tab))
@@ -612,6 +649,14 @@ namespace TurtleTowerDefense
                     _spriteBatch.GraphicsDevice.Clear(Color.MediumBlue);
                     _spriteBatch.Draw(menuSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
                     backButtonMenu.Draw(_spriteBatch);
+                    if (debugEnabled)
+                    {
+                        debugEnabledButton.Draw(_spriteBatch);
+                    }
+                    else
+                    {
+                        debugDisabledButton.Draw(_spriteBatch);
+                    }
 
                     break;
 
