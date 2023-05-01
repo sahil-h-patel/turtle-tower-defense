@@ -115,7 +115,7 @@ namespace TurtleTowerDefense
         private bool firstPlay;
 
         // Home Base 
-        private float homeBaseTimer;
+        private double homeBaseTimer;
         private int prevHomeBaseHP;
         private int homeBaseHP;
         private Rectangle homeBaseRect;
@@ -189,7 +189,7 @@ namespace TurtleTowerDefense
             resetWaveTexture = Content.Load<Texture2D>("reset wave");
             turnPathTexture = Content.Load<Texture2D>("turn path");
             straightPathTexture = Content.Load<Texture2D>("straight path");
-            spawnShell = Content.Load<Texture2D>("spawn shell");
+            spawnShell = Content.Load<Texture2D>("spawn clam");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -489,7 +489,7 @@ namespace TurtleTowerDefense
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
-                            crabManager.CrabMovement(grid, ref homeBaseHP, ref seashells, gameTime);
+                            crabManager.CrabMovement(grid, ref homeBaseHP, ref homeBaseTimer, ref seashells, gameTime);
 
                             if (crabManager.Crabs.Count == 0)
                             {
@@ -656,7 +656,7 @@ namespace TurtleTowerDefense
                     grid.DrawPath(_spriteBatch);
                     grid.DrawSpawn(_spriteBatch);
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
-                    _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+
                     switch (inGameState)
                     {
                         // Specifics during setup phase
@@ -720,7 +720,7 @@ namespace TurtleTowerDefense
                                     break;
 
                                 case TowerType.Fire:
-                                     towerPos = grid.GetHoverPosition(currentMouseState);
+                                    towerPos = grid.GetHoverPosition(currentMouseState);
 
                                     if (towerPos != default)
                                     {
@@ -741,6 +741,17 @@ namespace TurtleTowerDefense
                             break;
                     }
 
+                    if (homeBaseTimer <= 0)
+                    {
+                        _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+                    }
+                    else
+
+                    {
+                        homeBaseTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(homeBaseTexture.Width/2, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+
+                    }
 
                     if (debugMode)
                     {
