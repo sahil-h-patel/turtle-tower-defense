@@ -82,7 +82,7 @@ namespace TurtleTowerDefense
                 }
 
                 // Wave recedes back(moves to the right)
-                if (X <= 0 || movingLeft == false)
+                if (X <= -50 || movingLeft == false)
                 {
                     if (waveTimer == 0)
                     {
@@ -147,6 +147,10 @@ namespace TurtleTowerDefense
         public void ResetAll()
         {
             currentLevel = 0;
+            waveTimer = bWaveTimer;
+            active = false;
+            movingLeft = true;
+            randomLevelChooser.Clear();
         }
 
         /// <summary>

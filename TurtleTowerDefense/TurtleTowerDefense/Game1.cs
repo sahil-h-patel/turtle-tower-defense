@@ -381,6 +381,7 @@ namespace TurtleTowerDefense
                     towerManager.Reset();
                     grid.Reset();
                     crabManager.Reset();
+                    wave.ResetAll();
                     homeBaseHP = 100;
                     waveCounter = 1;
                     setupTimer = 10;
@@ -484,7 +485,7 @@ namespace TurtleTowerDefense
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
-                            crabManager.CrabMovement(grid, ref homeBaseHP);
+                            crabManager.CrabMovement(grid, ref homeBaseHP, ref seashells);
 
                             if (crabManager.Crabs.Count == 0)
                             {
@@ -496,7 +497,6 @@ namespace TurtleTowerDefense
 
                             // Checks for Crab Targets
                             towerManager.AttackEnemies(crabManager.Crabs, gameTime);
-
                             break;
 
                         case BattleState.Wave:

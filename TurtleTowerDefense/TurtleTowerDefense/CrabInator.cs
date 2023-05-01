@@ -94,7 +94,7 @@ namespace TurtleTowerDefense
                 // If the wave is greater than 2, then brute crabs start spawning
                 if (wave > 2)
                 {
-                    for (int i = 0; i < 1 + wave; i++)
+                    for (int i = 0; i < wave - 2; i++)
                     {
                         indexOfSpawn = rng.Next(0, spawnPoints.Count);
                         crabs.Add(new ChungusCrab(chungusCrabTexture, spawnPoints[indexOfSpawn], grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].X + i * 55, grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].Y));
@@ -104,7 +104,7 @@ namespace TurtleTowerDefense
                 // If wave is greater than 3, start spawning fast crabs
                 if (wave > 3)
                 {
-                    for (int i = 0; i < 1 + wave; i++)
+                    for (int i = 0; i < wave - 2; i++)
                     {
                         indexOfSpawn = rng.Next(0, spawnPoints.Count);
                         crabs.Add(new FastCrab(fastCrabTexture, spawnPoints[indexOfSpawn], grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].X + i * 55, grid.GridBoxes[spawnPoints[indexOfSpawn][0], spawnPoints[indexOfSpawn][1]].Y));
@@ -140,14 +140,27 @@ namespace TurtleTowerDefense
         /// Will move the crabs according to the level that's currently loaded
         /// </summary>
         /// <param name="crabPathing"></param>
-        public void CrabMovement(Grid grid, ref int homeBaseHP)
+        public void CrabMovement(Grid grid, ref int homeBaseHP, ref int seashells)
         {
             // Remove crab if it's dead
             for (int i = 0; i < crabs.Count; i++)
             {
                 if (crabs[i].Health <= 0)
                 {
+                    if (crabs[i] is BasicCrab)
+                    {
+                        seashells += 15;
+                    }
+                    else if (crabs[i] is FastCrab)
+                    {
+                        seashells += 5;
+                    }
+                    else if (crabs[i] is ChungusCrab)
+                    {
+                        seashells += 35;
+                    }
                     crabs.RemoveAt(i);
+
                 }
             }
             if (crabs.Count == 0)
