@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
+    "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {}
   },
   "projects": {
-    "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
+    "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "projectUniqueName": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
         "projectName": "TurtleTowerDefense",
-        "projectPath": "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
-        "packagesPath": "D:\\Profiles\\cem6919\\.nuget\\packages\\",
-        "outputPath": "Z:\\IGMProfile\\Desktop\\106 gdaps repo\\106 gdaps group repo\\Turtle Tower\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
+        "projectPath": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\TurtleTowerDefense.csproj",
+        "packagesPath": "D:\\Profiles\\zaa8026\\.nuget\\packages\\",
+        "outputPath": "D:\\Profiles\\zaa8026\\source\\repos\\turtle-tower-defense\\TurtleTowerDefense\\TurtleTowerDefense\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "Z:\\IGMProfile\\AppData\\NuGet\\NuGet.Config",

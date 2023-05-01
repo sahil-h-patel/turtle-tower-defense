@@ -26,6 +26,8 @@ namespace TurtleTowerDefense
         protected float rotation;
         private double bDamageTimer;
         private double tDamageTimer;
+        private double fireTimer;
+        private double bFireTimer;
 
         /// <summary>
         /// Gets or sets the X value of the crab
@@ -110,6 +112,8 @@ namespace TurtleTowerDefense
             this.currentLocation = currentLocation;
             bDamageTimer = 0.3;
             tDamageTimer = bDamageTimer;
+            fireTimer = 0;
+            bFireTimer = 0.4;
         }
 
         // A method to detect its current position which will be used in Update to adjust appropiate values
@@ -136,6 +140,17 @@ namespace TurtleTowerDefense
         {
             health -= damage;
             attacked = true;
+        }
+
+        public void TakeFireDamage(GameTime gt, int damage)
+        {
+            fireTimer -= gt.ElapsedGameTime.TotalSeconds;
+            if (fireTimer <= 0)
+            {
+                health -= damage;
+                attacked = true;
+                fireTimer = bFireTimer;
+            }
         }
 
     }

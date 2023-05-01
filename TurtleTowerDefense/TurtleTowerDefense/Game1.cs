@@ -438,6 +438,7 @@ namespace TurtleTowerDefense
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
                     gameSettingsButton.Update();
+                    towerManager.UpdateBullets(gameTime);
 
                     if (homeBaseHP <= 0)
                     {

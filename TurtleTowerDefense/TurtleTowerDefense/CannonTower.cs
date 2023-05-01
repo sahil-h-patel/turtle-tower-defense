@@ -33,9 +33,15 @@ namespace TurtleTowerDefense
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
             center = new Vector2(x + (hitbox.Width/2), y + (hitbox.Height/2));
             this.bulletTexture = bulletTexture;
-            Bullet = new Bullet(bulletTexture);
+            Bullet = new Bullet(bulletTexture, new Rectangle(0, 0, 30, 30));
             bullets = new List<Bullet>();
         }
+
+        /// <summary>
+        /// This is an override for check for targets. This will spawn bullets instead of doing a hitscan attack
+        /// </summary>
+        /// <param name="crabList"></param>
+        /// <param name="gt"></param>
         public override void CheckForTargets(List<Crab> crabList, GameTime gt)
         {
             // Cooldown is always ticking down
@@ -114,7 +120,7 @@ namespace TurtleTowerDefense
         {
             foreach (Bullet bullet in bullets)
             {
-                bullet.Draw(sb, gD);
+                bullet.Draw(sb, gD, rotation);
             }
 
             base.Draw(sb, gT, gD);
