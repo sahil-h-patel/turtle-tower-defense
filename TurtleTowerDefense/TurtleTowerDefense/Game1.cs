@@ -252,7 +252,7 @@ namespace TurtleTowerDefense
             crabManager.LoadContent(Content);
 
             // Initializing resetWave
-            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
+            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers, "../../../Levels/Map1/level0.path");
 
         }
 
@@ -263,7 +263,6 @@ namespace TurtleTowerDefense
         {
             currentState = GameState.Game;
             inGameState = BattleState.Setup;
-            currentLevel.Load("../../../Levels/Map1/level1.path", grid);
             seashells = 100;
             if (debugMode == true)
             {
@@ -281,6 +280,8 @@ namespace TurtleTowerDefense
             else
             {
                 StartGame();
+                wave.FillLevelList("../../../Levels/Map1/");
+                wave.ChooseLevel("../../../Levels/Map1/", currentLevel, grid);
             }
 
         }
@@ -294,6 +295,7 @@ namespace TurtleTowerDefense
         {
             firstPlay = false;
             StartGame();
+            wave.FillLevelList("../../../Levels/Map1/");
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
@@ -434,13 +436,17 @@ namespace TurtleTowerDefense
                     {
                         // Allows the player time to place and upgrade towers
                         case BattleState.Setup:
+                            // Wave shenanigans
                             if (waveCounter % 2 == 0)
                             {
                                 wave.Active = true;
                             }
-                            wave.Update(_graphics, towerManager.Towers);
+                            wave.Update(_graphics, currentLevel, towerManager.Towers);
+
                             crabListFilled = false;
                             basicCrabs.Clear();
+
+                            // For buttons' sake
                             cannonButton.Update();
                             catapultButton.Update();
                             fireButton.Update();
@@ -483,17 +489,6 @@ namespace TurtleTowerDefense
                             // Checks for Crab Targets
                             towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
-
-                            //// Moves crabs, along with a timer spacing them out from being spawned
-                            //for (int i = 0; i < basicCrabs.Count; i++)
-                            //{
-                            //    basicCrabs[i].X -= 2;
-                            //    if (basicCrabs[i].Health <= 0)
-                            //    {
-                            //        seashells += 15;
-                            //        basicCrabs.Remove(basicCrabs[i]);
-                            //    }
-                            //}
                             break;
 
                     }
