@@ -123,11 +123,10 @@ namespace TurtleTowerDefense
             if (target == null)
             {
                 // Cooldown is always ticking down
-                if (tAttackCooldown > )
-                { 
-                    
+                if (tAttackCooldown > bAttackCooldown * 0.3)
+                {
+                    tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 }
-                tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 foreach (Crab crab in crabList)
                 {
                     double distance = Math.Sqrt(Math.Pow(crab.X - center.X, 2) + Math.Pow(crab.Y - center.Y, 2));
