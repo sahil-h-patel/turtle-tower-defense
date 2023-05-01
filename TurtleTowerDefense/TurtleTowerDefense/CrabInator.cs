@@ -323,7 +323,18 @@ namespace TurtleTowerDefense
                         break;
 
                     case CrabMotion.Stop:
-                        homeBaseHP -= 10;
+                        if (crab is BasicCrab)
+                        {
+                            homeBaseHP -= 10;
+                        }
+                        if (crab is FastCrab)
+                        {
+                            homeBaseHP -= 5;
+                        }
+                        if (crab is ChungusCrab)
+                        {
+                            homeBaseHP -= 15;
+                        }
                         crabs.Remove(crab);
                         break;
 
