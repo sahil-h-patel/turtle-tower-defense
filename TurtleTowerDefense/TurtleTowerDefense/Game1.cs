@@ -148,7 +148,7 @@ namespace TurtleTowerDefense
             setupTimer = 4;
             homeBaseHP = 100;
             homeBaseRect = new Rectangle(0, 240, 120, 240);
-            resetWaveRect = new Rectangle(1280, 0, 1280, 720);
+            resetWaveRect = new Rectangle(1280, 0, 1300, 720);
 
             //set up grid
             grid = new Grid(16, 31);
@@ -502,6 +502,7 @@ namespace TurtleTowerDefense
                             break;
 
                         case BattleState.Wave:
+                            grid.Reset();
                             wave.Update(_graphics, currentLevel, towerManager.Towers, ref inGameState, grid);
                             // Refunds half of what was spent
                             seashells += spentShells/2;
