@@ -28,9 +28,9 @@ namespace TurtleTowerDefense
         private Texture2D titleScreen;
         private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
-        //private SpriteFont tsuki20;
-        //private SpriteFont tsukiBig;
-        //private SpriteFont tsukiBigCash;
+        private SpriteFont tsuki20;
+        private SpriteFont tsukiBig;
+        private SpriteFont tsukiBigCash;
 
         //final sprites
         private Texture2D homeBaseTexture;
@@ -171,9 +171,9 @@ namespace TurtleTowerDefense
 
             //prototype textures
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
-            //tsuki20 = Content.Load<SpriteFont>("TsukiFont");
-            //tsukiBig = Content.Load<SpriteFont>("TsukiFontBig");
-            //tsukiBigCash = Content.Load<SpriteFont>("TsukiFontCash");
+            tsuki20 = Content.Load<SpriteFont>("TsukiFont");
+            tsukiBig = Content.Load<SpriteFont>("TsukiFontBig");
+            tsukiBigCash = Content.Load<SpriteFont>("TsukiFontCash");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
             titleScreen = Content.Load<Texture2D>("title screen");
             gameModeScreen = Content.Load<Texture2D>("game mode screen");
@@ -631,13 +631,13 @@ namespace TurtleTowerDefense
                     {
                         case TutorialPage.Page1:
                             _spriteBatch.Draw(tutorial1Texture, new Rectangle(0, 0, 1280, 720), Color.White);
-                            _spriteBatch.DrawString(comicSans20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
+                            _spriteBatch.DrawString(tsuki20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
                             tutorialNextButton.Draw(_spriteBatch);
                             break;
 
                         case TutorialPage.Page2:
                             _spriteBatch.Draw(tutorial2Texture, new Rectangle(0, 0, 1280, 720), Color.White);
-                            _spriteBatch.DrawString(comicSans20, "Use these buttons to place down turtle \ntowers and defend the home base!", new Vector2(380, 350), Color.White);
+                            _spriteBatch.DrawString(tsuki20, "Use these buttons to place down turtle \ntowers and defend the home base!", new Vector2(380, 350), Color.White);
                             tutorialOkButton.Draw(_spriteBatch);
                             break;
                     }
@@ -648,9 +648,9 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
                     gameSettingsButton.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(comicSans20, "Home Base HP: " + homeBaseHP, new Vector2(48, 80), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
-                    _spriteBatch.DrawString(comicSans20, $"{seashells}", new Vector2(1090, 10), Color.White);
+                    _spriteBatch.DrawString(tsukiBig, "Home Base HP: " + homeBaseHP, new Vector2(48, 80), Color.White);
+                    _spriteBatch.DrawString(tsukiBig, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
+                    _spriteBatch.DrawString(tsukiBigCash, $"{seashells}", new Vector2(1090, 10), Color.White);
 
                     grid.DrawPath(_spriteBatch);
                     grid.DrawSpawn(_spriteBatch);
@@ -682,7 +682,7 @@ namespace TurtleTowerDefense
                                     break;
                             }
 
-                            _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
+                            _spriteBatch.DrawString(tsukiBig, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
 
                             //draw grid
@@ -743,7 +743,7 @@ namespace TurtleTowerDefense
 
                     if (debugMode)
                     {
-                        _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(50, 650), Color.White);
+                        _spriteBatch.DrawString(tsukiBig, "Enter -> Game Over", new Vector2(50, 650), Color.White);
                     }
                     break;
 
