@@ -11,15 +11,19 @@ namespace TurtleTowerDefense
 {
     internal class SeaweedBall : Bullet
     {
+        private Texture2D deployTexture;
+        private Texture2D bulletTexture;
         /// <summary>
         /// Creates a new flameshot object
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="hitbox"></param>
-        public SeaweedBall(Texture2D texture, Rectangle hitbox) : base(texture, hitbox)
+        public SeaweedBall(Texture2D bulletTexture, Texture2D deployTexture, Rectangle hitbox) : base(bulletTexture, hitbox)
         {
-            this.texture = texture;
-            linearVelocity = 15f;
+            this.texture = bulletTexture;
+            this.bulletTexture = bulletTexture;
+            this.deployTexture = deployTexture;
+            linearVelocity = 80f;
             lifespan = 2f;
             isRemoved = false;
             this.hitBox = hitbox;
@@ -43,9 +47,13 @@ namespace TurtleTowerDefense
                 isRemoved = true;
             }
 
-            position += direction * linearVelocity;
-            hitBox.X = (int)position.X;
-            hitBox.Y = (int)position.Y;
+            // Will only update position if it's a bullet
+            if (texture == bulletTexture)
+            {
+                position += direction * linearVelocity;
+                hitBox.X = (int)position.X;
+                hitBox.Y = (int)position.Y;
+            }
         }
 
         /// <summary>
@@ -57,7 +65,15 @@ namespace TurtleTowerDefense
         {
             if (target.Hitbox.Intersects(hitBox) && !isRemoved)
             {
-                isRemoved = true;
+                if (texture == bulletTexture)
+                {
+                    lifespan = 4f;
+                    texture = deployTexture;
+                    hitBox.X -= deployTexture.Width/2;
+                    hitBox.Y -= deployTexture.Height;
+                    hitBox.Width = deployTexture.Width;
+                    hitBox.Height = deployTexture.Height;
+                }
                 return true;
             }
             else

@@ -20,7 +20,7 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="image"></param>
         /// <param name="hitbox"></param>
-        public CatapultTower(Texture2D image, int x, int y, Texture2D bulletTexture) : base(image)
+        public CatapultTower(Texture2D image, int x, int y, Texture2D bulletTexture, Texture2D seaweedDeploy) : base(image)
         {
             //upgradeTree = 
             bDetectionRadius = 450.0; // sets detection radius of cannon tower
@@ -33,7 +33,7 @@ namespace TurtleTowerDefense
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
             center = new Vector2(x + hitbox.Width / 2, y + hitbox.Height / 2);
             this.bulletTexture = bulletTexture;
-            Bullet = new SeaweedBall(bulletTexture, new Rectangle(0, 0, 30, 30));
+            Bullet = new SeaweedBall(bulletTexture, seaweedDeploy, new Rectangle(0, 0, 30, 30));
             bullets = new List<SeaweedBall>();
         }
 

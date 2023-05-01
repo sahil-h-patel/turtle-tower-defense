@@ -31,6 +31,7 @@ namespace TurtleTowerDefense
         protected Texture2D cannonBallTexture;
         protected Texture2D catapultTowerTexture;
         protected Texture2D seaweedBall;
+        protected Texture2D seaweedDeploy;
         protected Texture2D fireTowerTexture;
         protected Texture2D flameShot;
 
@@ -72,11 +73,12 @@ namespace TurtleTowerDefense
             fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
             cannonBallTexture = Content.Load<Texture2D>("bullet");
             seaweedBall = Content.Load<Texture2D>("seaweed ball");
+            seaweedDeploy = Content.Load<Texture2D>("seaweed");
             flameShot = Content.Load<Texture2D>("fire tower fire");
 
             // Default cannon tower
             defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, cannonBallTexture);
-            defaultCatapultTower = new CatapultTower(catapultTowerTexture, -50, -50, seaweedBall);
+            defaultCatapultTower = new CatapultTower(catapultTowerTexture, -50, -50, seaweedBall, seaweedDeploy);
             defaultFireTower = new FireTower(fireTowerTexture, -50, -50, flameShot);
         }
 
@@ -114,7 +116,7 @@ namespace TurtleTowerDefense
                     if (towerPos != default)
                     {
 
-                        turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, seaweedBall));
+                        turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, seaweedBall, seaweedDeploy));
                         seashells -= defaultCatapultTower.Cost;
                         spentShells += defaultCatapultTower.Cost;
                         tower = TowerType.None;

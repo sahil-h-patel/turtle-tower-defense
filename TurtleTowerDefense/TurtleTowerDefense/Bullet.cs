@@ -43,7 +43,7 @@ namespace TurtleTowerDefense
         public Bullet(Texture2D texture, Rectangle hitbox)
         {
             this.texture = texture;
-            linearVelocity = 30f;
+            linearVelocity = 50f;
             lifespan = 2f;
             isRemoved = false;
             this.hitBox = hitbox;
