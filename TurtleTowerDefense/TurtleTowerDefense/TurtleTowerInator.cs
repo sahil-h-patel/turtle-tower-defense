@@ -83,7 +83,7 @@ namespace TurtleTowerDefense
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
             // This is the pricing and checks for a cannon tower
-            if (seashells > defaultCannonTower.Cost && tower == TowerType.Cannon)
+            if (seashells >= defaultCannonTower.Cost && tower == TowerType.Cannon)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -101,7 +101,7 @@ namespace TurtleTowerDefense
                 }
             }
             // Pricing and checks for a catapult tower
-            if (seashells > defaultCatapultTower.Cost && tower == TowerType.Catapult)
+            if (seashells >= defaultCatapultTower.Cost && tower == TowerType.Catapult)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -119,7 +119,7 @@ namespace TurtleTowerDefense
                 }
             }
             // This is the pricing and checks for a fire tower
-            if (seashells > defaultFireTower.Cost && tower == TowerType.Fire)
+            if (seashells >= defaultFireTower.Cost && tower == TowerType.Fire)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
