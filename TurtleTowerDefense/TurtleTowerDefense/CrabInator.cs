@@ -114,13 +114,22 @@ namespace TurtleTowerDefense
             }
         }
 
-        public void Draw(SpriteBatch sb, bool debugMode)
+        public void Draw(SpriteBatch sb, MouseState mState, GraphicsDevice gD, bool debugMode)
         {
             for (int i = 0; i < crabs.Count; i++)
             {
                 crabs[i].Draw(sb);
                 // If in debug mode, print crab HP
                 if (debugMode)
+                {
+                    sb.DrawString(comicSans20, $"{crabs[i].Health}", new Vector2(crabs[i].X + crabs[i].Width / 2, crabs[i].Y + crabs[i].Height / 2), Color.White);
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.BoxOutline(crabs[i].Hitbox, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
+                else if (crabs[i].Hitbox.Contains(new Point(mState.X, mState.Y)))
                 {
                     sb.DrawString(comicSans20, $"{crabs[i].Health}", new Vector2(crabs[i].X + crabs[i].Width / 2, crabs[i].Y + crabs[i].Height / 2), Color.White);
                 }

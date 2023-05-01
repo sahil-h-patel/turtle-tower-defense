@@ -20,8 +20,18 @@ namespace TurtleTowerDefense
         private bool movingLeft;
         private List<int> randomLevelChooser;
         private int currentLevel;
+        private int bWaveTimer;
+        private int waveTimer;
 
-        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers)
+        public bool Active { set { active = value; } }
+        private int X { get { return hitbox.X; } set { hitbox.X = value; } }
+        private int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+        /// <summary>
+        /// Returns or sets the wave timer
+        /// </summary>
+        public int WaveTimer { get { return waveTimer; } set{ waveTimer = value; } }
+
+        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers, int waveTimer)
         {
             this.currentLevel = 0;
             this.image = image;
@@ -30,11 +40,10 @@ namespace TurtleTowerDefense
             active = false;
             movingLeft = false;
             randomLevelChooser = new List<int>();
+            this.bWaveTimer = waveTimer;
         }
 
-        public bool Active { set { active = value; } }
-        private int X { get { return hitbox.X; } set { hitbox.X = value; } }
-        private int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+
 
         /// <summary>
         /// Removes the towers from the map in a seamless way
@@ -57,7 +66,7 @@ namespace TurtleTowerDefense
         /// <param name="g"></param>
         /// <param name="level"></param>
         /// <param name="updatedTowers"></param>
-        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers)
+        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers, BattleState gameState)
         {
             // Updates towers so that it can remove the correct amount of towers
             towers = updatedTowers;
@@ -79,6 +88,8 @@ namespace TurtleTowerDefense
                     {
                         active = false;
                         movingLeft = true;
+                        waveTimer = bWaveTimer;
+                        gameState = BattleState.Setup;
                     }
                 }
             }
