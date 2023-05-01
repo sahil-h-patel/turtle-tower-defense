@@ -20,21 +20,32 @@ namespace TurtleTowerDefense
         private bool movingLeft;
         private List<int> randomLevelChooser;
         private int currentLevel;
+        private int bWaveTimer;
+        private int waveTimer;
+        private string path;
 
-        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers)
+        public bool Active { set { active = value; } }
+        private int X { get { return hitbox.X; } set { hitbox.X = value; } }
+        private int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+        /// <summary>
+        /// Returns or sets the wave timer
+        /// </summary>
+        public int WaveTimer { get { return waveTimer; } set{ waveTimer = value; } }
+
+        public ResetWave(Texture2D image, Rectangle hitbox, List<Tower> towers, int bWaveTimer)
         {
             this.currentLevel = 0;
             this.image = image;
             this.hitbox = hitbox;
             this.towers = towers;
             active = false;
-            movingLeft = false;
+            movingLeft = true;
             randomLevelChooser = new List<int>();
+            this.bWaveTimer = bWaveTimer;
+            waveTimer = bWaveTimer;
         }
 
-        public bool Active { set { active = value; } }
-        private int X { get { return hitbox.X; } set { hitbox.X = value; } }
-        private int Y { get { return hitbox.Y; } set { hitbox.Y = value; } }
+
 
         /// <summary>
         /// Removes the towers from the map in a seamless way
@@ -57,7 +68,7 @@ namespace TurtleTowerDefense
         /// <param name="g"></param>
         /// <param name="level"></param>
         /// <param name="updatedTowers"></param>
-        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers)
+        public void Update(GraphicsDeviceManager g, Level level, List<Tower> updatedTowers, BattleState gameState, Grid grid)
         {
             // Updates towers so that it can remove the correct amount of towers
             towers = updatedTowers;
@@ -66,19 +77,22 @@ namespace TurtleTowerDefense
                 // Moves the wave to the left
                 if (movingLeft)
                 {
-                    X -= 15;
+                    X -= 20;
                     RemoveTower(towers);
                 }
 
                 // Wave recedes back(moves to the right)
                 if (X <= 0 || movingLeft == false)
                 {
+                    ChooseLevel(ref level, grid);
                     movingLeft = false;
-                    X += 15;
+                    X += 20;
                     if (X > g.PreferredBackBufferWidth)
                     {
                         active = false;
                         movingLeft = true;
+                        waveTimer = bWaveTimer;
+                        gameState = BattleState.Setup;
                     }
                 }
             }
@@ -94,6 +108,7 @@ namespace TurtleTowerDefense
             // Using the indexer to get the next level.
             Random rng = new Random();
             int generatedNum;
+            this.path = path;
             for (int i = 0; i < Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length; i++)
             {
                 generatedNum = rng.Next(0, Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length);
@@ -110,10 +125,10 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="path"></param>
         /// <param name="grid"></param>
-        public void ChooseLevel(string path, ref Level level, Grid grid)
+        public void ChooseLevel(ref Level level, Grid grid)
         {
             level.Load(path + $"level{randomLevelChooser[currentLevel]}" + ".PATH", grid);
-            if (currentLevel == Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length)
+            if (currentLevel == Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length - 1)
             {
                 currentLevel = 0;
             }

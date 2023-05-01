@@ -8,6 +8,7 @@ using ShapeUtils;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 using System.Numerics;
+using Microsoft.Xna.Framework.Graphics;
 
 //HOW TO USE:
 // First, create a new Level object (though I should already have this.)
@@ -38,12 +39,16 @@ namespace TurtleTowerDefense
 
     internal class Level
     {
+        Texture2D straightPathTexture;
+        Texture2D turnPathTexture;
 
         /// <summary>
         /// Creates a new object that stores the pathing
         /// </summary>
-        public Level()
+        public Level(Texture2D straightPathTexture, Texture2D turnPathTexture)
         {
+            this.straightPathTexture = straightPathTexture;
+            this.turnPathTexture = turnPathTexture;
         }
 
         /// <summary>
@@ -68,6 +73,86 @@ namespace TurtleTowerDefense
                         for (int j = 0; j < grid.GridBoxes.GetLength(1); j++)
                         {
                             grid.GridBoxes[i, j].CrabPathing = (CrabMotion)int.Parse(pData[j]);
+                            // Sets the correct texture to the grid with the rotation
+                            // and whether it needs to be flipped (only applied to turns)
+                            switch(grid.GridBoxes[i, j].CrabPathing)
+                            {
+                                case CrabMotion.None:
+                                    grid.GridBoxes[i, j].PathTexture = null;
+                                    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                    break;
+                                case CrabMotion.ForwardNorth:
+                                    grid.GridBoxes[i, j].PathTexture = straightPathTexture;
+                                    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(180f);
+                                    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                    break;
+                                case CrabMotion.ForwardEast:
+                                    grid.GridBoxes[i, j].PathTexture = straightPathTexture;
+                                    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                    break;
+                                case CrabMotion.ForwardSouth:
+                                    grid.GridBoxes[i, j].PathTexture = straightPathTexture;
+                                    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(90f);
+                                    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                    break;
+                                case CrabMotion.ForwardWest:
+                                    grid.GridBoxes[i, j].PathTexture = straightPathTexture;
+                                    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(180f);
+                                    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                    break;
+                                //case CrabMotion.TurnLeftNorth:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(90f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.FlipVertically;
+                                //    break;
+                                //case CrabMotion.TurnLeftEast:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(180f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.FlipVertically;
+                                //    break;
+                                //case CrabMotion.TurnLeftSouth:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(270f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.FlipVertically;
+                                //    break;
+                                //case CrabMotion.TurnLeftWest:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.FlipVertically;
+                                //    break;
+                                //case CrabMotion.TurnRightNorth:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(270f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                                //case CrabMotion.TurnRightEast:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                                //case CrabMotion.TurnRightSouth:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(90f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                                //case CrabMotion.TurnRightWest:
+                                //    grid.GridBoxes[i, j].PathTexture = turnPathTexture;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(90f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                                //case CrabMotion.Start:
+                                //    grid.GridBoxes[i, j].PathTexture = null;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                                //case CrabMotion.Stop:
+                                //    grid.GridBoxes[i, j].PathTexture = null;
+                                //    grid.GridBoxes[i, j].Rotation = MathHelper.ToRadians(0f);
+                                //    grid.GridBoxes[i, j].Flip = SpriteEffects.None;
+                                //    break;
+                            }
                         }
                         break;
                     }

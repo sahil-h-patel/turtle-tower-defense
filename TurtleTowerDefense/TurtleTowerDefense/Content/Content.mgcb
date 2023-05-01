@@ -49,18 +49,6 @@
 /processorParam:TextureFormat=Color
 /build:basic crab sprite.png
 
-#begin bg - Copy.PNG
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:bg - Copy.PNG
-
 #begin bg.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -493,6 +481,18 @@
 /processorParam:TextureFormat=Color
 /build:skip button.png
 
+#begin straight path.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:straight path.png
+
 #begin title screen.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -528,6 +528,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:towerProto.PNG
+
+#begin turn path.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:turn path.png
 
 #begin tutorial next hover.png
 /importer:TextureImporter

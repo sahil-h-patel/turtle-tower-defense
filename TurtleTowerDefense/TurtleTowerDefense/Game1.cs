@@ -38,6 +38,9 @@ namespace TurtleTowerDefense
         private Texture2D menuSettingsScreen;
         private Texture2D gameSettingsScreen;
         private Texture2D resetWaveTexture;
+        private Texture2D turnPathTexture;
+        private Texture2D straightPathTexture;
+
         //button
         private Button classicModeButton;
         private Texture2D classicModeTexture;
@@ -105,7 +108,7 @@ namespace TurtleTowerDefense
         private CannonTower defaultCannonTower;
 
         private int waveCounter;
-        ResetWave wave;
+        private ResetWave wave;
         private Rectangle resetWaveRect;
         // Debug mode. Gives infinite money and makes homebase invincible.
         private bool debugMode;
@@ -156,8 +159,7 @@ namespace TurtleTowerDefense
             towerManager = new TurtleTowerInator();
             crabManager = new CrabInator();
 
-            // Creates a new Level object
-            currentLevel = new Level();
+            
 
             base.Initialize();
         }
@@ -187,6 +189,8 @@ namespace TurtleTowerDefense
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             basicCrabTexture = Content.Load<Texture2D>("basic crab sprite");
             resetWaveTexture = Content.Load<Texture2D>("reset wave");
+            turnPathTexture = Content.Load<Texture2D>("turn path");
+            straightPathTexture = Content.Load<Texture2D>("straight path");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -251,8 +255,10 @@ namespace TurtleTowerDefense
             towerManager.LoadContent(Content);
             crabManager.LoadContent(Content);
 
+            // Creates a new Level object
+            currentLevel = new Level(straightPathTexture, turnPathTexture);
             // Initializing resetWave
-            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers);
+            wave = new ResetWave(resetWaveTexture, resetWaveRect, towerManager.Towers, 2);
 
         }
 
@@ -281,7 +287,7 @@ namespace TurtleTowerDefense
             {
                 StartGame();
                 wave.FillLevelList("../../../Levels/Map1/");
-                wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
+                wave.ChooseLevel(ref currentLevel, grid);
             }
 
         }
@@ -296,7 +302,7 @@ namespace TurtleTowerDefense
             firstPlay = false;
             StartGame();
             wave.FillLevelList("../../../Levels/Map1/");
-            wave.ChooseLevel("../../../Levels/Map1/", ref currentLevel, grid);
+            wave.ChooseLevel(ref currentLevel, grid);
         }
 
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
@@ -438,11 +444,11 @@ namespace TurtleTowerDefense
                         // Allows the player time to place and upgrade towers
                         case BattleState.Setup:
                             // Wave shenanigans
-                            if (waveCounter % 2 == 0)
+                            if (wave.WaveTimer <= 0)
                             {
                                 wave.Active = true;
+                                inGameState = BattleState.Wave;
                             }
-                            wave.Update(_graphics, currentLevel, towerManager.Towers);
 
                             crabListFilled = false;
                             basicCrabs.Clear();
@@ -485,11 +491,16 @@ namespace TurtleTowerDefense
                                 waveCounter++;
                                 setupTimer = 15;
                                 inGameState = BattleState.Setup;
+                                wave.WaveTimer--;
                             }
 
                             // Checks for Crab Targets
                             towerManager.AttackEnemies(crabManager.Crabs, gameTime);
 
+                            break;
+
+                        case BattleState.Wave:
+                            wave.Update(_graphics, currentLevel, towerManager.Towers, inGameState, grid);
                             break;
 
                     }
@@ -630,21 +641,20 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
 
                     gameSettingsButton.Draw(_spriteBatch);
-
+                    grid.DrawPath(_spriteBatch);
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
 
                     switch (inGameState)
                     {
+
                         // Specifics during setup phase
                         case BattleState.Setup:
 
                             string timerString = String.Format("{0:0}", setupTimer);
-                            wave.Draw(_spriteBatch);
                             cannonButton.Draw(_spriteBatch);
                             catapultButton.Draw(_spriteBatch);
                             fireButton.Draw(_spriteBatch);
                             skipButton.Draw(_spriteBatch);
-
                             switch (currentTower)
                             {
                                 case TowerType.Cannon:
@@ -696,24 +706,11 @@ namespace TurtleTowerDefense
 
                         // Starts the crab assault, drawing them and moving them towards the base
                         case BattleState.Assault:
+                            crabManager.Draw(_spriteBatch, currentMouseState, GraphicsDevice, debugMode);
+                            break;
 
-                            //for (int i = 0; i < basicCrabs.Count; i++)
-                            //{
-                            //    basicCrabs[i].Draw(_spriteBatch);
-                            //    // If in debug mode, print crab HP
-                            //    if (debugMode)
-                            //    {
-                            //        _spriteBatch.DrawString(comicSans20, $"{basicCrabs[i].Health}", new Vector2(basicCrabs[i].X + basicCrabs[i].Width / 2, basicCrabs[i].Y + basicCrabs[i].Height / 2), Color.White);
-                            //    }
-                            //    if (basicCrabs[i].Hitbox.Intersects(homeBaseRect))
-                            //    {
-                            //        homeBaseHP -= 10;
-                            //        basicCrabs.Remove(basicCrabs[i]);
-                            //    }
-                            //}
-
-                            crabManager.Draw(_spriteBatch, debugMode);
-
+                        case BattleState.Wave:
+                            wave.Draw(_spriteBatch);
                             break;
                     }
 

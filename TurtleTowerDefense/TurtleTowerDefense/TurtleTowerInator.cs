@@ -14,7 +14,7 @@ namespace TurtleTowerDefense
 {
 
     enum GameState { CutScene, MainMenu, Modes, Settings_Menu, Game, Settings_Game, GameOver, Tutorial }
-    enum BattleState { None, Setup, Assault }
+    enum BattleState { None, Setup, Assault, Wave }
     internal class TurtleTowerInator
     {
 
