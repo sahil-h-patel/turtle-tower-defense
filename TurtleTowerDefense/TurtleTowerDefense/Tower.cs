@@ -88,7 +88,7 @@ namespace TurtleTowerDefense
         /// <param name="sb"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public virtual void Draw(SpriteBatch sb, GameTime gT)
+        public virtual void Draw(SpriteBatch sb, GameTime gT, GraphicsDevice gD)
         {
             if (target == null)
             {

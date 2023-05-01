@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShapeUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,11 +86,16 @@ namespace TurtleTowerDefense
         /// draws bullet on screen
         /// </summary>
         /// <param name="sb"></param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, GraphicsDevice gD)
         {
             if (!isRemoved)
             {
                 sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, 20, 20), Color.White);
+                sb.End();
+                ShapeBatch.Begin(gD);
+                ShapeBatch.BoxOutline(this.hitBox, Color.Black);
+                ShapeBatch.End();
+                sb.Begin();
             }
         }
         /// <summary>

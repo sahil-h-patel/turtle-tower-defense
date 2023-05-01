@@ -41,6 +41,18 @@ namespace TurtleTowerDefense
             // Cooldown is always ticking down
             tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
 
+            //check if any bullets have hit a crab
+            foreach (Bullet b in bullets)
+            {
+                foreach (Crab crab in crabList)
+                {
+                    if (b.IsHit(crab))
+                    {
+                        crab.TakeDamage(gt, bDamage);
+                    }
+                }
+            }
+
             // If the current tower's target is null, search for a target.
             if (target == null)
             {
@@ -69,17 +81,7 @@ namespace TurtleTowerDefense
                     bullet.Position = center;
                     bullets.Add(bullet);
 
-                    //check if any bullets have hit a crab
-                    foreach (Bullet b in bullets)
-                    {
-                        foreach(Crab crab in crabList)
-                        {
-                            if (bullet.IsHit(crab))
-                            {
-                                crab.TakeDamage(gt, bDamage);
-                            }
-                        }
-                    }
+
 
                     // If the target just died, set target as null
                     if (target.Health <= 0)
@@ -107,14 +109,14 @@ namespace TurtleTowerDefense
             }
         }
 
-        public override void Draw(SpriteBatch sb, GameTime gT)
+        public override void Draw(SpriteBatch sb, GameTime gT, GraphicsDevice gD)
         {
             foreach (Bullet bullet in bullets)
             {
-                bullet.Draw(sb);
+                bullet.Draw(sb, gD);
             }
 
-            base.Draw(sb, gT);
+            base.Draw(sb, gT, gD);
 
         }
     }
