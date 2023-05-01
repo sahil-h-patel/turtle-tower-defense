@@ -23,7 +23,6 @@ namespace TurtleTowerDefense
         protected int bDamage;
         protected double bAttackCooldown;
         protected double tAttackCooldown;
-        protected double animTimer;
         protected Rectangle hitbox;
         protected Vector2 center;
         protected Crab target;
@@ -96,6 +95,10 @@ namespace TurtleTowerDefense
                 //first frame (idle)
                 sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(0, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
+            else if (tAttackCooldown >= bAttackCooldown * 0.6)
+            {
+                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
+            }
             else if (tAttackCooldown >= bAttackCooldown * 0.3)
             {
                 sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 1, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
@@ -103,10 +106,6 @@ namespace TurtleTowerDefense
             else if (tAttackCooldown >= 0)
             {
                 sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 2, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
-            }
-            else if (tAttackCooldown >= bAttackCooldown * 0.6)
-            {
-                sb.Draw(image, new Rectangle(hitbox.X + widthOfSingleSprite / 2, hitbox.Y + widthOfSingleSprite / 2, 40 * bSpaceTaken, 40 * bSpaceTaken), new Rectangle(widthOfSingleSprite * 3, 0, widthOfSingleSprite, image.Height), Color.White, rotation, new Vector2(WidthOfSingleSprite / 2, WidthOfSingleSprite / 2), SpriteEffects.None, 0f);
             }
         }
 
@@ -116,14 +115,11 @@ namespace TurtleTowerDefense
         /// <param name="crabList"></param>
         public virtual void CheckForTargets(List<Crab> crabList, GameTime gt)
         {
-
-            
-
             // If the current tower's target is null, search for a target.
             if (target == null)
             {
                 // Cooldown is always ticking down
-                if (tAttackCooldown > bAttackCooldown * 0.3)
+                if (tAttackCooldown > bAttackCooldown/2)
                 {
                     tAttackCooldown -= gt.ElapsedGameTime.TotalSeconds;
                 }

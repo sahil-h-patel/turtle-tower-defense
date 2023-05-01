@@ -16,7 +16,6 @@ namespace TurtleTowerDefense
         protected Rectangle hitbox;
         protected Texture2D image;
         protected bool active;
-        private Vector2 position;
         private bool movingLeft;
         private List<int> randomLevelChooser;
         private int currentLevel;

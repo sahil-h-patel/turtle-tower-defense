@@ -19,11 +19,11 @@ namespace TurtleTowerDefense
         public FireTower(Texture2D image, int x, int y, Texture2D bulletTexture) : base(image)
         {
             //upgradeTree = 
-            bDetectionRadius = 300.0; // sets detection radius of cannon tower
+            bDetectionRadius = 150.0; // sets detection radius of cannon tower
             bSpaceTaken = 2; // Sets space taken by tower. 2x2
             bCost = 100; // sets cost of the tower
-            bDamage = 5; // base damage of tower
-            bAttackCooldown = 1.5; // seconds between each attack, stored as a double
+            bDamage = 3; // base damage of tower
+            bAttackCooldown = 0.5; // seconds between each attack, stored as a double
             tAttackCooldown = bAttackCooldown;
             widthOfSingleSprite = 100;
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);

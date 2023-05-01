@@ -21,8 +21,6 @@ namespace TurtleTowerDefense
         // Fields
 
         // Game Elements
-        protected int homeBaseHP;
-        protected Rectangle homeBaseRect;
         protected List<Tower> turtleTowers;
         protected Tower defaultCannonTower;
         protected Tower defaultCatapultTower;
@@ -35,8 +33,6 @@ namespace TurtleTowerDefense
         protected Texture2D catapultTowerTexture;
         protected Texture2D fireTowerTexture;
 
-        public int HomeBaseHP { get { return homeBaseHP; } }
-
         public List<Tower> Towers { get { return turtleTowers; } }
 
         /// <summary>
@@ -45,9 +41,6 @@ namespace TurtleTowerDefense
         /// </summary>
         public TurtleTowerInator()
         {
-            homeBaseHP = 100;
-            homeBaseRect = new Rectangle(0, 240, 120, 240);
-
             // Sets up lists for towers and crabs
             turtleTowers = new List<Tower>();
         }
@@ -57,7 +50,6 @@ namespace TurtleTowerDefense
         /// </summary>
         public void LoadContent(ContentManager Content)
         {
-            homeBaseTexture = Content.Load<Texture2D>("homebase sprite");
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
             fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
@@ -143,7 +135,6 @@ namespace TurtleTowerDefense
         /// </summary>
         public void DrawTowers(SpriteBatch sb, GraphicsDevice gD, GameTime gT, bool debugMode)
         {
-            sb.Draw(homeBaseTexture, homeBaseRect, Color.White);
             MouseState mouse = Mouse.GetState();
             for (int i = 0; i < turtleTowers.Count; i++)
             {
@@ -174,7 +165,6 @@ namespace TurtleTowerDefense
         public void Reset()
         {
             turtleTowers.Clear();
-            homeBaseHP = 100;
         }
 
     }

@@ -19,13 +19,12 @@ namespace TurtleTowerDefense
         public CatapultTower(Texture2D image, int x, int y, Texture2D bulletTexture) : base(image)
         {
             //upgradeTree = 
-            bDetectionRadius = 300.0; // sets detection radius of cannon tower
+            bDetectionRadius = 450.0; // sets detection radius of cannon tower
             bSpaceTaken = 2; // Sets space taken by tower. 2x2
             bCost = 70; // sets cost of the tower
-            bDamage = 5; // base damage of tower
-            bAttackCooldown = 1.5; // seconds between each attack, stored as a double
+            bDamage = 8; // base damage of tower
+            bAttackCooldown = 2.25; // seconds between each attack, stored as a double
             tAttackCooldown = bAttackCooldown;
-            animTimer = 0; //set initially to 0
             widthOfSingleSprite = 100;
             hitbox = new Rectangle(x, y, widthOfSingleSprite, image.Height);
             center = new Vector2(x + hitbox.Width / 2, y + hitbox.Height / 2);

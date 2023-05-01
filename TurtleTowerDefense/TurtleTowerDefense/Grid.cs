@@ -171,7 +171,7 @@ namespace TurtleTowerDefense
                     if (grid[c, r].PathTexture != null)
                     {
                         grid[c, r].IsFilled = true;
-                        sb.Draw(grid[c, r].PathTexture, grid[c, r].Rect, null, Color.White, grid[c, r].Rotation, new Vector2(0, 0), grid[c, r].Flip, 1f);
+                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 50, grid[c,r].Rect.Y + 50, grid[c,r].Rect.Width, grid[c, r].Rect.Height), null, Color.White, grid[c, r].Rotation, new Vector2(0, 0), grid[c, r].Flip, 1f);
                     }
                 }
             }
