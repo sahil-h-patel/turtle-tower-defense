@@ -190,7 +190,7 @@ namespace TurtleTowerDefense
                 {
                     if (grid[c, r].CrabPathing == CrabMotion.Start)
                     {
-                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 40, grid[c, r].Rect.Y + 40, grid[c, r].Rect.Width + 60, grid[c, r].Rect.Height + 60), null, Color.White, grid[c, r].Rotation, new Vector2(20, 20), grid[c, r].Flip, 0f);
+                        sb.Draw(grid[c, r].PathTexture, new Rectangle(grid[c, r].Rect.X + 40, grid[c, r].Rect.Y + 8, grid[c, r].Rect.Width + 60, grid[c, r].Rect.Height + 60), null, Color.White, grid[c, r].Rotation, new Vector2(20, 20), grid[c, r].Flip, 0f);
                     }
                 }
             }

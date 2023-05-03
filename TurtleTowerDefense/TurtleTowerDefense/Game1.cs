@@ -28,9 +28,9 @@ namespace TurtleTowerDefense
         private Texture2D titleScreen;
         private Texture2D gameModeScreen;
         private SpriteFont comicSans20;
-        //private SpriteFont tsuki20;
-        //private SpriteFont tsukiBig;
-        //private SpriteFont tsukiBigCash;
+        private SpriteFont tsuki20;
+        private SpriteFont tsukiBig;
+        private SpriteFont tsukiBigCash;
 
         //final sprites
         private Texture2D homeBaseTexture;
@@ -86,6 +86,13 @@ namespace TurtleTowerDefense
         private Texture2D tutorialOkTexture;
         private Texture2D tutorialOkHoverTexture;
         private Button tutorialOkButton;
+        private Texture2D debugEnabledTexture;
+        private Texture2D debugEnabledHoverTexture;
+        private Button debugEnabledButton;
+        private Texture2D debugDisabledTexture;
+        private Texture2D debugDisabledHoverTexture;
+        private Button debugDisabledButton;
+        private bool debugEnabled;
         #endregion
 
         private GameState currentState;
@@ -115,7 +122,7 @@ namespace TurtleTowerDefense
         private bool firstPlay;
 
         // Home Base 
-        private float homeBaseTimer;
+        private double homeBaseTimer;
         private int prevHomeBaseHP;
         private int homeBaseHP;
         private Rectangle homeBaseRect;
@@ -153,6 +160,7 @@ namespace TurtleTowerDefense
             grid = new Grid(16, 31);
 
             debugMode = false;
+            debugEnabled = false;
             firstPlay = true;
 
             // Intialize managers
@@ -171,9 +179,9 @@ namespace TurtleTowerDefense
 
             //prototype textures
             comicSans20 = Content.Load<SpriteFont>("comicSans20");
-            //tsuki20 = Content.Load<SpriteFont>("TsukiFont");
-            //tsukiBig = Content.Load<SpriteFont>("TsukiFontBig");
-            //tsukiBigCash = Content.Load<SpriteFont>("TsukiFontCash");
+            tsuki20 = Content.Load<SpriteFont>("TsukiFont");
+            tsukiBig = Content.Load<SpriteFont>("TsukiFontBig");
+            tsukiBigCash = Content.Load<SpriteFont>("TsukiFontCash");
             SplashScreen = Content.Load<Texture2D>("MainMenuSplashScreen");
             titleScreen = Content.Load<Texture2D>("title screen");
             gameModeScreen = Content.Load<Texture2D>("game mode screen");
@@ -189,7 +197,7 @@ namespace TurtleTowerDefense
             resetWaveTexture = Content.Load<Texture2D>("reset wave");
             turnPathTexture = Content.Load<Texture2D>("turn path");
             straightPathTexture = Content.Load<Texture2D>("straight path");
-            spawnShell = Content.Load<Texture2D>("spawn shell");
+            spawnShell = Content.Load<Texture2D>("spawn clam");
             //buttons
             classicModeTexture = Content.Load<Texture2D>("game mode classic");
             classicModeHoverTexture = Content.Load<Texture2D>("game mode classic hover");
@@ -216,6 +224,10 @@ namespace TurtleTowerDefense
             tutorialNextHoverTexture = Content.Load<Texture2D>("tutorial next hover");
             tutorialOkTexture = Content.Load<Texture2D>("tutorial ok");
             tutorialOkHoverTexture = Content.Load<Texture2D>("tutorial ok hover");
+            debugEnabledTexture = Content.Load<Texture2D>("debug enabled");
+            debugEnabledHoverTexture = Content.Load<Texture2D>("debug enabled hover");
+            debugDisabledTexture = Content.Load<Texture2D>("debug disabled");
+            debugDisabledHoverTexture = Content.Load<Texture2D>("debug disabled hover");
 
 
             //set up buttons
@@ -233,11 +245,15 @@ namespace TurtleTowerDefense
             quitToMenuButton = new Button(420, 430, 479, 112, quitTexture, quitHoverTexture);
             tutorialOkButton = new Button(500, 480, 330, 106, tutorialOkTexture, tutorialOkHoverTexture);
             tutorialNextButton = new Button(920, 520, 79, 69, tutorialNextTexture, tutorialNextHoverTexture);
+            debugEnabledButton = new Button(420, 350, 468, 135, debugEnabledTexture, debugEnabledHoverTexture);
+            debugDisabledButton = new Button(420, 350, 468, 135, debugDisabledTexture, debugDisabledHoverTexture);
 
             //set up button events
             classicModeButton.Click += GameStart_Clicked;
             endlessModeButton.Click += GameStart_Clicked;
             settingsButton.Click += MenuSettings_Clicked;
+            debugEnabledButton.Click += debugEnabled_Clicked;
+            debugDisabledButton.Click += debugDisabled_Clicked;
             backButtonMenu.Click += BackMenu_Clicked;
             backButtonMode.Click += BackMenu_Clicked;
             backButtonGame.Click += BackGame_Clicked;
@@ -310,6 +326,18 @@ namespace TurtleTowerDefense
         private void MenuSettings_Clicked(object sender, System.EventArgs e)
         {
             currentState = GameState.Settings_Menu;
+        }
+
+        private void debugEnabled_Clicked(object sender, System.EventArgs e)
+        {
+            debugMode = false;
+            debugEnabled = false;
+        }
+
+        private void debugDisabled_Clicked(object sender, System.EventArgs e)
+        {
+            debugMode = true;
+            debugEnabled = true;
         }
 
         private void BackMenu_Clicked(object sender, System.EventArgs e)
@@ -413,6 +441,15 @@ namespace TurtleTowerDefense
                 case GameState.Settings_Menu:
                     backButtonMenu.Update();
 
+                    if (debugEnabled)
+                    {
+                        debugEnabledButton.Update();
+                    }
+                    else
+                    {
+                        debugDisabledButton.Update();
+                    }
+
                     //hitting tab goes back to the main menu
                     if (SingleKeyPress(Keys.Tab))
                     {
@@ -438,6 +475,7 @@ namespace TurtleTowerDefense
                 // Begin the game! The game state also has a few game states as well, 
                 case GameState.Game:
                     gameSettingsButton.Update();
+                    towerManager.UpdateBullets(gameTime);
 
                     if (homeBaseHP <= 0)
                     {
@@ -488,7 +526,7 @@ namespace TurtleTowerDefense
                             currentTower = TowerType.None;
                             // This will add the appropriate amount of crabs to the list to be spawned.
                             crabManager.CrabSpawning(waveCounter, grid);
-                            crabManager.CrabMovement(grid, ref homeBaseHP, ref seashells, gameTime);
+                            crabManager.CrabMovement(grid, ref homeBaseHP, ref homeBaseTimer, ref seashells, gameTime);
 
                             if (crabManager.Crabs.Count == 0)
                             {
@@ -611,6 +649,14 @@ namespace TurtleTowerDefense
                     _spriteBatch.GraphicsDevice.Clear(Color.MediumBlue);
                     _spriteBatch.Draw(menuSettingsScreen, new Rectangle(0, 0, 1280, 720), Color.White);
                     backButtonMenu.Draw(_spriteBatch);
+                    if (debugEnabled)
+                    {
+                        debugEnabledButton.Draw(_spriteBatch);
+                    }
+                    else
+                    {
+                        debugDisabledButton.Draw(_spriteBatch);
+                    }
 
                     break;
 
@@ -631,13 +677,13 @@ namespace TurtleTowerDefense
                     {
                         case TutorialPage.Page1:
                             _spriteBatch.Draw(tutorial1Texture, new Rectangle(0, 0, 1280, 720), Color.White);
-                            _spriteBatch.DrawString(comicSans20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
+                            _spriteBatch.DrawString(tsuki20, "Protect your turtle babies from \nthe incoming crab invasion!", new Vector2(450, 470), Color.White);
                             tutorialNextButton.Draw(_spriteBatch);
                             break;
 
                         case TutorialPage.Page2:
                             _spriteBatch.Draw(tutorial2Texture, new Rectangle(0, 0, 1280, 720), Color.White);
-                            _spriteBatch.DrawString(comicSans20, "Use these buttons to place down turtle \ntowers and defend the home base!", new Vector2(380, 350), Color.White);
+                            _spriteBatch.DrawString(tsuki20, "Use these buttons to place down turtle \ntowers and defend the home base!", new Vector2(380, 350), Color.White);
                             tutorialOkButton.Draw(_spriteBatch);
                             break;
                     }
@@ -648,14 +694,14 @@ namespace TurtleTowerDefense
                     _spriteBatch.Draw(bgTexture, new Rectangle(0, 0, 1280, 720), Color.White);
                     gameSettingsButton.Draw(_spriteBatch);
 
-                    _spriteBatch.DrawString(comicSans20, "Home Base HP: " + homeBaseHP, new Vector2(48, 80), Color.White);
-                    _spriteBatch.DrawString(comicSans20, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
-                    _spriteBatch.DrawString(comicSans20, $"{seashells}", new Vector2(1090, 10), Color.White);
+                    _spriteBatch.DrawString(tsukiBig, "Home Base HP: " + homeBaseHP, new Vector2(48, 80), Color.White);
+                    _spriteBatch.DrawString(tsukiBig, "Wave " + waveCounter, new Vector2(120, 15), Color.White);
+                    _spriteBatch.DrawString(tsukiBigCash, $"{seashells}", new Vector2(1090, 10), Color.White);
 
                     grid.DrawPath(_spriteBatch);
                     grid.DrawSpawn(_spriteBatch);
                     towerManager.DrawTowers(_spriteBatch, GraphicsDevice, gameTime, debugMode);
-                    _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+
                     switch (inGameState)
                     {
                         // Specifics during setup phase
@@ -682,7 +728,7 @@ namespace TurtleTowerDefense
                                     break;
                             }
 
-                            _spriteBatch.DrawString(comicSans20, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
+                            _spriteBatch.DrawString(tsukiBig, "Setup Time: " + timerString, new Vector2(500, 25), Color.White);
 
 
                             //draw grid
@@ -719,7 +765,7 @@ namespace TurtleTowerDefense
                                     break;
 
                                 case TowerType.Fire:
-                                     towerPos = grid.GetHoverPosition(currentMouseState);
+                                    towerPos = grid.GetHoverPosition(currentMouseState);
 
                                     if (towerPos != default)
                                     {
@@ -740,10 +786,21 @@ namespace TurtleTowerDefense
                             break;
                     }
 
+                    if (homeBaseTimer <= 0)
+                    {
+                        _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(0, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+                    }
+                    else
+
+                    {
+                        homeBaseTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                        _spriteBatch.Draw(homeBaseTexture, new Rectangle(homeBaseRect.X + 120 / 2, homeBaseRect.Y + 120 / 2, homeBaseRect.Width, homeBaseRect.Height), new Rectangle(homeBaseTexture.Width/2, 0, 120, homeBaseTexture.Height), Color.White, 0f, new Vector2(120 / 2, 120 / 2), SpriteEffects.None, 0f);
+
+                    }
 
                     if (debugMode)
                     {
-                        _spriteBatch.DrawString(comicSans20, "Enter -> Game Over", new Vector2(50, 650), Color.White);
+                        _spriteBatch.DrawString(tsukiBig, "Enter -> Game Over", new Vector2(50, 650), Color.White);
                     }
                     break;
 

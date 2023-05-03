@@ -75,6 +75,10 @@ namespace TurtleTowerDefense
 
         public void CrabSpawning(int wave, Grid grid)
         {
+            if (crabs.Count == 0)
+            {
+                crabListFilled = false;
+            }
             if (crabListFilled == false)
             {
                 LocateSpawnPoint(grid);
@@ -141,13 +145,15 @@ namespace TurtleTowerDefense
         /// Will move the crabs according to the level that's currently loaded
         /// </summary>
         /// <param name="crabPathing"></param>
-        public void CrabMovement(Grid grid, ref int homeBaseHP, ref int seashells, GameTime gT)
+        public void CrabMovement(Grid grid, ref int homeBaseHP, ref double homeBaseTimer, ref int seashells, GameTime gT)
         {
+
             // Remove crab if it's dead
             for (int i = 0; i < crabs.Count; i++)
             {
                 if (crabs[i].Attacked)
                 {
+                    // Does the crab timer for being attacked
                     crabs[i].DamageTimer -= gT.ElapsedGameTime.TotalSeconds;
                     if (crabs[i].DamageTimer <= 0)
                     {
@@ -173,13 +179,8 @@ namespace TurtleTowerDefense
 
             }
 
-            // Does the crab timer for being attacked
 
-            if (crabs.Count == 0)
-            {
-                crabListFilled = false;
-                return;
-            }
+
             // For each crab in the crab list, move em!
             foreach (Crab crab in crabs.ToList())
             {
@@ -337,14 +338,17 @@ namespace TurtleTowerDefense
                         if (crab is BasicCrab)
                         {
                             homeBaseHP -= 10;
+                            homeBaseTimer = 1;
                         }
                         if (crab is FastCrab)
                         {
                             homeBaseHP -= 5;
+                            homeBaseTimer = 1;
                         }
                         if (crab is ChungusCrab)
                         {
                             homeBaseHP -= 15;
+                            homeBaseTimer = 1;
                         }
                         crabs.Remove(crab);
                         break;

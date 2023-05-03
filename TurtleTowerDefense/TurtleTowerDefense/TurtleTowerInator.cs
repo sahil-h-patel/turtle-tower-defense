@@ -28,9 +28,12 @@ namespace TurtleTowerDefense
 
         // Textures
         protected Texture2D cannonTowerTexture;
-        protected Texture2D bulletTexture;
+        protected Texture2D cannonBallTexture;
         protected Texture2D catapultTowerTexture;
+        protected Texture2D seaweedBall;
+        protected Texture2D seaweedDeploy;
         protected Texture2D fireTowerTexture;
+        protected Texture2D flameShot;
 
         /// <summary>
         /// Returns a list of all the turtle towers
@@ -68,12 +71,15 @@ namespace TurtleTowerDefense
             cannonTowerTexture = Content.Load<Texture2D>("cannon tower sprite");
             catapultTowerTexture = Content.Load<Texture2D>("catapult tower sprite");
             fireTowerTexture = Content.Load<Texture2D>("fire tower sprite");
-            bulletTexture = Content.Load<Texture2D>("cannon tower sprite");
+            cannonBallTexture = Content.Load<Texture2D>("bullet");
+            seaweedBall = Content.Load<Texture2D>("seaweed ball");
+            seaweedDeploy = Content.Load<Texture2D>("seaweed");
+            flameShot = Content.Load<Texture2D>("fire tower fire");
 
             // Default cannon tower
-            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, bulletTexture);
-            defaultCatapultTower = new CatapultTower(catapultTowerTexture, -50, -50, bulletTexture);
-            defaultFireTower = new FireTower(fireTowerTexture, -50, -50, bulletTexture);
+            defaultCannonTower = new CannonTower(cannonTowerTexture, -50, -50, cannonBallTexture);
+            defaultCatapultTower = new CatapultTower(catapultTowerTexture, -50, -50, seaweedBall, seaweedDeploy);
+            defaultFireTower = new FireTower(fireTowerTexture, -50, -50, flameShot);
         }
 
         /// <summary>
@@ -83,7 +89,7 @@ namespace TurtleTowerDefense
         {
             // The purpose for defaultCannonTower is for their cost- might change it to an int later.
             // This is the pricing and checks for a cannon tower
-            if (seashells > defaultCannonTower.Cost && tower == TowerType.Cannon)
+            if (seashells >= defaultCannonTower.Cost && tower == TowerType.Cannon)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -92,7 +98,7 @@ namespace TurtleTowerDefense
                     if (towerPos != default)
                     {
 
-                        turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        turtleTowers.Add(new CannonTower(cannonTowerTexture, (int)towerPos.X, (int)towerPos.Y, cannonBallTexture));
                         seashells -= defaultCannonTower.Cost;
                         spentShells += defaultCannonTower.Cost;
                         tower = TowerType.None;
@@ -101,7 +107,7 @@ namespace TurtleTowerDefense
                 }
             }
             // Pricing and checks for a catapult tower
-            if (seashells > defaultCatapultTower.Cost && tower == TowerType.Catapult)
+            if (seashells >= defaultCatapultTower.Cost && tower == TowerType.Catapult)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -110,7 +116,7 @@ namespace TurtleTowerDefense
                     if (towerPos != default)
                     {
 
-                        turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        turtleTowers.Add(new CatapultTower(catapultTowerTexture, (int)towerPos.X, (int)towerPos.Y, seaweedBall, seaweedDeploy));
                         seashells -= defaultCatapultTower.Cost;
                         spentShells += defaultCatapultTower.Cost;
                         tower = TowerType.None;
@@ -119,7 +125,7 @@ namespace TurtleTowerDefense
                 }
             }
             // This is the pricing and checks for a fire tower
-            if (seashells > defaultFireTower.Cost && tower == TowerType.Fire)
+            if (seashells >= defaultFireTower.Cost && tower == TowerType.Fire)
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                 {
@@ -128,13 +134,25 @@ namespace TurtleTowerDefense
                     if (towerPos != default)
                     {
 
-                        turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y, bulletTexture));
+                        turtleTowers.Add(new FireTower(fireTowerTexture, (int)towerPos.X, (int)towerPos.Y, flameShot));
                         seashells -= defaultFireTower.Cost;
                         spentShells += defaultFireTower.Cost;
                         tower = TowerType.None;
                     }
 
                 }
+            }
+        }
+
+        /// <summary>
+        /// Updates the bullets positions
+        /// </summary>
+        /// <param name="gT"></param>
+        public void UpdateBullets(GameTime gT)
+        {
+            foreach (Tower turtle in turtleTowers)
+            {
+                turtle.Update(gT);
             }
         }
 
@@ -148,7 +166,6 @@ namespace TurtleTowerDefense
             for (int i = 0; i < turtleTowers.Count; i++)
             {
                 turtleTowers[i].CheckForTargets(crabs, gT);
-                turtleTowers[i].Update(gT);
             }
         }
 
@@ -173,7 +190,7 @@ namespace TurtleTowerDefense
             MouseState mouse = Mouse.GetState();
             for (int i = 0; i < turtleTowers.Count; i++)
             {
-                turtleTowers[i].Draw(sb, gT, gD);
+                turtleTowers[i].Draw(sb, gT, gD, debugMode);
                 if (debugMode)
                 {
                     sb.End();

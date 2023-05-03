@@ -11,14 +11,15 @@ namespace TurtleTowerDefense
 {
     internal class Bullet : ICloneable
     {
-        private Texture2D texture;
-        private float timer;
-        private Vector2 position;
-        private Vector2 direction;
-        private float linearVelocity;
-        private float lifespan;
-        private bool isRemoved;
-        private Rectangle hitBox;
+        protected Texture2D texture;
+        protected float timer;
+        protected Vector2 position;
+        protected Vector2 direction;
+        protected float linearVelocity;
+        protected float lifespan;
+        protected bool isRemoved;
+        protected Rectangle hitBox;
+        protected float bRotation;
 
         public Vector2 Position
         {
@@ -39,23 +40,30 @@ namespace TurtleTowerDefense
         /// </summary>
         public bool IsRemoved { get { return isRemoved; } set { isRemoved = value; } }
 
-        public Bullet(Texture2D texture)
+        public Bullet(Texture2D texture, Rectangle hitbox)
         {
             this.texture = texture;
-            linearVelocity = 30f;
+            linearVelocity = 50f;
             lifespan = 2f;
             isRemoved = false;
-            hitBox = new Rectangle(0, 0, 30, 30);
+            this.hitBox = hitbox;
+            this.hitBox.X += 15;
+            this.hitBox.Y += 15;
+            bRotation = default;
         }
 
         /// <summary>
         /// updates tgis bullet's timer and position
         /// </summary>
         /// <param name="gameTime"></param>
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
-            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer == 0f)
+            {
+                position += direction * 85f;
+            }
 
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (timer > lifespan)
             {
@@ -72,9 +80,9 @@ namespace TurtleTowerDefense
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        public bool IsHit(Crab target)
+        public virtual bool IsHit(Crab target)
         {
-            if (target.Hitbox.Intersects(hitBox))
+            if (target.Hitbox.Intersects(hitBox) && !isRemoved)
             {
                 isRemoved = true;
                 return true;
@@ -90,16 +98,23 @@ namespace TurtleTowerDefense
         /// draws bullet on screen
         /// </summary>
         /// <param name="sb"></param>
-        public void Draw(SpriteBatch sb, GraphicsDevice gD)
+        public virtual void Draw(SpriteBatch sb, GraphicsDevice gD, float rotation, bool debug)
         {
             if (!isRemoved)
             {
-                sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, 20, 20), Color.White);
-                sb.End();
-                ShapeBatch.Begin(gD);
-                ShapeBatch.BoxOutline(this.hitBox, Color.Black);
-                ShapeBatch.End();
-                sb.Begin();
+                if (bRotation == default)
+                {
+                    bRotation = rotation;
+                }
+                sb.Draw(texture, new Rectangle((int)position.X - 10, (int)position.Y - 10, hitBox.Width, hitBox.Height), null, Color.White, bRotation, new Vector2(texture.Width/2, texture.Height/2), SpriteEffects.None, 0f);
+                if (debug)
+                {
+                    sb.End();
+                    ShapeBatch.Begin(gD);
+                    ShapeBatch.BoxOutline(this.hitBox, Color.Black);
+                    ShapeBatch.End();
+                    sb.Begin();
+                }
             }
         }
         /// <summary>
